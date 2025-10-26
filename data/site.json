@@ -2,8 +2,8 @@
   "stats": { "members": 18, "teams": 3 },
   "teams": [
     { "slug": "herren", "title": "Herren", "image": "img/teams/herren.jpg", "href": "#" },
-    { "slug": "damen",  "title": "Damen",  "image": "img/teams/damen.jpg",  "href": "#" },
-    { "slug": "mixed",  "title": "Mixed",  "image": "img/teams/mixed.jpg",  "href": "#" }
+    { "slug": "damen",  "title": "Damen",  "image": "img/teams/herren.jpg",  "href": "#" },
+    { "slug": "mixed",  "title": "Mixed",  "image": "img/teams/herren.jpg",  "href": "#" }
   ],
   "news": [
     { "date": "2025-10-25", "title": "Eindeutiger Sieg gegen DJK Kleinenbroich!", "text": "3:0 gegen den DJK – starke Teamleistung." },
