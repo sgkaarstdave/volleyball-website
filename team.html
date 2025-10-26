@@ -1,105 +1,43 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
-<header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b">
-  <div class="container mx-auto px-4">
-    <!-- feste Höhe verhindert Springen -->
-    <div class="h-20 flex items-center justify-between">
-      <!-- Logo + Name -->
-      <a href="index.html" class="flex items-center gap-3 min-w-0">
-        <img
-          src="img/sg-kaarst-logo.png"
-          alt="SG Kaarst"
-          class="h-16 md:h-20 w-auto flex-shrink-0 select-none"
-          draggable="false"
-        />
-        <!-- Text auf kleinen Screens ausblenden, nicht umbrechen -->
-        <span class="hidden sm:inline text-xl md:text-2xl font-extrabold tracking-tight text-gray-900 whitespace-nowrap">
-          SG Kaarst
-        </span>
-      </a>
-
-      <!-- Navigation -->
-      <nav class="hidden md:flex items-center gap-6 text-sm whitespace-nowrap">
-        <a href="#news" class="hover:text-blue-700">News</a>
-        <a href="#termine" class="hover:text-blue-700">Termine</a>
-        <a href="#teams" class="hover:text-blue-700">Teams</a>
-        <a href="#training" class="hover:text-blue-700">Probetraining</a>
-      </nav>
-    </div>
-  </div>
-</header>
-
-<body class="bg-gray-50 text-gray-800">
-  <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
-    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="index.html#top" class="flex items-center gap-2 font-bold tracking-wide">
-        <img src="img/sg-kaarst-logo.png" alt="SG Kaarst" class="h-8 w-8" />
-        <span>SG&nbsp;Kaarst</span>
-      </a>
-      <nav class="hidden md:flex gap-6 text-sm">
-        <a href="index.html#news" class="hover:text-blue-700">News</a>
-        <a href="index.html#termine" class="hover:text-blue-700">Termine</a>
-        <a href="team.html" class="hover:text-blue-700">Team</a>
-        <a href="index.html#galerie" class="hover:text-blue-700">Galerie</a>
-        <a href="index.html#kontakt" class="hover:text-blue-700">Kontakt</a>
-      </nav>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Team – SG Kaarst Volleyball</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+  <style>
+    html{scroll-behavior:smooth}
+    .container{max-width:1100px}
+    .accent{width:120px;height:8px;border-radius:9999px;background:linear-gradient(90deg,#1d4ed8,#3b82f6,#60a5fa);box-shadow:0 6px 18px rgba(59,130,246,.35);margin:6px 0 18px}
+    .hero{background-size:cover;background-position:center}
+    .badge{border-radius:9999px;padding:.15rem .5rem;font-size:.75rem}
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+  <header class="bg-white border-b">
+    <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+      <a href="index.html" class="text-blue-600 font-semibold">&larr; Zurück</a>
+      <a href="index.html#teams" class="text-sm text-gray-600 hover:text-gray-900">Teams-Übersicht</a>
     </div>
   </header>
 
-  <main class="container mx-auto px-4 py-12">
-    <h1 class="text-3xl font-bold">Team</h1>
-    <p class="text-gray-600 mt-2">Herrenmannschaft der SG Kaarst</p>
+  <!-- HERO -->
+  <section id="hero" class="relative hero" style="min-height:50vh">
+    <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/35 to-black/55"></div>
+    <div class="container relative z-10 mx-auto px-4 py-14 md:py-20 text-white">
+      <h1 id="hero-title" class="text-4xl md:text-5xl font-extrabold">Team</h1>
+      <p id="hero-intro" class="mt-3 max-w-2xl text-blue-100"></p>
+    </div>
+  </section>
 
-    <div id="team-grid" class="mt-6 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+  <main class="container mx-auto px-4 py-10">
+    <div id="roster"></div>
   </main>
 
   <footer class="border-t text-center text-xs text-gray-500 py-8">
-    <div class="mb-2 flex items-center justify-center gap-2">
-      <img src="img/sg-kaarst-logo.png" alt="SG Kaarst" class="h-6 w-6" />
-      <span>SG Kaarst Volleyball</span>
-    </div>
-    © <span id="year"></span> SG Kaarst – Made with ❤️
+    © <span id="year"></span> SG Kaarst Volleyball
   </footer>
 
-  <script>
-  // --- Teamdaten hier pflegen (Nummern optional) ---
- const TEAM = [
-  { name: "Dimitar Anastasov", number: 10 },
-  { name: "Lukas Thießen", number: 14 },
-  { name: "Marats Putrins", number: 7 },
-  { name: "David Mitrovic", number: 8 },
-  { name: "Marcel Frickart", number: 22 },
-  { name: "Andreas Rajev", number: 13 },
-  { name: "David Salai", number: 20 },
-  { name: "Andreas Hildebrand", number: 9 },
-  { name: "Wjatscheslaw Werwein", number: 4 },
-  { name: "Eric Heidemanns", number: 1 },
-  { name: "Reinis Reinfelds", number: 3 },
-  { name: "Per Kropat", number: "7/11" },
-  { name: "Ji-Ho Kim", number: 5 },
-  { name: "Darian Sabah", number: 12 },
-  { name: "Baramee Freund", number: 6 },
-  { name: "Michelangelo Hu", number: "" },
-  { name: "Devin Mangir", number: "" },
-  { name: "Jan Kluth", number: "" },
-  { name: "Leonard Von Buch", number: "" }
-];
-
-  const grid = document.getElementById('team-grid');
-  TEAM.forEach(p => {
-    const card = document.createElement('div');
-    card.className = 'rounded-2xl border bg-white p-4';
-    card.innerHTML = `
-      <div class="flex items-center justify-between">
-        <div>
-          <div class="font-semibold">${p.name}</div>
-          ${p.position ? `<div class="text-sm text-gray-500">${p.position}</div>` : ``}
-        </div>
-        <div class="text-2xl font-extrabold text-blue-600">${p.number || ''}</div>
-      </div>`;
-    grid.appendChild(card);
-  });
-  document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+  <script src="assets/js/team.js?v=1"></script>
 </body>
 </html>
