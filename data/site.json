@@ -1,15 +1,17 @@
 {
   "stats": { "members": 18, "teams": 3 },
-"teams": [
-  { "slug": "herren", "title": "Herren", "image": "img/teams/herren.jpg", "href": "team.html?team=herren" },
-  { "slug": "damen",  "title": "Damen",  "image": "img/teams/herren.jpg",  "href": "team.html?team=damen"  },
-  { "slug": "mixed",  "title": "Mixed",  "image": "img/teams/herren.jpg",  "href": "team.html?team=mixed"  }
-]
+
+  "teams": [
+    { "slug": "herren", "title": "Herren", "image": "img/teams/herren.jpg", "href": "team.html?team=herren" },
+    { "slug": "damen",  "title": "Damen",  "image": "img/teams/herren.jpg",  "href": "team.html?team=damen"  },
+    { "slug": "mixed",  "title": "Mixed",  "image": "img/teams/herren.jpg",  "href": "team.html?team=mixed"  }
+  ],
 
   "news": [
     { "date": "2025-10-25", "title": "Eindeutiger Sieg gegen DJK Kleinenbroich!", "text": "3:0 gegen den DJK – starke Teamleistung." },
     { "date": "2025-10-25", "title": "Comeback einer Legende!", "text": "Unser lang verletzter Spieler David Salai feierte sein Comeback!" }
   ],
+
   "schedule": [
     { "date": "2025-11-02", "opponent": "Eintracht Spontent IV", "place": "Pestalozzistraße 3a, 41564 Kaarst", "time": "14:30", "info": "Liga – Spieltag 5", "home": true },
     { "date": "2025-11-16", "opponent": "DJK Tusa 06 Düsseldorf V", "place": "Pestalozzistraße 3a, 41564 Kaarst", "time": "15:15", "info": "Liga – Spieltag 6", "home": true },
