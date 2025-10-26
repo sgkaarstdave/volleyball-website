@@ -4,24 +4,11 @@
     "teams": 3
   },
   "teams": [
-    {
-      "slug": "herren",
-      "title": "Herren",
-      "image": "https://images.unsplash.com/photo-1521417531039-94f78c4c3009?auto=format&fit=crop&w=1200&q=80",
-      "href": "herren.html"
-    },
-    {
-      "slug": "damen",
-      "title": "Damen",
-      "image": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
-      "href": "damen.html"
-    },
-    {
-      "slug": "mixed",
-      "title": "Mixed",
-      "image": "https://images.unsplash.com/photo-1521123845560-14093637aa7d?auto=format&fit=crop&w=1200&q=80",
-      "href": "mixed.html"
-    }
+  { "slug": "herren", "title": "Herren", "image": "img/teams/herren.jpg", "href": "herren.html" },
+  { "slug": "damen",  "title": "Damen",  "image": "img/teams/herren.jpg",  "href": "damen.html"  },
+  { "slug": "mixed",  "title": "Mixed",  "image": "img/teams/herren.jpg",  "href": "mixed.html"  }
+]
+
   ],
   "news": [
     {
