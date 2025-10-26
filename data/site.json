@@ -35,13 +35,63 @@
       "text": "Unser lang verletzter Spieler David Salai feierte sein Comeback!"
     }
   ],
-  "schedule": [
-    {
-      "date": "2025-11-02",
-      "opponent": "Eintracht Spontent IV",
-      "place": "Pestalozzistraße 3a, 41564 Kaarst",
-      "time": "14:30",
-      "info": "Liga – Spieltag 5"
-    }
-  ]
+ "schedule": [
+  {
+    "date": "2025-11-02",
+    "opponent": "Eintracht Spontent IV",
+    "place": "Pestalozzistraße 3a, 41564 Kaarst",
+    "time": "14:30",
+    "info": "Heimspiel – Liga"
+  },
+  {
+    "date": "2025-11-16",
+    "opponent": "DJK Tusa 06 Düsseldorf V",
+    "place": "Pestalozzistraße 3a, 41564 Kaarst",
+    "time": "15:15",
+    "info": "Heimspiel – Liga"
+  },
+  {
+    "date": "2025-12-21",
+    "opponent": "TG Neuss",
+    "place": "Pestalozzistraße 3a, 41564 Kaarst",
+    "time": "15:15",
+    "info": "Heimspiel – Liga"
+  },
+  {
+    "date": "2026-01-18",
+    "opponent": "ART Düsseldorf V",
+    "place": "Düsseldorf",
+    "time": "12:00",
+    "info": "Auswärtsspiel – Liga"
+  },
+  {
+    "date": "2026-01-24",
+    "opponent": "Eintracht Spontent V",
+    "place": "Kaarst",
+    "time": "12:00",
+    "info": "Auswärtsspiel – Liga"
+  },
+  {
+    "date": "2026-02-01",
+    "opponent": "DJK Kleinenbroich",
+    "place": "Pestalozzistraße 3a, 41564 Kaarst",
+    "time": "14:30",
+    "info": "Heimspiel – Liga"
+  },
+  {
+    "date": "2026-02-21",
+    "opponent": "Eintracht Spontent IV",
+    "place": "Kaarst",
+    "time": "11:00",
+    "info": "Auswärtsspiel – Liga"
+  },
+  {
+    "date": "2026-03-07",
+    "opponent": "DJK Tusa 06 Düsseldorf V",
+    "place": "Düsseldorf",
+    "time": "13:15",
+    "info": "Auswärtsspiel – Liga"
+  }
+]
+
 }
