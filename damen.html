@@ -1,16 +1,113 @@
 <!DOCTYPE html>
 <html lang="de">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bald mehr – SG Kaarst Volleyball</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-  </head>
-  <body class="bg-gray-50 flex items-center justify-center min-h-screen">
-    <div class="text-center">
-      <h1 class="text-3xl font-bold text-blue-700 mb-2">🏐 Bald mehr!</h1>
-      <p class="text-gray-600">Momentan haben all unsere Damen Bärte !</p>
-      <a href="index.html" class="inline-block mt-6 text-blue-600 hover:underline">← Zurück zur Startseite</a>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Damen – SG Kaarst Volleyball</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+  <style>
+    html{scroll-behavior:smooth}
+    .container{max-width:1100px}
+    .accent{width:120px;height:8px;border-radius:9999px;background:linear-gradient(90deg,#1d4ed8,#3b82f6,#60a5fa);box-shadow:0 6px 18px rgba(59,130,246,.35);margin:6px 0 18px}
+    .hero{
+      background-image:url('img/teams/damen-hero.jpg'),
+        url('https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=2000&q=80');
+      background-size:cover;background-position:center;
+    }
+    .badge{border-radius:9999px;padding:.15rem .5rem;font-size:.75rem}
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+  <header class="bg-white border-b">
+    <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+      <a href="index.html" class="text-blue-600 font-semibold">&larr; Zurück</a>
+      <a href="index.html#teams" class="text-sm text-gray-600 hover:text-gray-900">Teams-Übersicht</a>
     </div>
-  </body>
+  </header>
+
+  <section class="relative hero" style="min-height:50vh">
+    <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/35 to-black/55"></div>
+    <div class="container relative z-10 mx-auto px-4 py-14 md:py-20 text-white">
+      <h1 class="text-4xl md:text-5xl font-extrabold">SG Kaarst – Damen</h1>
+      <p class="mt-3 max-w-2xl text-blue-100">Unser Damen-Team – dynamisch & fokussiert. Hier ist der Kader nach Positionen sortiert.</p>
+    </div>
+  </section>
+
+  <main class="container mx-auto px-4 py-10">
+    <div id="roster"></div>
+  </main>
+
+  <footer class="border-t text-center text-xs text-gray-500 py-8">
+    © <span id="year"></span> SG Kaarst Volleyball
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const TEAM = {
+      name: "Damen",
+      positions: [
+        {
+          title: "Zuspiel",
+          players: [
+            { nr: 4, name: "Lea König",       height: "1,78 m", birth: "2001-02-11", img: "https://placehold.co/400x500?text=Spielerin" }
+          ]
+        },
+        {
+          title: "Mittelblock",
+          players: [
+            { nr: 11, name: "Mara Fischer",   height: "1,83 m", birth: "1999-06-04", img: "https://placehold.co/400x500?text=Spielerin" },
+            { nr: 9,  name: "Sophie Arnold",  height: "1,80 m", birth: "2003-10-28", img: "https://placehold.co/400x500?text=Spielerin" }
+          ]
+        },
+        {
+          title: "Außen/Diagonal",
+          players: [
+            { nr: 6,  name: "Clara Schulz",   height: "1,76 m", birth: "2002-07-07", img: "https://placehold.co/400x500?text=Spielerin" },
+            { nr: 5,  name: "Nina Wagner",    height: "1,74 m", birth: "2004-12-19", img: "https://placehold.co/400x500?text=Spielerin" }
+          ]
+        },
+        {
+          title: "Libera",
+          players: [
+            { nr: 1,  name: "Eva Brandt",     height: "1,68 m", birth: "2000-04-14", img: "https://placehold.co/400x500?text=Spielerin" }
+          ]
+        }
+      ]
+    };
+
+    function formatDate(de){ try { return new Date(de).toLocaleDateString('de-DE'); } catch(e){ return de; } }
+    function card(p, t){
+      const d=document.createElement('div');
+      d.className="rounded-2xl overflow-hidden border bg-white shadow-sm hover:shadow-md transition";
+      d.innerHTML=`
+        <div class="h-64 bg-gray-100"><img src="${p.img}" alt="${p.name}" class="w-full h-full object-cover"></div>
+        <div class="p-4">
+          <div class="flex items-center justify-between">
+            <h4 class="font-semibold">${p.name}</h4>
+            <span class="badge bg-pink-100 text-pink-700">#${p.nr}</span>
+          </div>
+          <p class="text-xs mt-1 text-gray-500">${t}</p>
+          <dl class="mt-3 text-sm">
+            <div class="flex justify-between"><dt class="text-gray-500">Größe</dt><dd class="font-medium">${p.height||"-"}</dd></div>
+            <div class="flex justify-between"><dt class="text-gray-500">Geburtstag</dt><dd class="font-medium">${formatDate(p.birth)||"-"}</dd></div>
+          </dl>
+        </div>`;
+      return d;
+    }
+    function render(team){
+      const root=document.getElementById('roster');
+      team.positions.forEach(pos=>{
+        const sec=document.createElement('section');
+        sec.className="mb-10";
+        sec.innerHTML=`<h2 class="text-xl font-bold">${pos.title}</h2><div class="accent"></div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" id="g"></div>`;
+        root.appendChild(sec);
+        const g=sec.querySelector('#g');
+        pos.players.forEach(p=>g.appendChild(card(p,pos.title)));
+      });
+    }
+    render(TEAM);
+  </script>
+</body>
 </html>
