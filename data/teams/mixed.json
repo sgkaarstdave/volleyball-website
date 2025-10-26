@@ -1,0 +1,28 @@
+{
+  "name": "Mixed",
+  "hero": "img/teams/mixed-hero.jpg",
+  "intro": "Unser Mixed-Team vereint Erfahrung und Spielfreude. Kader & Rollen im Überblick.",
+  "positions": [
+    { "title": "Zuspiel",
+      "players": [
+        { "nr": 2, "name": "Alex Weber",     "height": "1,82 m", "birth": "1995-03-01", "img": "https://placehold.co/400x500?text=Spieler/in" }
+      ]
+    },
+    { "title": "Mittelblock",
+      "players": [
+        { "nr": 11, "name": "Sarah Klein",   "height": "1,80 m", "birth": "1998-11-21", "img": "https://placehold.co/400x500?text=Spieler/in" }
+      ]
+    },
+    { "title": "Außen/Diagonal",
+      "players": [
+        { "nr": 9, "name": "Tom Schneider",  "height": "1,86 m", "birth": "1997-05-11", "img": "https://placehold.co/400x500?text=Spieler/in" },
+        { "nr": 6, "name": "Lisa Hoffmann",  "height": "1,72 m", "birth": "1999-09-09", "img": "https://placehold.co/400x500?text=Spieler/in" }
+      ]
+    },
+    { "title": "Libero",
+      "players": [
+        { "nr": 5, "name": "Mia Berger",     "height": "1,68 m", "birth": "2001-01-17", "img": "https://placehold.co/400x500?text=Spieler/in" }
+      ]
+    }
+  ]
+}
