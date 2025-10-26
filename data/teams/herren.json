@@ -1,0 +1,34 @@
+{
+  "name": "Herren",
+  "hero": "img/teams/herren-hero.jpg",
+  "intro": "Unser Herren-Team: Einsatz, Teamgeist und Präzision. Hier findest du Kader & Infos pro Position.",
+  "positions": [
+    {
+      "title": "Zuspiel",
+      "players": [
+        { "nr": 7,  "name": "Maximilian Schröder", "height": "1,89 m", "birth": "2000-03-03", "img": "https://placehold.co/400x500?text=Spieler" },
+        { "nr": 3,  "name": "Leon Hartmann",        "height": "1,84 m", "birth": "2002-09-10", "img": "https://placehold.co/400x500?text=Spieler" }
+      ]
+    },
+    {
+      "title": "Mittelblock",
+      "players": [
+        { "nr": 12, "name": "Marcel Becker",        "height": "1,96 m", "birth": "1998-05-22", "img": "https://placehold.co/400x500?text=Spieler" },
+        { "nr": 14, "name": "David Mitrovic",       "height": "1,94 m", "birth": "1999-08-18", "img": "https://placehold.co/400x500?text=Spieler" }
+      ]
+    },
+    {
+      "title": "Außen/Diagonal",
+      "players": [
+        { "nr": 8,  "name": "Dimitar Anastasov",    "height": "1,88 m", "birth": "2000-01-03", "img": "https://placehold.co/400x500?text=Spieler" },
+        { "nr": 10, "name": "Lukas Thießen",        "height": "1,86 m", "birth": "2005-08-24", "img": "https://placehold.co/400x500?text=Spieler" }
+      ]
+    },
+    {
+      "title": "Libero",
+      "players": [
+        { "nr": 1,  "name": "Ji-Ho Kim",            "height": "1,78 m", "birth": "2006-03-06", "img": "https://placehold.co/400x500?text=Spieler" }
+      ]
+    }
+  ]
+}
