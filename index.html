@@ -153,7 +153,7 @@
     </footer>
 
     <!-- SCRIPT -->
-   <script>
+<script>
   const form = document.getElementById("tryout-form");
   const skill = document.getElementById("skill");
   const teamDetails = document.getElementById("team-details");
@@ -174,14 +174,8 @@
       e.preventDefault();
       formAlert.classList.add("hidden");
 
-      // ✅ WICHTIG: textarea statt input!
-      const token = form.querySelector('textarea[name="h-captcha-response"]')?.value;
-      if (!token) {
-        formAlert.textContent = "Bitte löse das Captcha, bevor du absendest.";
-        formAlert.className = "text-red-600 text-sm mt-2";
-        formAlert.classList.remove("hidden");
-        return;
-      }
+      // 👉 WICHTIG: KEINE lokale Captcha-Prüfung hier!
+      // Web3Forms-Script fügt den Token selbst beim Submit hinzu.
 
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Sende..."; }
 
@@ -197,7 +191,7 @@
 
         if (res.ok) {
           form.reset();
-          teamDetails.classList.add("hidden");
+          teamDetails?.classList.add("hidden");
           formAlert.textContent = "Danke! Deine Anfrage wurde gesendet ✅";
           formAlert.className = "text-green-700 text-sm mt-2";
           formAlert.classList.remove("hidden");
@@ -217,6 +211,7 @@
     });
   }
 </script>
+
 
     <!-- Web3Forms hCaptcha Script -->
     <script src="https://web3forms.com/client/script.js" async defer></script>
