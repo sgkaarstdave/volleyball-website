@@ -94,9 +94,12 @@
       </div>
 
       <!-- Formular -->
-      <form id="tryout-form" class="md:w-1/2 space-y-3 rounded-2xl border bg-white p-4">
+      <form id="tryout-form" class="md:w-1/2 space-y-3 rounded-2xl border bg-white p-4" novalidate>
         <h3 class="font-semibold text-lg">Probetraining anfragen</h3>
         <p class="text-sm text-gray-600">Du willst bei uns mittrainieren? Schreib uns direkt hier – wir melden uns bei dir.</p>
+
+        <!-- Honeypot gegen Bots -->
+        <input type="text" name="website" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true">
 
         <div>
           <label class="block text-sm font-medium">Dein Name</label>
@@ -131,12 +134,15 @@
         </div>
 
         <div>
-          <label class="block text-sm font-medium">Nachricht (optional)</label>
+          <label class="block text-sm text-gray-700 font-medium">Nachricht (optional)</label>
           <textarea name="message" class="w-full border rounded-xl px-3 py-2" rows="4" placeholder="z. B. Position, Erfahrung, wann du Zeit hast"></textarea>
         </div>
 
-        <button class="rounded-xl bg-blue-600 hover:bg-blue-700 text-white px-5 py-2">Absenden</button>
-        <p class="text-xs text-gray-500">Das Formular öffnet dein Mailprogramm. Für Direktversand kannst du später kostenlos <a class="underline" href="https://formspree.io/" target="_blank">Formspree</a> nutzen.</p>
+        <input type="hidden" name="ttc" id="ttc" value="0">
+
+        <button id="submitBtn" class="rounded-xl bg-blue-600 hover:bg-blue-700 text-white px-5 py-2">Absenden</button>
+        <p class="text-xs text-gray-500">Direktversand über unseren Formulardienst. Wir speichern nur die für die Kontaktaufnahme nötigen Daten.</p>
+        <div id="formAlert" class="hidden text-sm mt-2"></div>
       </form>
 
     </div>
@@ -155,7 +161,7 @@
   <script>
     const NEWS_SETTINGS = { SHOW_ONLY_LATEST: true, RETENTION_DAYS: 14 };
 
-    const SITE = {
+   const SITE = {
        news: [
         { date: "2025-10-25", title: "Eindeutiger Sieg gegen DJK Kleinenbroich!", text: "3:0 gegen den DJK – starke Teamleistung." },
         { date: "2025-10-25", title: "Comeback einer Legende!", text: "Unser lang verletzter Spieler David Salai feierte sein Coemback!" }
@@ -200,10 +206,20 @@
     // Jahr
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Probetraining Formular
+    // ===== Probetraining Formular (Formspree + Anti-Spam) =====
     const form = document.getElementById('tryout-form');
+    const submitBtn = document.getElementById('submitBtn');
     const skill = document.getElementById('skill');
     const teamDetails = document.getElementById('team-details');
+    const formAlert = document.getElementById('formAlert');
+
+    // 1) HIER deinen Formspree-Endpunkt eintragen
+    //    Formspree-Setup: https://formspree.io -> New Form -> Endpoint kopieren
+    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/XXXXYYYY';
+
+    // 2) Spam-Settings (lokal, leichtgewichtig)
+    const SPAM_LIMIT_WINDOW_MIN = 60;   // Zeitfenster in Minuten
+    const SPAM_MAX_SUBMISSIONS = 3;     // max. Anfragen pro Fenster
 
     const toggleTeamDetails = () => {
       const show = skill.value === 'Team';
@@ -214,24 +230,83 @@
       leagueInput.required = show;
     };
 
+    const loadSubmissionTimes = () => {
+      try { return JSON.parse(localStorage.getItem('tryout_submissions') || '[]'); } catch { return []; }
+    };
+    const saveSubmissionTimes = (arr) => localStorage.setItem('tryout_submissions', JSON.stringify(arr));
+
+    let formOpenAt = Date.now();
+
     if (form && skill) {
       toggleTeamDetails();
       skill.addEventListener('change', toggleTeamDetails);
-      form.addEventListener('submit', (e) => {
+
+      form.addEventListener('submit', async (e) => {
         e.preventDefault();
+
+        // Client-Validierung
+        const email = form.elements['email'].value.trim();
+        const name = form.elements['name'].value.trim();
+        const websiteHoneypot = form.elements['website'].value.trim();
+        if (websiteHoneypot) return; // Bot -> stillschweigend abbrechen
+        if (!name || !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          formAlert.className = 'text-red-600';
+          formAlert.textContent = 'Bitte Name und eine gültige E-Mail angeben.';
+          formAlert.classList.remove('hidden');
+          return;
+        }
+
+        // Rate-Limit lokal
+        const nowTs = Date.now();
+        const windowMs = SPAM_LIMIT_WINDOW_MIN * 60 * 1000;
+        let times = loadSubmissionTimes().filter(t => nowTs - t < windowMs);
+        if (times.length >= SPAM_MAX_SUBMISSIONS) {
+          formAlert.className = 'text-red-600';
+          formAlert.textContent = `Limit erreicht: maximal ${SPAM_MAX_SUBMISSIONS} Anfragen innerhalb von ${SPAM_LIMIT_WINDOW_MIN} Minuten.`;
+          formAlert.classList.remove('hidden');
+          return;
+        }
+
+        // Time-to-complete (sek)
+        const ttcSeconds = Math.round((nowTs - formOpenAt) / 1000);
+        document.getElementById('ttc').value = String(ttcSeconds);
+
+        // UI sperren
+        submitBtn.disabled = true; submitBtn.textContent = 'Sende...';
+        formAlert.classList.add('hidden');
+
+        // Payload für Formspree
         const data = Object.fromEntries(new FormData(form));
-        const to = 'kontakt@sg-kaarst.de';
-        const subject = encodeURIComponent(`Probetraining – ${data.name}`);
-        const lines = [
-          `Name: ${data.name}`,
-          `E-Mail: ${data.email}`,
-          `Skill: ${data.skill}`,
-          data.skill === 'Team' ? `Aktuelles Team: ${data.current_team}` : '',
-          data.skill === 'Team' ? `Liga: ${data.league}` : '',
-          data.message ? `Nachricht:\n${data.message}` : ''
-        ].filter(Boolean).join('\\n');
-        const body = encodeURIComponent(lines);
-        window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+        const payload = {
+          name: data.name,
+          email: data.email,
+          skill: data.skill,
+          current_team: data.current_team || '',
+          league: data.league || '',
+          message: data.message || '',
+          ttc: data.ttc || '',
+        };
+
+        try {
+          const res = await fetch(FORMSPREE_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (!res.ok) throw new Error('Network');
+
+          times.push(nowTs); saveSubmissionTimes(times);
+          form.reset(); toggleTeamDetails();
+          submitBtn.disabled = false; submitBtn.textContent = 'Absenden';
+          formAlert.className = 'text-green-700';
+          formAlert.textContent = 'Danke! Deine Anfrage wurde gesendet. Wir melden uns.';
+          formAlert.classList.remove('hidden');
+        } catch (err) {
+          submitBtn.disabled = false; submitBtn.textContent = 'Absenden';
+          formAlert.className = 'text-red-600';
+          formAlert.textContent = 'Senden fehlgeschlagen. Probiere es später erneut oder schreibe direkt an kontakt@sg-kaarst.de';
+          formAlert.classList.remove('hidden');
+        }
       });
     }
   </script>
