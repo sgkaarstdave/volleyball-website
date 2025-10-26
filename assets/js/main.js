@@ -2,59 +2,51 @@
 const NEWS_SETTINGS = { SHOW_ONLY_LATEST: false, RETENTION_DAYS: 60 };
 const byId = (id) => document.getElementById(id);
 
-// Fallback-Daten, falls site.json nicht geladen werden kann
+// Fallback-Daten (nur für den Fall, dass JSON mal nicht lädt)
 const fallbackData = {
+  stats: { members: 18, teams: 1, trainings_per_week: 2 },
+  gallery: [],
   news: [
-    {
-      date: "2025-10-25",
-      title: "Eindeutiger Sieg gegen DJK Kleinenbroich!",
-      text: "3:0 gegen den DJK – starke Teamleistung."
-    },
-    {
-      date: "2025-10-25",
-      title: "Comeback einer Legende!",
-      text: "Unser lang verletzter Spieler David Salai feierte sein Comeback!"
-    }
+    { date: "2025-10-25", title: "Eindeutiger Sieg gegen DJK Kleinenbroich!", text: "3:0 gegen den DJK – starke Teamleistung." },
+    { date: "2025-10-25", title: "Comeback einer Legende!", text: "Unser lang verletzter Spieler David Salai feierte sein Comeback!" }
   ],
   schedule: [
-    {
-      date: "2025-11-02",
-      opponent: "Eintracht Spontent IV",
-      place: "Pestalozzistraße 3a, 41564 Kaarst",
-      time: "14:30",
-      info: "Liga – Spieltag 5"
-    }
+    { date: "2025-11-02", opponent: "Eintracht Spontent IV", place: "Pestalozzistraße 3a, 41564 Kaarst", time: "14:30", info: "Liga – Spieltag 5" }
   ]
 };
 
-function showTopBanner(msg) {
-  let el = document.getElementById("top-debug");
-  if (!el) {
-    el = document.createElement("div");
-    el.id = "top-debug";
-    el.style.cssText =
-      "position:sticky;top:0;z-index:9999;background:#fee;border-bottom:1px solid #fca;padding:.5rem 1rem;color:#991b1b;font:14px/1.4 system-ui";
-    document.body.prepend(el);
-  }
-  el.textContent = msg;
-}
-
 async function loadSiteData() {
   const bust = `?t=${Date.now()}`;
-  const url = `data/site.json${bust}`;
-  console.log("[site.json] lade:", url);
   try {
-    const res = await fetch(url, { cache: "no-store" });
-    console.log("[site.json] status:", res.status);
+    const res = await fetch(`data/site.json${bust}`, { cache: "no-store" });
     if (!res.ok) throw new Error(`site.json HTTP ${res.status}`);
-    const json = await res.json();
-    console.log("[site.json] ok:", json);
-    return json;
+    return await res.json();
   } catch (e) {
     console.warn("Nutze Fallback-Daten:", e.message);
-    showTopBanner("Hinweis: site.json nicht geladen – es werden Fallback-Daten angezeigt.");
     return fallbackData;
   }
+}
+
+/* ---------- RENDER ---------- */
+function renderStats(stats = {}) {
+  const { members = "-", teams = "-", trainings_per_week = "-" } = stats;
+  const m = byId("stat-members"), t = byId("stat-teams"), tr = byId("stat-train");
+  if (m) m.textContent = members;
+  if (t) t.textContent = teams;
+  if (tr) tr.textContent = trainings_per_week;
+}
+
+function renderGallery(images = []) {
+  const wrap = byId("gallery");
+  if (!wrap) return;
+  wrap.innerHTML = "";
+  images.slice(0, 6).forEach((src, i) => {
+    const a = document.createElement("a");
+    a.href = src; a.target = "_blank"; a.rel = "noopener";
+    a.className = "block overflow-hidden rounded-2xl border bg-white";
+    a.innerHTML = `<img src="${src}" alt="Volleyball Bild ${i+1}" class="w-full h-40 md:h-56 object-cover transform hover:scale-105 transition" loading="lazy">`;
+    wrap.appendChild(a);
+  });
 }
 
 function renderNews(news) {
@@ -62,16 +54,11 @@ function renderNews(news) {
   if (!list) return;
   list.innerHTML = "";
   const now = new Date();
-
   let items = [...news].sort((a, b) => b.date.localeCompare(a.date));
-  if (NEWS_SETTINGS.SHOW_ONLY_LATEST) {
-    items = items.slice(0, 1);
-  } else if (NEWS_SETTINGS.RETENTION_DAYS) {
-    items = items.filter(
-      (n) => (now - new Date(n.date)) / (1000 * 60 * 60 * 24) <= NEWS_SETTINGS.RETENTION_DAYS
-    );
+  if (NEWS_SETTINGS.SHOW_ONLY_LATEST) items = items.slice(0, 1);
+  else if (NEWS_SETTINGS.RETENTION_DAYS) {
+    items = items.filter(n => (now - new Date(n.date)) / 86400000 <= NEWS_SETTINGS.RETENTION_DAYS);
   }
-
   items.forEach((n) => {
     const li = document.createElement("li");
     li.className = "rounded-2xl border border-blue-100 bg-white p-4";
@@ -88,22 +75,20 @@ function renderSchedule(schedule) {
   const tbody = byId("schedule");
   if (!tbody) return;
   tbody.innerHTML = "";
-
-  schedule
-    .sort((a, b) => a.date.localeCompare(b.date))
-    .forEach((ev) => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td class="p-3">${new Date(ev.date).toLocaleDateString("de-DE")}</td>
-        <td class="p-3">${ev.opponent || "-"}</td>
-        <td class="p-3">${ev.place || "-"}</td>
-        <td class="p-3">${ev.time || "-"}</td>
-        <td class="p-3">${ev.info || ""}</td>
-      `;
-      tbody.appendChild(tr);
-    });
+  schedule.sort((a, b) => a.date.localeCompare(b.date)).forEach((ev) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td class="p-3">${new Date(ev.date).toLocaleDateString("de-DE")}</td>
+      <td class="p-3">${ev.opponent || "-"}</td>
+      <td class="p-3">${ev.place || "-"}</td>
+      <td class="p-3">${ev.time || "-"}</td>
+      <td class="p-3">${ev.info || ""}</td>
+    `;
+    tbody.appendChild(tr);
+  });
 }
 
+/* ---------- FORM DEMO ---------- */
 function setupFormDemo() {
   const form = document.getElementById("tryout-form");
   const fake = document.getElementById("fakeSubmit");
@@ -121,15 +106,13 @@ function setupFormDemo() {
   skill?.addEventListener("change", toggle);
   toggle();
 
-  if (fake) {
-    fake.addEventListener("click", () => {
-      alert.textContent = "✅ Test erfolgreich! (Formular wird später final angebunden)";
-      alert.className = "text-green-700 text-sm mt-2";
-      alert.classList.remove("hidden");
-      form.reset();
-      toggle();
-    });
-  }
+  fake?.addEventListener("click", () => {
+    alert.textContent = "✅ Test erfolgreich! (Formular wird später final angebunden)";
+    alert.className = "text-green-700 text-sm mt-2";
+    alert.classList.remove("hidden");
+    form.reset();
+    toggle();
+  });
 }
 
 function initFooterYear() {
@@ -137,12 +120,13 @@ function initFooterYear() {
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 }
 
+/* ---------- INIT ---------- */
 (async function init() {
-  console.log("[init] start");
   initFooterYear();
   setupFormDemo();
   const data = await loadSiteData();
+  renderStats(data.stats);
+  renderGallery(data.gallery);
   renderNews(data.news || []);
   renderSchedule(data.schedule || []);
-  console.log("[init] done");
 })();
