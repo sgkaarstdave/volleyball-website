@@ -94,56 +94,109 @@
       </div>
 
       <!-- Formular -->
-      <form id="tryout-form" class="md:w-1/2 space-y-3 rounded-2xl border bg-white p-4" novalidate>
-        <h3 class="font-semibold text-lg">Probetraining anfragen</h3>
-        <p class="text-sm text-gray-600">Du willst bei uns mittrainieren? Schreib uns direkt hier – wir melden uns bei dir.</p>
+     <form
+  id="tryout-form"
+  action="https://api.web3forms.com/submit"
+  method="POST"
+  class="md:w-1/2 space-y-3 rounded-2xl border bg-white p-4"
+>
+  <h3 class="font-semibold text-lg">Probetraining anfragen</h3>
+  <p class="text-sm text-gray-600">
+    Du willst bei uns mittrainieren? Schreib uns direkt hier – wir melden uns bei dir.
+  </p>
 
-        <!-- Honeypot gegen Bots -->
-        <input type="text" name="website" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true">
+  <!-- Web3Forms Access Key -->
+  <input type="hidden" name="access_key" value="a77e5ccb-3b1b-49ec-a64c-a3a20516b3b1" />
 
-        <div>
-          <label class="block text-sm font-medium">Dein Name</label>
-          <input name="name" class="w-full border rounded-xl px-3 py-2" placeholder="Vor- und Nachname" required>
-        </div>
+  <!-- Anti-Spam Honeypot -->
+  <input type="checkbox" name="botcheck" class="hidden" style="display: none" />
 
-        <div>
-          <label class="block text-sm font-medium">E-Mail</label>
-          <input name="email" type="email" class="w-full border rounded-xl px-3 py-2" placeholder="deine@mail.de" required>
-        </div>
+  <!-- Name -->
+  <div>
+    <label class="block text-sm font-medium">Dein Name</label>
+    <input
+      name="name"
+      class="w-full border rounded-xl px-3 py-2"
+      placeholder="Vor- und Nachname"
+      required
+    />
+  </div>
 
-        <div>
-          <label class="block text-sm font-medium">Skill Level</label>
-          <select name="skill" id="skill" class="w-full border rounded-xl px-3 py-2" required>
-            <option value="Anfänger">Anfänger</option>
-            <option value="Team">Ich spiele bereits im Team</option>
-            <option value="KeinTeam">Aktuell kein Team</option>
-          </select>
-        </div>
+  <!-- Email -->
+  <div>
+    <label class="block text-sm font-medium">E-Mail</label>
+    <input
+      name="email"
+      type="email"
+      class="w-full border rounded-xl px-3 py-2"
+      placeholder="deine@mail.de"
+      required
+    />
+  </div>
 
-        <div id="team-details" class="hidden">
-          <div class="grid md:grid-cols-2 gap-3">
-            <div>
-              <label class="block text-sm font-medium">Aktuelles Team</label>
-              <input name="current_team" class="w-full border rounded-xl px-3 py-2" placeholder="Verein / Teamname">
-            </div>
-            <div>
-              <label class="block text-sm font-medium">Liga</label>
-              <input name="league" class="w-full border rounded-xl px-3 py-2" placeholder="z. B. Bezirksliga">
-            </div>
-          </div>
-        </div>
+  <!-- Skill Level -->
+  <div>
+    <label class="block text-sm font-medium">Skill Level</label>
+    <select
+      name="skill"
+      id="skill"
+      class="w-full border rounded-xl px-3 py-2"
+      required
+    >
+      <option value="Anfänger">Anfänger</option>
+      <option value="Ich spiele bereits im Team">Ich spiele bereits im Team</option>
+      <option value="Aktuell kein Team">Aktuell kein Team</option>
+    </select>
+  </div>
 
-        <div>
-          <label class="block text-sm text-gray-700 font-medium">Nachricht (optional)</label>
-          <textarea name="message" class="w-full border rounded-xl px-3 py-2" rows="4" placeholder="z. B. Position, Erfahrung, wann du Zeit hast"></textarea>
-        </div>
+  <!-- Teamdetails (optional) -->
+  <div id="team-details" class="hidden">
+    <div class="grid md:grid-cols-2 gap-3">
+      <div>
+        <label class="block text-sm font-medium">Aktuelles Team</label>
+        <input
+          name="current_team"
+          class="w-full border rounded-xl px-3 py-2"
+          placeholder="Verein / Teamname"
+        />
+      </div>
+      <div>
+        <label class="block text-sm font-medium">Liga</label>
+        <input
+          name="league"
+          class="w-full border rounded-xl px-3 py-2"
+          placeholder="z. B. Bezirksliga"
+        />
+      </div>
+    </div>
+  </div>
 
-        <input type="hidden" name="ttc" id="ttc" value="0">
+  <!-- Nachricht -->
+  <div>
+    <label class="block text-sm font-medium">Nachricht (optional)</label>
+    <textarea
+      name="message"
+      class="w-full border rounded-xl px-3 py-2"
+      rows="4"
+      placeholder="z. B. Position, Erfahrung, wann du Zeit hast"
+    ></textarea>
+  </div>
 
-        <button id="submitBtn" class="rounded-xl bg-blue-600 hover:bg-blue-700 text-white px-5 py-2">Absenden</button>
-        <p class="text-xs text-gray-500">Direktversand über unseren Formulardienst. Wir speichern nur die für die Kontaktaufnahme nötigen Daten.</p>
-        <div id="formAlert" class="hidden text-sm mt-2"></div>
-      </form>
+  <!-- Erfolgsmeldung -->
+  <div id="formAlert" class="hidden text-sm mt-2"></div>
+
+  <button
+    type="submit"
+    class="rounded-xl bg-blue-600 hover:bg-blue-700 text-white px-5 py-2"
+  >
+    Absenden
+  </button>
+  <p class="text-xs text-gray-500">
+    Direktversand über unseren Formulardienst. Wir speichern nur die für die
+    Kontaktaufnahme nötigen Daten.
+  </p>
+</form>
+
 
     </div>
   </section>
