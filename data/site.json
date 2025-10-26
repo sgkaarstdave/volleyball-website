@@ -1,10 +1,11 @@
 {
   "stats": { "members": 18, "teams": 3 },
- "teams": [
-  { "slug": "herren", "title": "Herren", "image": "img/teams/herren.jpg", "href": "herren.html" },
-  { "slug": "damen",  "title": "Damen",  "image": "img/teams/herren.jpg",  "href": "damen.html" },
-  { "slug": "mixed",  "title": "Mixed",  "image": "img/teams/herren.jpg",  "href": "mixed.html" }
-],
+"teams": [
+  { "slug": "herren", "title": "Herren", "image": "img/teams/herren.jpg", "href": "team.html?team=herren" },
+  { "slug": "damen",  "title": "Damen",  "image": "img/teams/herren.jpg",  "href": "team.html?team=damen"  },
+  { "slug": "mixed",  "title": "Mixed",  "image": "img/teams/herren.jpg",  "href": "team.html?team=mixed"  }
+]
+
   "news": [
     { "date": "2025-10-25", "title": "Eindeutiger Sieg gegen DJK Kleinenbroich!", "text": "3:0 gegen den DJK – starke Teamleistung." },
     { "date": "2025-10-25", "title": "Comeback einer Legende!", "text": "Unser lang verletzter Spieler David Salai feierte sein Comeback!" }
