@@ -1,4 +1,3 @@
-
 // Einstellungen
 const NEWS_SETTINGS = { SHOW_ONLY_LATEST: false, RETENTION_DAYS: 60 };
 const byId = (id) => document.getElementById(id);
@@ -28,13 +27,32 @@ const fallbackData = {
   ]
 };
 
+function showTopBanner(msg) {
+  let el = document.getElementById("top-debug");
+  if (!el) {
+    el = document.createElement("div");
+    el.id = "top-debug";
+    el.style.cssText =
+      "position:sticky;top:0;z-index:9999;background:#fee;border-bottom:1px solid #fca;padding:.5rem 1rem;color:#991b1b;font:14px/1.4 system-ui";
+    document.body.prepend(el);
+  }
+  el.textContent = msg;
+}
+
 async function loadSiteData() {
+  const bust = `?t=${Date.now()}`;
+  const url = `data/site.json${bust}`;
+  console.log("[site.json] lade:", url);
   try {
-    const res = await fetch("data/site.json", { cache: "no-store" });
-    if (!res.ok) throw new Error("site.json not found");
-    return await res.json();
+    const res = await fetch(url, { cache: "no-store" });
+    console.log("[site.json] status:", res.status);
+    if (!res.ok) throw new Error(`site.json HTTP ${res.status}`);
+    const json = await res.json();
+    console.log("[site.json] ok:", json);
+    return json;
   } catch (e) {
     console.warn("Nutze Fallback-Daten:", e.message);
+    showTopBanner("Hinweis: site.json nicht geladen – es werden Fallback-Daten angezeigt.");
     return fallbackData;
   }
 }
@@ -100,10 +118,9 @@ function setupFormDemo() {
     form.querySelector('[name="current_team"]').required = show;
     form.querySelector('[name="league"]').required = show;
   };
-  skill.addEventListener("change", toggle);
+  skill?.addEventListener("change", toggle);
   toggle();
 
-  // Demo-Verhalten, bis wir Web3Forms wieder aktivieren
   if (fake) {
     fake.addEventListener("click", () => {
       alert.textContent = "✅ Test erfolgreich! (Formular wird später final angebunden)";
@@ -121,9 +138,11 @@ function initFooterYear() {
 }
 
 (async function init() {
+  console.log("[init] start");
   initFooterYear();
   setupFormDemo();
   const data = await loadSiteData();
   renderNews(data.news || []);
   renderSchedule(data.schedule || []);
+  console.log("[init] done");
 })();
