@@ -154,6 +154,18 @@ function initFooterYear() {
   if (y) y.textContent = new Date().getFullYear();
 }
 
+// === Mobile Menu Toggle ===
+document.addEventListener("DOMContentLoaded", () => {
+  const toggleButton = document.getElementById("menu-toggle");
+  const mobileMenu = document.getElementById("mobile-menu");
+
+  if (toggleButton && mobileMenu) {
+    toggleButton.addEventListener("click", () => {
+      mobileMenu.classList.toggle("hidden");
+    });
+  }
+});
+
 /* -------- Init ---------- */
 (async function init() {
   initFooterYear();
