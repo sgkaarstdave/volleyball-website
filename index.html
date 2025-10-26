@@ -1,174 +1,177 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SG Kaarst Volleyball</title>
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <style>
-    /* HEADER */
-    header {
-      background: white;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-    .nav-btn {
-      display: inline-block;
-      padding: 0.5rem 1rem;
-      border-radius: 9999px;
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: #374151;
-      border: 1px solid #e5e7eb;
-      background: #f9fafb;
-      transition: all .2s ease;
-    }
-    .nav-btn:hover {
-      background: #2563eb;
-      color: #fff;
-      border-color: #2563eb;
-      box-shadow: 0 2px 6px rgba(37,99,235,.2);
-    }
-    .nav-btn:active {
-      background: #1e40af;
-      border-color: #1e40af;
-      color: #fff;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SG Kaarst Volleyball</title>
 
-    /* MOBILE MENU */
-    .nav-btn--mobile {
-      display:block;
-      padding: .625rem 1rem;
-      border-radius: .75rem;
-      color:#374151;
-      background:#f9fafb;
-      border:1px solid #e5e7eb;
-      font-weight:600;
-      transition: all .2s ease;
-    }
-    .nav-btn--mobile:hover {
-      background:#e0ecff;
-      border-color:#bfdbfe;
-      color:#1e3a8a;
-    }
-  </style>
-</head>
-<body class="bg-gray-50 text-gray-900">
+    <!-- Tailwind v2 (stabiler CDN-Link) -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 
-  <!-- HEADER -->
-  <header class="w-full z-40">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-      <div class="flex items-center space-x-3">
-        <img src="img/logo.png" alt="SG Kaarst Logo" class="h-16 w-auto">
-        <span class="font-bold text-xl text-gray-800">SG Kaarst</span>
+    <style>
+      html { scroll-behavior: smooth }
+      .container { max-width: 1100px }
+
+      /* Hero (nimmt lokales hero.jpg wenn vorhanden) */
+      .hero-bg{
+        background-image:url('img/hero.jpg'),
+          url('https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=2000&q=80');
+        background-size:cover;background-position:center
+      }
+
+      /* Akzente & Trenner */
+      .accent{width:120px;height:8px;border-radius:9999px;background:linear-gradient(90deg,#1d4ed8,#3b82f6,#60a5fa);box-shadow:0 6px 18px rgba(59,130,246,.35);margin:6px 0 18px}
+      .stripe{height:10px;background:linear-gradient(90deg,#dbeafe,#60a5fa 30%,#1d4ed8 60%,#dbeafe);opacity:.9}
+
+      /* Navigation: dezente Buttons */
+      .nav-btn{
+        display:inline-block;padding:.5rem 1rem;border-radius:9999px;font-size:.875rem;font-weight:600;
+        color:#374151;border:1px solid #e5e7eb;background:#f9fafb;transition:all .2s ease
+      }
+      .nav-btn:hover{background:#2563eb;color:#fff;border-color:#2563eb;box-shadow:0 2px 6px rgba(37,99,235,.2)}
+      .nav-btn:active{background:#1e40af;border-color:#1e40af;color:#fff}
+
+      .nav-btn--mobile{display:block;padding:.625rem 1rem;border-radius:.75rem;color:#374151;background:#f9fafb;border:1px solid #e5e7eb;font-weight:600;transition:all .2s ease}
+      .nav-btn--mobile:hover{background:#e0ecff;border-color:#bfdbfe;color:#1e3a8a}
+
+      /* Scroll-Reveal */
+      .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+      .reveal.in{opacity:1;transform:none}
+
+      /* Stat-Karten */
+      .stat-card{background:linear-gradient(135deg,#2563eb 0%,#1e40af 100%);color:#fff;box-shadow:0 10px 30px rgba(37,99,235,.25)}
+    </style>
+  </head>
+
+  <body class="bg-gray-50 text-gray-900">
+    <!-- HEADER (nicht sticky) -->
+    <header class="bg-white border-b">
+      <div class="container mx-auto px-4">
+        <div class="h-20 flex items-center justify-between">
+          <a href="index.html" class="flex items-center gap-3 min-w-0">
+            <img src="img/sg-kaarst-logo.png" alt="SG Kaarst" class="h-16 md:h-20 w-auto flex-shrink-0 select-none" draggable="false" />
+            <span class="hidden sm:inline text-xl md:text-2xl font-extrabold tracking-tight text-gray-900 whitespace-nowrap">
+              SG Kaarst
+            </span>
+          </a>
+
+          <!-- Desktop -->
+          <nav class="hidden md:flex items-center gap-3 whitespace-nowrap">
+            <a href="#news" class="nav-btn">News</a>
+            <a href="#termine" class="nav-btn">Termine</a>
+            <a href="#teams" class="nav-btn">Teams</a>
+            <a href="#training" class="nav-btn">Probetraining</a>
+          </nav>
+
+          <!-- Mobile Toggle -->
+          <button id="menu-toggle" class="md:hidden text-gray-700 border rounded-lg px-3 py-2" aria-label="Menü öffnen">
+            ☰
+          </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <nav id="mobile-menu" class="hidden flex-col space-y-3 pb-4 md:hidden text-center">
+          <a href="#news" class="nav-btn--mobile">News</a>
+          <a href="#termine" class="nav-btn--mobile">Termine</a>
+          <a href="#teams" class="nav-btn--mobile">Teams</a>
+          <a href="#training" class="nav-btn--mobile">Probetraining</a>
+        </nav>
       </div>
+    </header>
 
-      <!-- Desktop Nav -->
-      <nav class="hidden md:flex items-center gap-3 whitespace-nowrap">
-        <a href="#news" class="nav-btn">News</a>
-        <a href="#termine" class="nav-btn">Termine</a>
-        <a href="#teams" class="nav-btn">Teams</a>
-        <a href="#training" class="nav-btn">Probetraining</a>
-      </nav>
-
-      <!-- Mobile -->
-      <button id="menu-toggle" class="md:hidden text-gray-700 border rounded-lg px-3 py-2">
-        ☰
-      </button>
-    </div>
-
-    <nav id="mobile-menu" class="hidden flex-col space-y-3 pb-4 md:hidden text-center">
-      <a href="#news" class="nav-btn--mobile">News</a>
-      <a href="#termine" class="nav-btn--mobile">Termine</a>
-      <a href="#teams" class="nav-btn--mobile">Teams</a>
-      <a href="#training" class="nav-btn--mobile">Probetraining</a>
-    </nav>
-  </header>
-
-  <!-- HERO -->
-  <section class="relative bg-cover bg-center h-[70vh]" style="background-image:url('img/hero.jpg')">
-    <div class="absolute inset-0 bg-black bg-opacity-40"></div>
-    <div class="relative z-10 flex flex-col justify-center items-center h-full text-white text-center px-4">
-      <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Schnell. Präzise. – SG Kaarst Volleyball</h1>
-      <p class="text-lg mb-6">Herren, Damen & Mixed – Spielpläne, Ergebnisse und alles rund um unser Team.</p>
-      <div class="flex gap-4">
-        <a href="#termine" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-semibold">Nächste Spiele</a>
-        <a href="#teams" class="bg-white text-blue-600 hover:bg-blue-100 px-5 py-2 rounded-lg font-semibold">Teams</a>
+    <!-- HERO -->
+    <section id="top" class="relative hero-bg" style="min-height:85vh;">
+      <div class="absolute inset-0 bg-gradient-to-b from-black/55 via-black/30 to-black/55"></div>
+      <div class="container mx-auto px-4 py-24 md:py-32 relative text-center text-white">
+        <h1 class="text-4xl md:text-5xl font-extrabold">
+          Schnell. Präzise. – SG Kaarst Volleyball
+        </h1>
+        <p class="mt-4 text-lg text-blue-100">
+          Herren, Damen & Mixed – Spielpläne, Ergebnisse und alle Infos rund um unser Team.
+        </p>
+        <div class="mt-6 flex items-center justify-center gap-3">
+          <a href="#termine" class="rounded-xl bg-blue-600 hover:bg-blue-700 text-white px-5 py-3">Nächste Spiele</a>
+          <a href="#teams" class="rounded-xl border border-white/50 px-5 py-3">Teams</a>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- MITGLIEDER / TEAMS -->
-  <section class="py-12 bg-white text-center">
-    <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="bg-blue-600 text-white p-8 rounded-2xl shadow-md">
-        <p class="text-lg font-semibold">Mitglieder</p>
-        <p class="text-5xl font-bold mt-2">18</p>
+    <!-- STATS -->
+    <section class="bg-white border-y">
+      <div class="container mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-2 gap-6 text-center">
+        <div class="stat-card rounded-2xl p-6">
+          <div class="text-sm opacity-90">Mitglieder</div>
+          <div class="text-5xl font-extrabold mt-1" id="stat-members">–</div>
+        </div>
+        <div class="stat-card rounded-2xl p-6">
+          <div class="text-sm opacity-90">Teams</div>
+          <div class="text-5xl font-extrabold mt-1" id="stat-teams">–</div>
+        </div>
       </div>
-      <div class="bg-blue-600 text-white p-8 rounded-2xl shadow-md">
-        <p class="text-lg font-semibold">Teams</p>
-        <p class="text-5xl font-bold mt-2">3</p>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- EINBLICKE -->
-  <section id="teams" class="py-16 bg-gray-50 border-t border-blue-100">
-    <div class="max-w-6xl mx-auto px-4 text-center">
-      <h2 class="text-3xl font-bold mb-10 text-gray-800">Einblicke in die Teams</h2>
-      <div class="grid md:grid-cols-3 gap-6">
-        <div class="bg-white rounded-2xl shadow-md overflow-hidden">
-          <img src="img/team_herren.jpg" alt="Herren Team" class="w-full h-64 object-cover">
-          <div class="p-4">
-            <h3 class="font-semibold text-lg">Herren</h3>
-            <a href="#" class="inline-block mt-3 px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200">Zum Team</a>
+    <div class="stripe"></div>
+
+    <!-- TEAMS (wird per JS gefüllt) -->
+    <section id="teams" class="container mx-auto px-4 py-12">
+      <h2 class="text-2xl font-bold">Einblicke in die Teams</h2>
+      <div class="accent"></div>
+      <div id="teams-grid" class="mt-5 grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+    </section>
+
+    <div class="stripe"></div>
+
+    <!-- NEWS (per JS) -->
+    <section id="news" class="container mx-auto px-4 py-12" style="background:linear-gradient(180deg,#f0f6ff 0%,#ffffff 60%)">
+      <h2 class="text-2xl font-bold">News</h2>
+      <div class="accent"></div>
+      <ul id="news-list" class="mt-4 grid gap-4"></ul>
+    </section>
+
+    <div class="stripe"></div>
+
+    <!-- TERMINE (per JS) -->
+    <section id="termine" class="bg-white border-y" style="background:linear-gradient(180deg,#ffffff 0%,#f3f6ff 100%)">
+      <div class="container mx-auto px-4 py-12">
+        <h2 class="text-2xl font-bold">Termine</h2>
+        <div class="accent"></div>
+        <div id="schedule-cards" class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+      </div>
+    </section>
+
+    <!-- TRAINING -->
+    <section id="training" class="container mx-auto px-4 py-12">
+      <h2 class="text-2xl font-bold mb-6">Training & Probetraining</h2>
+      <div class="flex flex-col md:flex-row md:items-start gap-8">
+        <div class="md:w-1/2 space-y-4">
+          <div class="rounded-2xl p-4 bg-blue-50">
+            <div class="font-semibold">Dienstag</div>
+            <div class="text-sm text-gray-700">19:30 – 21:30 · Sporthalle Kaarst</div>
+          </div>
+          <div class="rounded-2xl p-4 bg-blue-50">
+            <div class="font-semibold">Donnerstag</div>
+            <div class="text-sm text-gray-700">19:30 – 21:30 · Sporthalle Kaarst</div>
           </div>
         </div>
-        <div class="bg-white rounded-2xl shadow-md overflow-hidden">
-          <img src="img/team_damen.jpg" alt="Damen Team" class="w-full h-64 object-cover">
-          <div class="p-4">
-            <h3 class="font-semibold text-lg">Damen</h3>
-            <a href="#" class="inline-block mt-3 px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200">Zum Team</a>
-          </div>
-        </div>
-        <div class="bg-white rounded-2xl shadow-md overflow-hidden">
-          <img src="img/team_mixed.jpg" alt="Mixed Team" class="w-full h-64 object-cover">
-          <div class="p-4">
-            <h3 class="font-semibold text-lg">Mixed</h3>
-            <a href="#" class="inline-block mt-3 px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200">Zum Team</a>
-          </div>
-        </div>
+
+        <form id="tryout-form" class="md:w-1/2 space-y-3 rounded-2xl border bg-white p-4">
+          <h3 class="font-semibold text-lg">Probetraining anfragen</h3>
+          <p class="text-sm text-gray-600">Schreib uns kurz – wir melden uns.</p>
+          <input name="name" class="w-full border rounded-xl px-3 py-2" placeholder="Name" required />
+          <input name="email" type="email" class="w-full border rounded-xl px-3 py-2" placeholder="deine@mail.de" required />
+          <textarea name="message" class="w-full border rounded-xl px-3 py-2" rows="4" placeholder="Nachricht..."></textarea>
+          <button type="button" id="fakeSubmit" class="rounded-xl bg-blue-600 hover:bg-blue-700 text-white px-5 py-2">
+            Absenden
+          </button>
+          <div id="formAlert" class="hidden text-sm mt-2"></div>
+        </form>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- NEWS -->
-  <section id="news" class="py-16 bg-gradient-to-b from-blue-50 to-white border-t border-blue-100">
-    <div class="max-w-6xl mx-auto px-4">
-      <h2 class="text-3xl font-bold mb-8 text-gray-800 border-l-4 border-blue-600 pl-3">News</h2>
-      <div id="news-list" class="space-y-6">
-        <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition">
-          <p class="text-sm text-gray-400 mb-1">25.10.2025</p>
-          <h3 class="font-semibold text-lg">Eindeutiger Sieg gegen DJK Kleinenbroich!</h3>
-          <p class="text-gray-600 mt-1">3:0 gegen den DJK – starke Teamleistung.</p>
-        </div>
-        <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition">
-          <p class="text-sm text-gray-400 mb-1">25.10.2025</p>
-          <h3 class="font-semibold text-lg">Comeback einer Legende!</h3>
-          <p class="text-gray-600 mt-1">Unser lang verletzter Spieler David Salai feierte sein Comeback!</p>
-        </div>
-      </div>
-    </div>
-  </section>
+    <footer class="border-t text-center text-xs text-gray-500 py-8">
+      © <span id="year"></span> SG Kaarst Volleyball – Made with ❤️
+    </footer>
 
-  <!-- TERMINE -->
-  <section id="termine" class="py-16 bg-white border-t border-blue-100">
-    <div class="max-w-6xl mx-auto px-4">
-      <h2 class="text-3xl font-bold mb-8 text-gray-800 border-l-4 border-blue-600 pl-3">Termine</h2>
-      <div id="termine-list" class="grid gap-4"></div>
-    </div>
-  </section>
-
-  <!-- JS -->
-  <script src="assets/js/main.js"></script>
-</body>
+    <script src="assets/js/main.js?v=7"></script>
+  </body>
 </html>
