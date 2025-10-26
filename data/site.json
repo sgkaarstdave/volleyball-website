@@ -1,4 +1,17 @@
 {
+  "stats": {
+    "members": 18,
+    "teams": 1,
+    "trainings_per_week": 2
+  },
+  "gallery": [
+    "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=1600&q=80",
+    "https://images.unsplash.com/photo-1521417531039-94f78c4c3009?auto=format&fit=crop&w=1600&q=80",
+    "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1600&q=80",
+    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80",
+    "https://images.unsplash.com/photo-1521123845560-14093637aa7d?auto=format&fit=crop&w=1600&q=80",
+    "https://images.unsplash.com/photo-1506792006437-256b665541e3?auto=format&fit=crop&w=1600&q=80"
+  ],
   "news": [
     {
       "date": "2025-10-25",
