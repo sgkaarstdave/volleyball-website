@@ -81,7 +81,11 @@ function renderSchedule(schedule) {
       const date = new Date(s.date);
       const day = date.getDate();
       const mon = date.toLocaleString("de-DE", { month: "short" });
-      const isHome = /kaarst|pestalozzi/i.test(s.place || "");
+      // Priorität: explizites Flag aus site.json, sonst Fallback per Ort
+const isHome = (typeof s.home === "boolean")
+  ? s.home
+  : /kaarst|pestalozzi/i.test(s.place || "");
+
 
       const badgeCls = isHome
         ? "bg-green-100 text-green-700"
