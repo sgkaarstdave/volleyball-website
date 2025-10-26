@@ -4,143 +4,149 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SG Kaarst Volleyball</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-      rel="stylesheet"
-    />
+    <meta name="description" content="SG Kaarst Volleyball Herren – Spielpläne, Ergebnisse, Training & Probetraining." />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <style>
+      html { scroll-behavior: smooth }
+      .container { max-width: 1100px }
+    </style>
   </head>
-
   <body class="bg-gray-50 text-gray-900">
+
     <!-- HEADER -->
-    <header
-      class="flex items-center justify-between bg-white shadow px-6 py-4 sticky top-0 z-50"
-    >
-      <div class="flex items-center gap-3">
-        <img src="img/sg-kaarst-logo.png" alt="SG Kaarst" class="h-10 w-10" />
-        <h1 class="text-xl font-bold text-blue-700">SG Kaarst Volleyball</h1>
+    <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
+      <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+        <a href="#top" class="flex items-center gap-2 font-bold tracking-wide">
+          <img src="img/sg-kaarst-logo.png" alt="SG Kaarst" class="h-8 w-8" />
+          <span>SG&nbsp;Kaarst</span>
+        </a>
+        <nav class="hidden md:flex gap-6 text-sm">
+          <a href="#news" class="hover:text-blue-700">News</a>
+          <a href="#termine" class="hover:text-blue-700">Termine</a>
+          <a href="team.html" class="hover:text-blue-700">Team</a>
+          <a href="#training" class="hover:text-blue-700">Training & Probetraining</a>
+        </nav>
+        <a href="#training" class="md:hidden inline-flex items-center gap-2 rounded-xl border border-blue-200 px-3 py-1 text-sm">
+          Kontakt
+        </a>
       </div>
-      <nav class="space-x-4">
-        <a href="#news" class="hover:text-blue-600">News</a>
-        <a href="#schedule" class="hover:text-blue-600">Termine</a>
-        <a href="team.html" class="hover:text-blue-600">Team</a>
-        <a href="#training" class="hover:text-blue-600">Training</a>
-        <a href="#contact" class="hover:text-blue-600">Kontakt</a>
-      </nav>
     </header>
 
     <!-- HERO -->
-    <section
-      class="text-center py-16 bg-blue-100 text-blue-800 border-b border-blue-200"
-    >
-      <h2 class="text-4xl font-extrabold mb-4">Schnell. Präzise. – SG Kaarst Volleyball</h2>
-      <p class="text-lg">
-        Wir sind die Herrenmannschaft der SG Kaarst. Spielpläne, Ergebnisse und
-        alle Infos rund um unser Team findest du hier.
-      </p>
+    <section id="top" class="relative">
+      <div class="container mx-auto px-4 py-16 text-center">
+        <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">
+          Schnell. Präzise. – SG Kaarst Volleyball
+        </h1>
+        <p class="mt-3 text-lg text-gray-700">
+          Wir sind die Herrenmannschaft der SG Kaarst. Spielpläne, Ergebnisse und alle Infos rund um unser Team.
+        </p>
+        <div class="mt-6 flex items-center justify-center gap-3">
+          <a href="#termine" class="rounded-xl bg-blue-600 hover:bg-blue-700 text-white px-5 py-3">Nächste Spiele</a>
+          <a href="team.html" class="rounded-xl border border-blue-200 px-5 py-3">Team-Seite</a>
+        </div>
+      </div>
     </section>
 
     <!-- NEWS -->
-    <section id="news" class="max-w-4xl mx-auto py-12 px-4">
-      <h3 class="text-2xl font-semibold text-blue-700 mb-6">Aktuelle News</h3>
-      <div id="news-container" class="space-y-6"></div>
+    <section id="news" class="container mx-auto px-4 py-12">
+      <h2 class="text-2xl font-bold">News</h2>
+      <ul id="news-list" class="mt-4 space-y-3"></ul>
     </section>
 
     <!-- TERMINE -->
-    <section id="schedule" class="bg-white py-12 px-4 border-t border-gray-200">
-      <div class="max-w-4xl mx-auto">
-        <h3 class="text-2xl font-semibold text-blue-700 mb-6">Nächste Spiele</h3>
-        <div id="schedule-container" class="space-y-4"></div>
+    <section id="termine" class="bg-white border-y">
+      <div class="container mx-auto px-4 py-12">
+        <h2 class="text-2xl font-bold">Termine</h2>
+        <p class="text-sm text-gray-600">Die Daten kommen aus <code>data/site.json</code>.</p>
+        <div class="overflow-x-auto mt-4 rounded-xl border bg-gray-50">
+          <table class="min-w-full text-sm">
+            <thead class="bg-gray-100 text-gray-600">
+              <tr>
+                <th class="text-left p-3">Datum</th>
+                <th class="text-left p-3">Gegner</th>
+                <th class="text-left p-3">Ort</th>
+                <th class="text-left p-3">Anpfiff</th>
+                <th class="text-left p-3">Info</th>
+              </tr>
+            </thead>
+            <tbody id="schedule" class="divide-y"></tbody>
+          </table>
+        </div>
       </div>
     </section>
 
-    <!-- TRAINING + KONTAKT -->
-    <section id="training" class="max-w-5xl mx-auto py-16 px-4 grid md:grid-cols-2 gap-8">
-      <div>
-        <h3 class="text-2xl font-semibold text-blue-700 mb-4">Training & Kontakt</h3>
-        <p class="mb-3">
-          Du willst Volleyball spielen, dich verbessern oder einfach mal reinschnuppern?
-          Komm gern vorbei – wir freuen uns über neue Gesichter!
-        </p>
-        <ul class="list-disc ml-6 mb-6 text-sm">
-          <li>📅 <strong>Dienstags & Donnerstags</strong> – 20:00 bis 22:00 Uhr</li>
-          <li>📍 <strong>Sporthalle Bruchweg, Kaarst</strong></li>
-          <li>👨‍🏫 Ansprechpartner: Andreas Rajev</li>
-        </ul>
-      </div>
-
-      <!-- Formular -->
-      <form
-        id="tryout-form"
-        action="https://api.web3forms.com/submit"
-        method="POST"
-        class="space-y-3 rounded-2xl border bg-white p-4 shadow-sm"
-      >
-        <h3 class="font-semibold text-lg">Probetraining anfragen</h3>
-        <p class="text-sm text-gray-600">
-          Du willst bei uns mittrainieren? Schreib uns direkt hier – wir melden uns bei dir.
-        </p>
-
-        <!-- Web3Forms Access Key -->
-        <input type="hidden" name="access_key" value="18b4bde5-c80a-4d37-ac0a-c2964088560f" />
-
-        <!-- Anti-Spam Honeypot -->
-        <input type="checkbox" name="botcheck" class="hidden" style="display:none" />
-
-        <!-- Name -->
-        <div>
-          <label class="block text-sm font-medium">Dein Name</label>
-          <input name="name" class="w-full border rounded-xl px-3 py-2" placeholder="Vor- und Nachname" required />
-        </div>
-
-        <!-- Email -->
-        <div>
-          <label class="block text-sm font-medium">E-Mail</label>
-          <input name="email" type="email" class="w-full border rounded-xl px-3 py-2" placeholder="deine@mail.de" required />
-        </div>
-
-        <!-- Skill -->
-        <div>
-          <label class="block text-sm font-medium">Skill Level</label>
-          <select name="skill" id="skill" class="w-full border rounded-xl px-3 py-2" required>
-            <option value="Anfänger">Anfänger</option>
-            <option value="Ich spiele bereits im Team">Ich spiele bereits im Team</option>
-            <option value="Aktuell kein Team">Aktuell kein Team</option>
-          </select>
-        </div>
-
-        <!-- Teamdetails -->
-        <div id="team-details" class="hidden">
-          <div class="grid md:grid-cols-2 gap-3">
-            <div>
-              <label class="block text-sm font-medium">Aktuelles Team</label>
-              <input name="current_team" class="w-full border rounded-xl px-3 py-2" placeholder="Verein / Teamname" />
-            </div>
-            <div>
-              <label class="block text-sm font-medium">Liga</label>
-              <input name="league" class="w-full border rounded-xl px-3 py-2" placeholder="z. B. Bezirksliga" />
+    <!-- TRAINING & PROBETRAINING -->
+    <section id="training" class="container mx-auto px-4 py-12">
+      <h2 class="text-2xl font-bold mb-6">Training & Probetraining</h2>
+      <div class="flex flex-col md:flex-row md:items-start gap-8">
+        <!-- Trainingszeiten -->
+        <div class="md:w-1/2 space-y-4">
+          <div>
+            <h3 class="font-semibold text-lg">Trainingszeiten</h3>
+            <p class="text-sm text-gray-600 mb-3">Unsere regulären Trainingszeiten:</p>
+            <div class="grid gap-3">
+              <div class="rounded-2xl border bg-white p-4">
+                <div class="font-semibold">Dienstag</div>
+                <div class="text-sm text-gray-600">19:30 – 21:30 · Sporthalle Kaarst</div>
+              </div>
+              <div class="rounded-2xl border bg-white p-4">
+                <div class="font-semibold">Donnerstag</div>
+                <div class="text-sm text-gray-600">19:30 – 21:30 · Sporthalle Kaarst</div>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Nachricht -->
-        <div>
-          <label class="block text-sm font-medium">Nachricht (optional)</label>
-          <textarea name="message" class="w-full border rounded-xl px-3 py-2" rows="4"
-            placeholder="z. B. Position, Erfahrung, wann du Zeit hast"></textarea>
-        </div>
+        <!-- Formular (Backend später finalisieren) -->
+        <form id="tryout-form" action="#" method="POST" class="md:w-1/2 space-y-3 rounded-2xl border bg-white p-4">
+          <h3 class="font-semibold text-lg">Probetraining anfragen</h3>
+          <p class="text-sm text-gray-600">Du willst bei uns mittrainieren? Schreib uns direkt hier – wir melden uns.</p>
 
-        <!-- hCaptcha Widget -->
-        <div class="h-captcha" data-captcha="true"></div>
+          <div>
+            <label class="block text-sm font-medium">Dein Name</label>
+            <input name="name" class="w-full border rounded-xl px-3 py-2" placeholder="Vor- und Nachname" required />
+          </div>
+          <div>
+            <label class="block text-sm font-medium">E-Mail</label>
+            <input name="email" type="email" class="w-full border rounded-xl px-3 py-2" placeholder="deine@mail.de" required />
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Skill Level</label>
+            <select name="skill" id="skill" class="w-full border rounded-xl px-3 py-2" required>
+              <option value="Anfänger">Anfänger</option>
+              <option value="Ich spiele bereits im Team">Ich spiele bereits im Team</option>
+              <option value="Aktuell kein Team">Aktuell kein Team</option>
+            </select>
+          </div>
 
-        <!-- Feedback -->
-        <div id="formAlert" class="hidden text-sm mt-2"></div>
+          <div id="team-details" class="hidden">
+            <div class="grid md:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-sm font-medium">Aktuelles Team</label>
+                <input name="current_team" class="w-full border rounded-xl px-3 py-2" placeholder="Verein / Teamname" />
+              </div>
+              <div>
+                <label class="block text-sm font-medium">Liga</label>
+                <input name="league" class="w-full border rounded-xl px-3 py-2" placeholder="z. B. Bezirksliga" />
+              </div>
+            </div>
+          </div>
 
-        <button type="submit" class="rounded-xl bg-blue-600 hover:bg-blue-700 text-white px-5 py-2">
-          Absenden
-        </button>
-        <p class="text-xs text-gray-500">Direktversand über unseren Formulardienst. Wir speichern nur die für die
-          Kontaktaufnahme nötigen Daten.</p>
-      </form>
+          <div>
+            <label class="block text-sm font-medium">Nachricht (optional)</label>
+            <textarea name="message" class="w-full border rounded-xl px-3 py-2" rows="4"
+              placeholder="z. B. Position, Erfahrung, wann du Zeit hast"></textarea>
+          </div>
+
+          <div id="formAlert" class="hidden text-sm mt-2"></div>
+
+          <button type="button" id="fakeSubmit" class="rounded-xl bg-blue-600 hover:bg-blue-700 text-white px-5 py-2">
+            Absenden
+          </button>
+          <p class="text-xs text-gray-500">Hinweis: Versand wird am Ende finalisiert. Aktuell Demo-Modus.</p>
+        </form>
+      </div>
     </section>
 
     <!-- FOOTER -->
@@ -149,71 +155,10 @@
         <img src="img/sg-kaarst-logo.png" alt="SG Kaarst" class="h-6 w-6" />
         <span>SG Kaarst Volleyball</span>
       </div>
-      <p>© 2025 SG Kaarst Volleyball. Alle Rechte vorbehalten.</p>
+      © <span id="year"></span> SG Kaarst – Made with ❤️
     </footer>
 
-    <!-- SCRIPT -->
-<script>
-  const form = document.getElementById("tryout-form");
-  const skill = document.getElementById("skill");
-  const teamDetails = document.getElementById("team-details");
-  const formAlert = document.getElementById("formAlert");
-  const submitBtn = form?.querySelector('button[type="submit"]');
-
-  if (skill) {
-    skill.addEventListener("change", () => {
-      const show = skill.value === "Ich spiele bereits im Team";
-      teamDetails.classList.toggle("hidden", !show);
-      form.querySelector('[name="current_team"]').required = show;
-      form.querySelector('[name="league"]').required = show;
-    });
-  }
-
-  if (form) {
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      formAlert.classList.add("hidden");
-
-      // 👉 WICHTIG: KEINE lokale Captcha-Prüfung hier!
-      // Web3Forms-Script fügt den Token selbst beim Submit hinzu.
-
-      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Sende..."; }
-
-      try {
-        const res = await fetch(form.action, {
-          method: form.method,
-          body: new FormData(form),
-          headers: { Accept: "application/json" },
-        });
-
-        let payload = null, text = "";
-        try { payload = await res.json(); } catch { try { text = await res.text(); } catch {} }
-
-        if (res.ok) {
-          form.reset();
-          teamDetails?.classList.add("hidden");
-          formAlert.textContent = "Danke! Deine Anfrage wurde gesendet ✅";
-          formAlert.className = "text-green-700 text-sm mt-2";
-          formAlert.classList.remove("hidden");
-        } else {
-          const msg = payload?.message || (payload?.errors ? payload.errors.map(e => e.message).join(", ") : "") || text || "Fehler beim Senden.";
-          formAlert.textContent = msg;
-          formAlert.className = "text-red-600 text-sm mt-2";
-          formAlert.classList.remove("hidden");
-        }
-      } catch (err) {
-        formAlert.textContent = "Netzwerkfehler. Bitte später erneut versuchen.";
-        formAlert.className = "text-red-600 text-sm mt-2";
-        formAlert.classList.remove("hidden");
-      } finally {
-        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = "Absenden"; }
-      }
-    });
-  }
-</script>
-
-
-    <!-- Web3Forms hCaptcha Script -->
-    <script src="https://web3forms.com/client/script.js" async defer></script>
+    <!-- Deine App-Logik -->
+    <script src="assets/js/main.js?v=1"></script>
   </body>
 </html>
