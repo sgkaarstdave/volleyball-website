@@ -1,53 +1,22 @@
 {
-  "termine": [
-    {
-      "datum": "02.11.2025",
-      "gegner": "Eintracht Spontent IV",
-      "ort": "Pestalozzistraße 3a, 41564 Kaarst (Heim)",
-      "anpfiff": "14:30",
-      "info": "Liga – Spieltag 5"
-    },
-    {
-      "datum": "16.11.2025",
-      "gegner": "DJK Tusa 06 Düsseldorf V",
-      "ort": "Heimspiel – Kaarst",
-      "anpfiff": "15:15",
-      "info": "Liga – Spieltag 6"
-    },
-    {
-      "datum": "21.12.2025",
-      "gegner": "TG Neuss",
-      "ort": "Heimspiel – Kaarst",
-      "anpfiff": "15:15",
-      "info": "Liga – Spieltag 7"
-    },
-    {
-      "datum": "18.01.2026",
-      "gegner": "ART Düsseldorf V",
-      "ort": "Auswärts – Georg-Büchner-Gymnasium, Düsseldorf",
-      "anpfiff": "12:00",
-      "info": "Liga – Spieltag 8"
-    },
-    {
-      "datum": "24.01.2026",
-      "gegner": "Eintracht Spontent V",
-      "ort": "Auswärts – Gemeinschaftshauptschule Benrath, Düsseldorf",
-      "anpfiff": "12:00",
-      "info": "Liga – Spieltag 9"
-    },
-    {
-      "datum": "21.02.2026",
-      "gegner": "Eintracht Spontent IV",
-      "ort": "Auswärts – Gemeinschaftshauptschule Benrath, Düsseldorf",
-      "anpfiff": "11:00",
-      "info": "Liga – Spieltag 10"
-    },
-    {
-      "datum": "07.03.2026",
-      "gegner": "DJK Tusa 06 Düsseldorf V",
-      "ort": "Auswärts – Hulda Pankok Gesamtschule, Düsseldorf",
-      "anpfiff": "13:15",
-      "info": "Liga – Spieltag 11"
-    }
+  "stats": { "members": 18, "teams": 3 },
+  "teams": [
+    { "slug": "herren", "title": "Herren", "image": "img/teams/herren.jpg", "href": "#" },
+    { "slug": "damen",  "title": "Damen",  "image": "img/teams/damen.jpg",  "href": "#" },
+    { "slug": "mixed",  "title": "Mixed",  "image": "img/teams/mixed.jpg",  "href": "#" }
+  ],
+  "news": [
+    { "date": "2025-10-25", "title": "Eindeutiger Sieg gegen DJK Kleinenbroich!", "text": "3:0 gegen den DJK – starke Teamleistung." },
+    { "date": "2025-10-25", "title": "Comeback einer Legende!", "text": "Unser lang verletzter Spieler David Salai feierte sein Comeback!" }
+  ],
+  "schedule": [
+    { "date": "2025-11-02", "opponent": "Eintracht Spontent IV", "place": "Pestalozzistraße 3a, 41564 Kaarst", "time": "14:30", "info": "Liga – Spieltag 5", "home": true },
+    { "date": "2025-11-16", "opponent": "DJK Tusa 06 Düsseldorf V", "place": "Pestalozzistraße 3a, 41564 Kaarst", "time": "15:15", "info": "Liga – Spieltag 6", "home": true },
+    { "date": "2025-12-21", "opponent": "TG Neuss", "place": "Pestalozzistraße 3a, 41564 Kaarst", "time": "15:15", "info": "Liga – Spieltag 7", "home": true },
+    { "date": "2026-01-18", "opponent": "ART Düsseldorf V", "place": "Georg-Büchner-Gymnasium, Tersteegenstr. 62, 40474 Düsseldorf", "time": "12:00", "info": "Liga", "home": false },
+    { "date": "2026-01-24", "opponent": "Eintracht Spontent V", "place": "Gemeinschaftshauptschule Benrath, Melanchthonstraße 2, 40597 Düsseldorf", "time": "12:00", "info": "Liga", "home": false },
+    { "date": "2026-02-01", "opponent": "DJK Kleinenbroich", "place": "Pestalozzistraße 3a, 41564 Kaarst", "time": "14:30", "info": "Liga", "home": true },
+    { "date": "2026-02-21", "opponent": "Eintracht Spontent IV", "place": "Gemeinschaftshauptschule Benrath, Melanchthonstraße 2, 40597 Düsseldorf", "time": "11:00", "info": "Liga", "home": false },
+    { "date": "2026-03-07", "opponent": "DJK Tusa 06 Düsseldorf V", "place": "Hulda Pankok Gesamtschule, Brinkmannstr., 40225 Düsseldorf", "time": "13:15", "info": "Liga", "home": false }
   ]
 }
