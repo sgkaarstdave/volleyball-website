@@ -81,11 +81,7 @@
         </p>
 
         <!-- Web3Forms Access Key -->
-        <input
-          type="hidden"
-          name="access_key"
-          value="a77e5ccb-3b1b-49ec-a64c-a3a20516b3b1"
-        />
+        <input type="hidden" name="access_key" value="a77e5ccb-3b1b-49ec-a64c-a3a20516b3b1" />
 
         <!-- Anti-Spam Honeypot -->
         <input type="checkbox" name="botcheck" class="hidden" style="display:none" />
@@ -93,35 +89,19 @@
         <!-- Name -->
         <div>
           <label class="block text-sm font-medium">Dein Name</label>
-          <input
-            name="name"
-            class="w-full border rounded-xl px-3 py-2"
-            placeholder="Vor- und Nachname"
-            required
-          />
+          <input name="name" class="w-full border rounded-xl px-3 py-2" placeholder="Vor- und Nachname" required />
         </div>
 
         <!-- Email -->
         <div>
           <label class="block text-sm font-medium">E-Mail</label>
-          <input
-            name="email"
-            type="email"
-            class="w-full border rounded-xl px-3 py-2"
-            placeholder="deine@mail.de"
-            required
-          />
+          <input name="email" type="email" class="w-full border rounded-xl px-3 py-2" placeholder="deine@mail.de" required />
         </div>
 
         <!-- Skill -->
         <div>
           <label class="block text-sm font-medium">Skill Level</label>
-          <select
-            name="skill"
-            id="skill"
-            class="w-full border rounded-xl px-3 py-2"
-            required
-          >
+          <select name="skill" id="skill" class="w-full border rounded-xl px-3 py-2" required>
             <option value="Anfänger">Anfänger</option>
             <option value="Ich spiele bereits im Team">Ich spiele bereits im Team</option>
             <option value="Aktuell kein Team">Aktuell kein Team</option>
@@ -133,19 +113,11 @@
           <div class="grid md:grid-cols-2 gap-3">
             <div>
               <label class="block text-sm font-medium">Aktuelles Team</label>
-              <input
-                name="current_team"
-                class="w-full border rounded-xl px-3 py-2"
-                placeholder="Verein / Teamname"
-              />
+              <input name="current_team" class="w-full border rounded-xl px-3 py-2" placeholder="Verein / Teamname" />
             </div>
             <div>
               <label class="block text-sm font-medium">Liga</label>
-              <input
-                name="league"
-                class="w-full border rounded-xl px-3 py-2"
-                placeholder="z. B. Bezirksliga"
-              />
+              <input name="league" class="w-full border rounded-xl px-3 py-2" placeholder="z. B. Bezirksliga" />
             </div>
           </div>
         </div>
@@ -153,27 +125,21 @@
         <!-- Nachricht -->
         <div>
           <label class="block text-sm font-medium">Nachricht (optional)</label>
-          <textarea
-            name="message"
-            class="w-full border rounded-xl px-3 py-2"
-            rows="4"
-            placeholder="z. B. Position, Erfahrung, wann du Zeit hast"
-          ></textarea>
+          <textarea name="message" class="w-full border rounded-xl px-3 py-2" rows="4"
+            placeholder="z. B. Position, Erfahrung, wann du Zeit hast"></textarea>
         </div>
+
+        <!-- hCaptcha Widget -->
+        <div class="h-captcha" data-captcha="true"></div>
 
         <!-- Feedback -->
         <div id="formAlert" class="hidden text-sm mt-2"></div>
 
-        <button
-          type="submit"
-          class="rounded-xl bg-blue-600 hover:bg-blue-700 text-white px-5 py-2"
-        >
+        <button type="submit" class="rounded-xl bg-blue-600 hover:bg-blue-700 text-white px-5 py-2">
           Absenden
         </button>
-        <p class="text-xs text-gray-500">
-          Direktversand über unseren Formulardienst. Wir speichern nur die für die
-          Kontaktaufnahme nötigen Daten.
-        </p>
+        <p class="text-xs text-gray-500">Direktversand über unseren Formulardienst. Wir speichern nur die für die
+          Kontaktaufnahme nötigen Daten.</p>
       </form>
     </section>
 
@@ -251,6 +217,14 @@
         form.addEventListener("submit", async (e) => {
           e.preventDefault();
 
+          const token = form.querySelector('input[name="h-captcha-response"]')?.value;
+          if (!token) {
+            formAlert.textContent = 'Bitte löse das Captcha, bevor du absendest.';
+            formAlert.className = 'text-red-600 text-sm mt-2';
+            formAlert.classList.remove('hidden');
+            return;
+          }
+
           const data = new FormData(form);
           const res = await fetch(form.action, {
             method: form.method,
@@ -273,5 +247,8 @@
         });
       }
     </script>
+
+    <!-- Web3Forms hCaptcha Script -->
+    <script src="https://web3forms.com/client/script.js" async defer></script>
   </body>
 </html>
