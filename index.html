@@ -6,29 +6,53 @@
     <title>SG Kaarst Volleyball</title>
     <meta name="description" content="SG Kaarst Volleyball – Herren, Damen & Mixed. News, Spiele, Training & Probetraining." />
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+
     <style>
-  /* ...dein bestehendes CSS... */
+      html { scroll-behavior:smooth }
+      .container { max-width: 1100px }
 
-  /* Abschnitt-Akzent (blauer Balken unter Überschrift) */
-  .accent { width:120px; height:8px; border-radius:9999px;
-    background: linear-gradient(90deg,#1d4ed8,#3b82f6,#60a5fa);
-    box-shadow: 0 6px 18px rgba(59,130,246,.35); margin: 6px 0 18px;
-  }
-  /* Full-width Trenner zwischen Sektionen */
-  .stripe { height:10px; background:
-    linear-gradient(90deg,#dbeafe,#60a5fa 30%,#1d4ed8 60%, #dbeafe);
-    opacity:.9;
-  }
+      .hero-bg {
+        background-image: url('img/hero.jpg'), url('https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=2000&q=80');
+        background-size: cover;
+        background-position: center;
+      }
 
-  /* Scroll-Reveal (sanfter Fade + Lift) */
-  .reveal { opacity:0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }
-  .reveal.in { opacity:1; transform:none; }
-</style>
+      @keyframes fadeUp { from{opacity:0; transform:translateY(14px)} to{opacity:1; transform:none} }
+      .fade-up { animation: fadeUp .6s ease both }
+      .delay-1{animation-delay:.08s}.delay-2{animation-delay:.16s}.delay-3{animation-delay:.24s}
 
+      .stat-card {
+        background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+        color: #fff;
+        box-shadow: 0 10px 30px rgba(37,99,235,.25);
+      }
+
+      .accent {
+        width: 120px; height: 8px; border-radius: 9999px;
+        background: linear-gradient(90deg,#1d4ed8,#3b82f6,#60a5fa);
+        box-shadow: 0 6px 18px rgba(59,130,246,.35);
+        margin: 6px 0 18px;
+      }
+
+      .stripe {
+        height: 10px;
+        background: linear-gradient(90deg,#dbeafe,#60a5fa 30%,#1d4ed8 60%, #dbeafe);
+        opacity: .9;
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(14px);
+        transition: opacity .6s ease, transform .6s ease;
+      }
+      .reveal.in {
+        opacity: 1;
+        transform: none;
+      }
+    </style>
   </head>
-  <body class="bg-gray-50 text-gray-900">
 
-    <!-- HEADER -->
+  <body class="bg-gray-50 text-gray-900">
     <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
       <div class="container mx-auto px-4 py-3 flex items-center justify-between">
         <a href="#top" class="flex items-center gap-2 font-bold tracking-wide">
@@ -37,32 +61,18 @@
         </a>
         <nav class="hidden md:flex gap-6 text-sm">
           <a href="#news" class="hover:text-blue-700">News</a>
-          <h2 class="text-2xl font-bold">News</h2>
-          <div class="accent"></div>
-          <div class="stripe"></div>
-
           <a href="#termine" class="hover:text-blue-700">Termine</a>
-          <h2 class="text-2xl font-bold">Termine</h2>
-          <div class="accent"></div>
-          <div class="stripe"></div>
-
           <a href="#teams" class="hover:text-blue-700">Teams</a>
-          <h2 class="text-2xl font-bold">Einblicke in die Teams</h2>
-          <div class="accent"></div>
-          <div class="stripe"></div>
-
-          <a href="team.html" class="hover:text-blue-700">Kader</a>
           <a href="#training" class="hover:text-blue-700">Probetraining</a>
         </nav>
-        <a href="#training" class="md:hidden inline-flex items-center gap-2 rounded-xl border border-blue-200 px-3 py-1 text-sm">Kontakt</a>
       </div>
     </header>
 
     <!-- HERO -->
     <section id="top" class="relative hero-bg">
       <div class="absolute inset-0 bg-gradient-to-b from-black/55 via-black/25 to-black/55"></div>
-      <div class="container mx-auto px-4 py-20 md:py-28 relative text-center text-white">
-        <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight fade-up">
+      <div class="container mx-auto px-4 py-24 md:py-32 relative text-center text-white">
+        <h1 class="text-4xl md:text-5xl font-extrabold fade-up">
           Schnell. Präzise. – SG Kaarst Volleyball
         </h1>
         <p class="mt-4 text-lg text-blue-100 fade-up delay-1">
@@ -75,117 +85,82 @@
       </div>
     </section>
 
-    <!-- STATS (2 Boxen) -->
+    <!-- STATS -->
     <section class="bg-white border-y">
       <div class="container mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-2 gap-6 text-center">
-        <div class="stat-card rounded-2xl p-6 fade-up">
+        <div class="stat-card rounded-2xl p-6 fade-up reveal">
           <div class="text-sm opacity-90">Mitglieder</div>
-          <div class="text-5xl font-extrabold mt-1 tracking-tight" id="stat-members">–</div>
+          <div class="text-5xl font-extrabold mt-1" id="stat-members">–</div>
         </div>
-        <div class="stat-card rounded-2xl p-6 fade-up delay-1">
+        <div class="stat-card rounded-2xl p-6 fade-up reveal delay-1">
           <div class="text-sm opacity-90">Teams</div>
-          <div class="text-5xl font-extrabold mt-1 tracking-tight" id="stat-teams">–</div>
+          <div class="text-5xl font-extrabold mt-1" id="stat-teams">–</div>
         </div>
       </div>
     </section>
 
-    <!-- TEAMS – Einblicke -->
+    <div class="stripe"></div>
+
+    <!-- TEAMS -->
     <section id="teams" class="container mx-auto px-4 py-12">
       <h2 class="text-2xl font-bold">Einblicke in die Teams</h2>
-      <p class="text-sm text-gray-600">Wähle ein Team, um später mehr zu sehen. (Seiten folgen)</p>
+      <div class="accent"></div>
       <div id="teams-grid" class="mt-5 grid grid-cols-1 md:grid-cols-3 gap-4"></div>
     </section>
 
+    <div class="stripe"></div>
+
     <!-- NEWS -->
-    <section id="news" class="container mx-auto px-4 py-12">
+    <section id="news" class="container mx-auto px-4 py-12" style="background:linear-gradient(180deg,#f0f6ff 0%,#ffffff 60%)">
       <h2 class="text-2xl font-bold">News</h2>
+      <div class="accent"></div>
       <ul id="news-list" class="mt-4 grid gap-4"></ul>
     </section>
 
+    <div class="stripe"></div>
+
     <!-- TERMINE -->
-    <section id="termine" class="bg-white border-y">
+    <section id="termine" class="bg-white border-y" style="background:linear-gradient(180deg,#ffffff 0%,#f3f6ff 100%)">
       <div class="container mx-auto px-4 py-12">
         <h2 class="text-2xl font-bold">Termine</h2>
+        <div class="accent"></div>
         <div id="schedule-cards" class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4"></div>
       </div>
     </section>
 
-    <!-- TRAINING & PROBE (Form bleibt Demo bis Finale) -->
+    <!-- TRAINING -->
     <section id="training" class="container mx-auto px-4 py-12">
       <h2 class="text-2xl font-bold mb-6">Training & Probetraining</h2>
       <div class="flex flex-col md:flex-row md:items-start gap-8">
-        <!-- Zeiten -->
         <div class="md:w-1/2 space-y-4">
-          <div class="blue-card rounded-2xl p-4">
+          <div class="rounded-2xl p-4 bg-blue-50">
             <div class="font-semibold">Dienstag</div>
             <div class="text-sm text-gray-700">19:30 – 21:30 · Sporthalle Kaarst</div>
           </div>
-          <div class="blue-card rounded-2xl p-4">
+          <div class="rounded-2xl p-4 bg-blue-50">
             <div class="font-semibold">Donnerstag</div>
             <div class="text-sm text-gray-700">19:30 – 21:30 · Sporthalle Kaarst</div>
           </div>
         </div>
 
-        <!-- Formular (Demo) -->
-        <form id="tryout-form" action="#" method="POST" class="md:w-1/2 space-y-3 rounded-2xl border bg-white p-4">
+        <form id="tryout-form" class="md:w-1/2 space-y-3 rounded-2xl border bg-white p-4">
           <h3 class="font-semibold text-lg">Probetraining anfragen</h3>
           <p class="text-sm text-gray-600">Schreib uns kurz – wir melden uns.</p>
-
-          <div>
-            <label class="block text-sm font-medium">Dein Name</label>
-            <input name="name" class="w-full border rounded-xl px-3 py-2" placeholder="Vor- und Nachname" required />
-          </div>
-          <div>
-            <label class="block text-sm font-medium">E-Mail</label>
-            <input name="email" type="email" class="w-full border rounded-xl px-3 py-2" placeholder="deine@mail.de" required />
-          </div>
-          <div>
-            <label class="block text-sm font-medium">Skill Level</label>
-            <select name="skill" id="skill" class="w-full border rounded-xl px-3 py-2" required>
-              <option value="Anfänger">Anfänger</option>
-              <option value="Ich spiele bereits im Team">Ich spiele bereits im Team</option>
-              <option value="Aktuell kein Team">Aktuell kein Team</option>
-            </select>
-          </div>
-
-          <div id="team-details" class="hidden">
-            <div class="grid md:grid-cols-2 gap-3">
-              <div>
-                <label class="block text-sm font-medium">Aktuelles Team</label>
-                <input name="current_team" class="w-full border rounded-xl px-3 py-2" placeholder="Verein / Teamname" />
-              </div>
-              <div>
-                <label class="block text-sm font-medium">Liga</label>
-                <input name="league" class="w-full border rounded-xl px-3 py-2" placeholder="z. B. Bezirksliga" />
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium">Nachricht (optional)</label>
-            <textarea name="message" class="w-full border rounded-xl px-3 py-2" rows="4"
-              placeholder="z. B. Position, Erfahrung, wann du Zeit hast"></textarea>
-          </div>
-
-          <div id="formAlert" class="hidden text-sm mt-2"></div>
-
+          <input name="name" class="w-full border rounded-xl px-3 py-2" placeholder="Name" required />
+          <input name="email" type="email" class="w-full border rounded-xl px-3 py-2" placeholder="deine@mail.de" required />
+          <textarea name="message" class="w-full border rounded-xl px-3 py-2" rows="4" placeholder="Nachricht..."></textarea>
           <button type="button" id="fakeSubmit" class="rounded-xl bg-blue-600 hover:bg-blue-700 text-white px-5 py-2">
             Absenden
           </button>
-          <p class="text-xs text-gray-500">Hinweis: Versand wird am Ende finalisiert. Aktuell Demo-Modus.</p>
+          <div id="formAlert" class="hidden text-sm mt-2"></div>
         </form>
       </div>
     </section>
 
-    <!-- FOOTER -->
     <footer class="border-t text-center text-xs text-gray-500 py-8">
-      <div class="mb-2 flex items-center justify-center gap-2">
-        <img src="img/sg-kaarst-logo.png" alt="SG Kaarst" class="h-6 w-6" />
-        <span>SG Kaarst Volleyball</span>
-      </div>
-      © <span id="year"></span> SG Kaarst – Made with ❤️
+      © <span id="year"></span> SG Kaarst Volleyball – Made with ❤️
     </footer>
 
-    <script src="assets/js/main.js?v=4"></script>
+    <script src="assets/js/main.js?v=5"></script>
   </body>
 </html>
