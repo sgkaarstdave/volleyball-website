@@ -4,11 +4,24 @@
     "teams": 3
   },
   "teams": [
-  { "slug": "herren", "title": "Herren", "image": "img/teams/herren.jpg", "href": "herren.html" },
-  { "slug": "damen",  "title": "Damen",  "image": "img/teams/herren.jpg",  "href": "damen.html"  },
-  { "slug": "mixed",  "title": "Mixed",  "image": "img/teams/herren.jpg",  "href": "mixed.html"  }
-]
-
+    {
+      "slug": "herren",
+      "title": "Herren",
+      "image": "img/teams/herren.jpg",
+      "href": "herren.html"
+    },
+    {
+      "slug": "damen",
+      "title": "Damen",
+      "image": "img/teams/herren.jpg",
+      "href": "damen.html"
+    },
+    {
+      "slug": "mixed",
+      "title": "Mixed",
+      "image": "img/teams/herren.jpg",
+      "href": "mixed.html"
+    }
   ],
   "news": [
     {
