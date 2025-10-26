@@ -83,11 +83,11 @@
     <div class="mt-4 grid md:grid-cols-2 gap-4">
       <div class="rounded-2xl border bg-white p-4">
         <div class="font-semibold">Dienstag</div>
-        <div class="text-sm text-gray-600">19:30 – 21:30 · Sporthalle Kaarst (Beispiel)</div>
+        <div class="text-sm text-gray-600">20:00 – 22:00 · Pestalozzistraße 3a, 41564 Kaarst</div>
       </div>
       <div class="rounded-2xl border bg-white p-4">
         <div class="font-semibold">Donnerstag</div>
-        <div class="text-sm text-gray-600">19:30 – 21:30 · Sporthalle Kaarst (Beispiel)</div>
+        <div class="text-sm text-gray-600">20:00 – 22:00 · Pestalozzistraße 3a, 41564 Kaarst</div>
       </div>
     </div>
   </section>
@@ -135,16 +135,15 @@
 
   <script>
     // === Inhalte in JSON pflegen – kein Build-Tool nötig ===
-    const NEWS_SETTINGS = { SHOW_ONLY_LATEST: true, RETENTION_DAYS: 14 };
+    const NEWS_SETTINGS = { SHOW_ONLY_LATEST: false, RETENTION_DAYS: 14 };
     const SITE = {
       news: [
-        { date: "2025-09-18", title: "Saisonstart gelungen!", text: "3:1 gegen SV Beispiel – starke Teamleistung." },
-        { date: "2025-08-30", title: "Neues Trikot vorgestellt", text: "Danke an unseren Sponsor Muster AG." }
+        { date: "2025-10-25", title: "Eindeutiger Sieg gegen DJK Kleinenbroich!", text: "3:0 gegen den DJK – starke Teamleistung." },
+        { date: "2025-10-25", title: "Comeback einer Legende!", text: "Unser lang verletzter Spieler David Salai feierte sein Coemback!" }
       ],
       schedule: [
         { date: "2025-11-02", opponent: "tbd", place: "Kaarst", time: "", info: "Ligaspiel" },
-        { date: "2025-10-31", opponent: "TSV Beispiel", place: "Heim (Sporthalle Nord)", time: "19:30", info: "Liga – Spieltag 1" },
-        { date: "2025-11-14", opponent: "SC Demo", place: "Auswärts (Sportzentrum Süd)", time: "18:00", info: "Liga – Spieltag 2" }
+        { date: "2025-11-02", opponent: "Eintracht Spontent IV", place: "Pestalozzistraße 3a, 41564 Kaarst", time: "14:30", info: "Liga – Spieltag 5" }
       ],
       team: [
         { name: "Alex", role: "Zuspiel", number: 2 },
