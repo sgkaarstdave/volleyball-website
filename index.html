@@ -7,30 +7,24 @@
     <meta name="description" content="SG Kaarst Volleyball – Herren, Damen & Mixed. News, Spiele, Training & Probetraining." />
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
     <style>
-      html { scroll-behavior:smooth }
-      .container { max-width: 1100px }
+  /* ...dein bestehendes CSS... */
 
-      /* Hero Hintergrund: nimmt img/hero.jpg wenn vorhanden, sonst Unsplash */
-      .hero-bg {
-        background-image: url('img/hero.jpg'), url('https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=2000&q=80');
-        background-size: cover; background-position: center;
-      }
+  /* Abschnitt-Akzent (blauer Balken unter Überschrift) */
+  .accent { width:120px; height:8px; border-radius:9999px;
+    background: linear-gradient(90deg,#1d4ed8,#3b82f6,#60a5fa);
+    box-shadow: 0 6px 18px rgba(59,130,246,.35); margin: 6px 0 18px;
+  }
+  /* Full-width Trenner zwischen Sektionen */
+  .stripe { height:10px; background:
+    linear-gradient(90deg,#dbeafe,#60a5fa 30%,#1d4ed8 60%, #dbeafe);
+    opacity:.9;
+  }
 
-      /* kleine Animations-Helpers */
-      @keyframes fadeUp { from{opacity:0; transform:translateY(14px)} to{opacity:1; transform:none} }
-      .fade-up { animation: fadeUp .6s ease both }
-      .delay-1{animation-delay:.08s}.delay-2{animation-delay:.16s}.delay-3{animation-delay:.24s}.delay-4{animation-delay:.32s}
+  /* Scroll-Reveal (sanfter Fade + Lift) */
+  .reveal { opacity:0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in { opacity:1; transform:none; }
+</style>
 
-      /* hübsche blaue Gradient-Karte */
-      .blue-card {
-        background: linear-gradient(135deg, #eaf2ff 0%, #dbeafe 40%, #c7d2fe 100%);
-      }
-      .stat-card {
-        background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
-        color: #fff;
-        box-shadow: 0 10px 30px rgba(37,99,235,.25);
-      }
-    </style>
   </head>
   <body class="bg-gray-50 text-gray-900">
 
@@ -43,8 +37,20 @@
         </a>
         <nav class="hidden md:flex gap-6 text-sm">
           <a href="#news" class="hover:text-blue-700">News</a>
+          <h2 class="text-2xl font-bold">News</h2>
+          <div class="accent"></div>
+          <div class="stripe"></div>
+
           <a href="#termine" class="hover:text-blue-700">Termine</a>
+          <h2 class="text-2xl font-bold">Termine</h2>
+          <div class="accent"></div>
+          <div class="stripe"></div>
+
           <a href="#teams" class="hover:text-blue-700">Teams</a>
+          <h2 class="text-2xl font-bold">Einblicke in die Teams</h2>
+          <div class="accent"></div>
+          <div class="stripe"></div>
+
           <a href="team.html" class="hover:text-blue-700">Kader</a>
           <a href="#training" class="hover:text-blue-700">Probetraining</a>
         </nav>
