@@ -9,6 +9,10 @@
     <style>
       html { scroll-behavior: smooth }
       .container { max-width: 1100px }
+      .hero-bg {
+        background-image:url('https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=2000&q=80');
+        background-size:cover; background-position:center;
+      }
     </style>
   </head>
   <body class="bg-gray-50 text-gray-900">
@@ -26,26 +30,49 @@
           <a href="team.html" class="hover:text-blue-700">Team</a>
           <a href="#training" class="hover:text-blue-700">Training & Probetraining</a>
         </nav>
-        <a href="#training" class="md:hidden inline-flex items-center gap-2 rounded-xl border border-blue-200 px-3 py-1 text-sm">
-          Kontakt
-        </a>
+        <a href="#training" class="md:hidden inline-flex items-center gap-2 rounded-xl border border-blue-200 px-3 py-1 text-sm">Kontakt</a>
       </div>
     </header>
 
-    <!-- HERO -->
-    <section id="top" class="relative">
-      <div class="container mx-auto px-4 py-16 text-center">
+    <!-- HERO mit Hintergrundfoto -->
+    <section id="top" class="relative hero-bg">
+      <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/50"></div>
+      <div class="container mx-auto px-4 py-20 md:py-28 relative text-center text-white">
         <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">
           Schnell. Präzise. – SG Kaarst Volleyball
         </h1>
-        <p class="mt-3 text-lg text-gray-700">
+        <p class="mt-3 text-lg text-blue-100">
           Wir sind die Herrenmannschaft der SG Kaarst. Spielpläne, Ergebnisse und alle Infos rund um unser Team.
         </p>
         <div class="mt-6 flex items-center justify-center gap-3">
           <a href="#termine" class="rounded-xl bg-blue-600 hover:bg-blue-700 text-white px-5 py-3">Nächste Spiele</a>
-          <a href="team.html" class="rounded-xl border border-blue-200 px-5 py-3">Team-Seite</a>
+          <a href="team.html" class="rounded-xl border border-white/50 px-5 py-3">Team-Seite</a>
         </div>
       </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="bg-white border-y">
+      <div class="container mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+        <div class="rounded-2xl border p-6">
+          <div class="text-4xl font-extrabold text-blue-700" id="stat-members">–</div>
+          <div class="text-sm text-gray-600 mt-1">Mitglieder</div>
+        </div>
+        <div class="rounded-2xl border p-6">
+          <div class="text-4xl font-extrabold text-blue-700" id="stat-teams">–</div>
+          <div class="text-sm text-gray-600 mt-1">Teams</div>
+        </div>
+        <div class="rounded-2xl border p-6">
+          <div class="text-4xl font-extrabold text-blue-700" id="stat-train">–</div>
+          <div class="text-sm text-gray-600 mt-1">Trainings pro Woche</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="container mx-auto px-4 py-12">
+      <h2 class="text-2xl font-bold">Einblicke</h2>
+      <div id="gallery" class="mt-4 grid grid-cols-2 md:grid-cols-3 gap-3"></div>
     </section>
 
     <!-- NEWS -->
@@ -55,32 +82,31 @@
     </section>
 
     <!-- TERMINE -->
-   <section id="schedule-section" class="py-16 bg-gray-50">
-  <div class="max-w-5xl mx-auto px-6">
-    <h2 class="text-2xl font-semibold mb-6">Termine</h2>
-    <div class="overflow-x-auto rounded-2xl bg-white shadow-sm">
-      <table class="w-full text-left text-sm">
-        <thead class="bg-blue-50">
-          <tr>
-            <th class="p-3">Datum</th>
-            <th class="p-3">Gegner</th>
-            <th class="p-3">Ort</th>
-            <th class="p-3">Anpfiff</th>
-            <th class="p-3">Info</th>
-          </tr>
-        </thead>
-        <tbody id="schedule"></tbody>
-      </table>
-    </div>
-  </div>
-</section>
+    <section id="termine" class="bg-white border-y">
+      <div class="container mx-auto px-4 py-12">
+        <h2 class="text-2xl font-bold">Termine</h2>
+        <div class="overflow-x-auto mt-4 rounded-2xl border bg-gray-50">
+          <table class="min-w-full text-sm">
+            <thead class="bg-gray-100 text-gray-600">
+              <tr>
+                <th class="text-left p-3">Datum</th>
+                <th class="text-left p-3">Gegner</th>
+                <th class="text-left p-3">Ort</th>
+                <th class="text-left p-3">Anpfiff</th>
+                <th class="text-left p-3">Info</th>
+              </tr>
+            </thead>
+            <tbody id="schedule" class="divide-y"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
 
-
-    <!-- TRAINING & PROBETRAINING -->
+    <!-- TRAINING & PROBE -->
     <section id="training" class="container mx-auto px-4 py-12">
       <h2 class="text-2xl font-bold mb-6">Training & Probetraining</h2>
       <div class="flex flex-col md:flex-row md:items-start gap-8">
-        <!-- Trainingszeiten -->
+        <!-- Zeiten -->
         <div class="md:w-1/2 space-y-4">
           <div>
             <h3 class="font-semibold text-lg">Trainingszeiten</h3>
@@ -98,7 +124,7 @@
           </div>
         </div>
 
-        <!-- Formular (Backend später finalisieren) -->
+        <!-- Formular (Demo, Backend später) -->
         <form id="tryout-form" action="#" method="POST" class="md:w-1/2 space-y-3 rounded-2xl border bg-white p-4">
           <h3 class="font-semibold text-lg">Probetraining anfragen</h3>
           <p class="text-sm text-gray-600">Du willst bei uns mittrainieren? Schreib uns direkt hier – wir melden uns.</p>
@@ -141,9 +167,8 @@
 
           <div id="formAlert" class="hidden text-sm mt-2"></div>
 
-          <button type="button" id="fakeSubmit" class="rounded-xl bg-blue-600 hover:bg-blue-700 text-white px-5 py-2">
-            Absenden
-          </button>
+          <!-- nur Demo -->
+          <button type="button" id="fakeSubmit" class="rounded-xl bg-blue-600 hover:bg-blue-700 text-white px-5 py-2">Absenden</button>
           <p class="text-xs text-gray-500">Hinweis: Versand wird am Ende finalisiert. Aktuell Demo-Modus.</p>
         </form>
       </div>
@@ -158,7 +183,6 @@
       © <span id="year"></span> SG Kaarst – Made with ❤️
     </footer>
 
-    <!-- Deine App-Logik -->
-    <script src="assets/js/main.js?v=2"></script>
+    <script src="assets/js/main.js?v=3"></script>
   </body>
 </html>
