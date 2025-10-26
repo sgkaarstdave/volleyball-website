@@ -153,100 +153,70 @@
     </footer>
 
     <!-- SCRIPT -->
-    <script>
-      const SITE = {
-        news: [
-          {
-            date: "2025-10-25",
-            title: "Eindeutiger Sieg gegen DJK Kleinenbroich!",
-            text: "3:0 gegen den DJK – starke Teamleistung.",
-          },
-          {
-            date: "2025-10-25",
-            title: "Comeback einer Legende!",
-            text: "Unser lang verletzter Spieler David Salai feierte sein Comeback!",
-          },
-        ],
-        schedule: [
-          {
-            date: "2025-11-02",
-            opponent: "Eintracht Spontent IV",
-            place: "Pestalozzistraße 3a, 41564 Kaarst",
-            time: "14:30",
-            info: "Liga – Spieltag 5",
-          },
-        ],
-      };
+   <script>
+  const form = document.getElementById("tryout-form");
+  const skill = document.getElementById("skill");
+  const teamDetails = document.getElementById("team-details");
+  const formAlert = document.getElementById("formAlert");
+  const submitBtn = form?.querySelector('button[type="submit"]');
 
-      // News rendern
-      const newsContainer = document.getElementById("news-container");
-      SITE.news.forEach((n) => {
-        const el = document.createElement("div");
-        el.className = "bg-white rounded-xl shadow p-4 border-l-4 border-blue-500";
-        el.innerHTML = `<h4 class="font-semibold">${n.title}</h4>
-          <p class="text-sm text-gray-600">${n.text}</p>
-          <p class="text-xs text-gray-400 mt-1">${n.date}</p>`;
-        newsContainer.appendChild(el);
-      });
+  if (skill) {
+    skill.addEventListener("change", () => {
+      const show = skill.value === "Ich spiele bereits im Team";
+      teamDetails.classList.toggle("hidden", !show);
+      form.querySelector('[name="current_team"]').required = show;
+      form.querySelector('[name="league"]').required = show;
+    });
+  }
 
-      // Termine rendern
-      const scheduleContainer = document.getElementById("schedule-container");
-      SITE.schedule.forEach((s) => {
-        const el = document.createElement("div");
-        el.className = "border rounded-xl p-4 bg-blue-50";
-        el.innerHTML = `<strong>${s.date}</strong> – ${s.opponent}<br>
-        <span class="text-sm text-gray-600">${s.info}</span><br>
-        <span class="text-xs">${s.place}, ${s.time} Uhr</span>`;
-        scheduleContainer.appendChild(el);
-      });
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      formAlert.classList.add("hidden");
 
-      // Probetraining Formular
-      const form = document.getElementById("tryout-form");
-      const skill = document.getElementById("skill");
-      const teamDetails = document.getElementById("team-details");
-      const formAlert = document.getElementById("formAlert");
-
-      if (form && skill) {
-        skill.addEventListener("change", () => {
-          teamDetails.classList.toggle(
-            "hidden",
-            skill.value !== "Ich spiele bereits im Team"
-          );
-        });
-
-        form.addEventListener("submit", async (e) => {
-          e.preventDefault();
-
-          const token = form.querySelector('input[name="h-captcha-response"]')?.value;
-          if (!token) {
-            formAlert.textContent = 'Bitte löse das Captcha, bevor du absendest.';
-            formAlert.className = 'text-red-600 text-sm mt-2';
-            formAlert.classList.remove('hidden');
-            return;
-          }
-
-          const data = new FormData(form);
-          const res = await fetch(form.action, {
-            method: form.method,
-            body: data,
-            headers: { Accept: "application/json" },
-          });
-
-          if (res.ok) {
-            form.reset();
-            teamDetails.classList.add("hidden");
-            formAlert.textContent = "Danke! Deine Anfrage wurde gesendet ✅";
-            formAlert.className = "text-green-700 text-sm mt-2";
-            formAlert.classList.remove("hidden");
-          } else {
-            formAlert.textContent =
-              "Senden fehlgeschlagen. Bitte probiere es später erneut oder schreibe an kontakt@sg-kaarst.de.";
-            formAlert.className = "text-red-600 text-sm mt-2";
-            formAlert.classList.remove("hidden");
-          }
-        });
+      // ✅ WICHTIG: textarea statt input!
+      const token = form.querySelector('textarea[name="h-captcha-response"]')?.value;
+      if (!token) {
+        formAlert.textContent = "Bitte löse das Captcha, bevor du absendest.";
+        formAlert.className = "text-red-600 text-sm mt-2";
+        formAlert.classList.remove("hidden");
+        return;
       }
-    </script>
+
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Sende..."; }
+
+      try {
+        const res = await fetch(form.action, {
+          method: form.method,
+          body: new FormData(form),
+          headers: { Accept: "application/json" },
+        });
+
+        let payload = null, text = "";
+        try { payload = await res.json(); } catch { try { text = await res.text(); } catch {} }
+
+        if (res.ok) {
+          form.reset();
+          teamDetails.classList.add("hidden");
+          formAlert.textContent = "Danke! Deine Anfrage wurde gesendet ✅";
+          formAlert.className = "text-green-700 text-sm mt-2";
+          formAlert.classList.remove("hidden");
+        } else {
+          const msg = payload?.message || (payload?.errors ? payload.errors.map(e => e.message).join(", ") : "") || text || "Fehler beim Senden.";
+          formAlert.textContent = msg;
+          formAlert.className = "text-red-600 text-sm mt-2";
+          formAlert.classList.remove("hidden");
+        }
+      } catch (err) {
+        formAlert.textContent = "Netzwerkfehler. Bitte später erneut versuchen.";
+        formAlert.className = "text-red-600 text-sm mt-2";
+        formAlert.classList.remove("hidden");
+      } finally {
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = "Absenden"; }
+      }
+    });
+  }
+</script>
 
     <!-- Web3Forms hCaptcha Script -->
     <script src="https://web3forms.com/client/script.js" async defer></script>
