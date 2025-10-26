@@ -1,0 +1,29 @@
+{
+  "name": "Damen",
+  "hero": "img/teams/damen-hero.jpg",
+  "intro": "Unser Damen-Team – dynamisch & fokussiert. Kader nach Positionen.",
+  "positions": [
+    { "title": "Zuspiel",
+      "players": [
+        { "nr": 4, "name": "Lea König", "height": "1,78 m", "birth": "2001-02-11", "img": "https://placehold.co/400x500?text=Spielerin" }
+      ]
+    },
+    { "title": "Mittelblock",
+      "players": [
+        { "nr": 11, "name": "Mara Fischer",  "height": "1,83 m", "birth": "1999-06-04", "img": "https://placehold.co/400x500?text=Spielerin" },
+        { "nr": 9,  "name": "Sophie Arnold", "height": "1,80 m", "birth": "2003-10-28", "img": "https://placehold.co/400x500?text=Spielerin" }
+      ]
+    },
+    { "title": "Außen/Diagonal",
+      "players": [
+        { "nr": 6, "name": "Clara Schulz",  "height": "1,76 m", "birth": "2002-07-07", "img": "https://placehold.co/400x500?text=Spielerin" },
+        { "nr": 5, "name": "Nina Wagner",   "height": "1,74 m", "birth": "2004-12-19", "img": "https://placehold.co/400x500?text=Spielerin" }
+      ]
+    },
+    { "title": "Libera",
+      "players": [
+        { "nr": 1, "name": "Eva Brandt",    "height": "1,68 m", "birth": "2000-04-14", "img": "https://placehold.co/400x500?text=Spielerin" }
+      ]
+    }
+  ]
+}
