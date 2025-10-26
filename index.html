@@ -13,6 +13,21 @@
     />
 
     <style>
+       /* Navigation Buttons */
+  .nav-btn {
+    @apply px-4 py-2 rounded-full text-sm font-medium text-gray-700 border border-gray-200
+           transition-colors duration-200;
+    background-color: #f9fafb;
+  }
+
+  .nav-btn:hover {
+    @apply bg-blue-600 text-white border-blue-600 shadow-sm;
+  }
+
+  .nav-btn:active {
+    @apply bg-blue-700 text-white;
+  }
+      
       html { scroll-behavior: smooth }
       .container { max-width: 1100px }
 
@@ -57,12 +72,13 @@
       </a>
 
       <!-- Desktop-Navigation -->
-      <nav class="hidden md:flex items-center gap-6 text-sm whitespace-nowrap">
-        <a href="#news" class="hover:text-blue-700">News</a>
-        <a href="#termine" class="hover:text-blue-700">Termine</a>
-        <a href="#teams" class="hover:text-blue-700">Teams</a>
-        <a href="#training" class="hover:text-blue-700">Probetraining</a>
-      </nav>
+     <nav class="hidden md:flex items-center gap-3 whitespace-nowrap">
+  <a href="#news" class="nav-btn">News</a>
+  <a href="#termine" class="nav-btn">Termine</a>
+  <a href="#teams" class="nav-btn">Teams</a>
+  <a href="#training" class="nav-btn">Probetraining</a>
+</nav>
+
 
       <!-- Mobile Menu Button -->
       <button id="menu-toggle"
