@@ -43,3 +43,7 @@ QA-Daten liegen ausschließlich im getrennten Browser-Testspeicher, nicht in ein
 - Nach Ausführung von 004_public_read_only.sql am echten Projekt geprüft: öffentliches Lese-RPC HTTP 200, keine Account-/Owner-IDs, Tokens, privaten Tracking-Archive oder gelöschten Einträge in der Projektion. Direkte anonyme Zugriffe auf rallyboard_matches, rallyboard_events und rallyboard_admins weiterhin HTTP 401. Anonymer Aufruf der schreibenden Sync-Funktion weiterhin HTTP 401.
 - Vereinslogo unverändert aus der bereitgestellten PNG-Datei übernommen. Oberfläche, Manifest und SVG-App-Symbol auf Blau/Weiß umgestellt.
 - Gesten, Richtungsstatistiken und automatische Rotation bleiben wie mit dem Benutzer besprochen zurückgestellt. Das schnelle Spieler-/Aktionsbutton-Verfahren bleibt erhalten.
+
+- Veröffentlichte öffentliche Oberfläche ohne Login im Browser geprüft: Team/Kader mit eingeklappter Admin-Anmeldung, Spielplan ohne Start-/Ändern-/Löschen-/Import-Kontrollen, schreibgeschützter Spielstand und echte Cloud-Auswertung (58 Kills / 33 erfasste Fehler). Keine privaten QA-Daten sichtbar.
+- Blau-weiße Handyansicht bei 390 × 844 ohne seitlichen Seitenüberlauf, alle fünf Navigationspunkte sichtbar, keine Konsolenfehler. Kein echter iOS-Gerätetest und kein neuer authentifizierter Browser-Schreibtest.
+- 38 Tests nach zusätzlicher Prüfung: fehlende historische Asse/Blocks auch im öffentlichen Spielstand als fehlend gekennzeichnet, beobachtete Live-Nullwerte bleiben Null.
