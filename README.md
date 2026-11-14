@@ -9,3 +9,5 @@ Netlify mit GitHub-Repo verbinden, Publish Directory: Repository-Root. Keine Bui
 
 ## Datenschutz
 Das Repository ist aktuell öffentlich. Keine Zugangsdaten oder Supabase Service-Role-Keys einchecken.
+
+GitHub Pages deployment refresh: 2026-11-14.
