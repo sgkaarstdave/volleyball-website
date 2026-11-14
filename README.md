@@ -22,3 +22,6 @@ Tatsächlicher authentifizierter Ende-zu-Ende-Abgleich und RLS unter mehreren Be
 
 ## Weitere Grenzen
 Kein React/Vite-Umbau: die App bleibt ohne Paketinstallation betreibbar. Echte Erfolgsquoten benötigen vollständig erfasste Versuche. Saisonfilter, Rotationsstatistik, Einsatzzeiten, Aufschlagserien, Entwicklungsvergleiche und automatischer WVV-Spielplanimport fehlen noch. Spielbericht ist ein strukturierter JSON-Export. Keine echte iPhone-/Safari-Prüfung; das Layout wurde mit iPhone-Abmessungen im Browser geprüft. Vollständiger Offline-Start auf iOS bleibt am Gerät zu testen.
+
+## Spieltage löschen und wiederherstellen
+Unter Spieltage hat jede Partie einen Löschen-Button mit Bestätigung. Die App setzt ein `deletedAt`-Datum, statt die Partie aus der Datenbank zu entfernen. Papierkorb und Wiederherstellung befinden sich auf derselben Seite. Gelöschte Spiele zählen weder zu Statistiken noch zu Berichten und werden nicht im Live-Modus geöffnet. JSON-Backups enthalten sie weiterhin. Die bestehende revisionsgeprüfte Cloud-Funktion synchronisiert die Löschmarkierung und ihre Rücknahme; keine zusätzliche SQL-Migration erforderlich. Konflikte mit offline bearbeiteten Versionen werden weiterhin gemeldet, statt still Änderungen zu überschreiben. Es gibt keine endgültige Löschung.

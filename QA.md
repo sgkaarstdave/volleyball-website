@@ -21,3 +21,6 @@ QA-Daten liegen ausschließlich im getrennten Browser-Testspeicher, nicht in ein
 - Live-Projekt nach Benutzereinrichtung geprüft: rallyboard_matches, rallyboard_events und rallyboard_admins sind vorhanden und verweigern anonyme Lesezugriffe (HTTP 401 / 42501).
 - Authentifizierter Ende-zu-Ende-Abgleich noch nicht geprüft: Benutzer muss sich selbst in der App anmelden. Keine Passwörter angefordert oder gespeichert.
 - Zehn Tests bestanden nach zusätzlichem Regressionstest: heruntergeladene Spieltage und gespeicherter Sync-Vergleichsstand teilen keine veränderlichen Objekte.
+
+## Spieltag-Papierkorb
+- 14 automatische Tests bestanden. Zusätzliche Fälle: laufenden Spieltag entfernen, Neuladen, historische Aggregate ohne erneuten Import im Papierkorb behalten, sämtliche Originaldaten wiederherstellen, Lösch-/Wiederherstellungsmarkierungen im Cloud-Abgleich und Konflikt mit älteren Offline-Änderungen.
