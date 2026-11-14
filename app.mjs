@@ -1,5 +1,5 @@
-import {signedIn,account,login,logout,exchange,applyExchange,pending} from './cloud.mjs?v=5';
-import {roster,positions,categories,defaultWeights,emptySet,migrate,totals,record,undo} from './model.mjs?v=5';
+import {signedIn,account,login,logout,exchange,applyExchange,pending} from './cloud.mjs?v=6';
+import {roster,positions,categories,defaultWeights,emptySet,migrate,totals,record,undo} from './model.mjs?v=6';
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let syncBusy=false,syncError='',syncTimer;
 let db,storage,tab='live',busy=false,filter='all',setFilter='all';
@@ -34,4 +34,5 @@ if('serviceWorker'in navigator){const controlled=!!navigator.serviceWorker.contr
 
 function cloudForm(){return signedIn()?'<p>Angemeldet: '+esc(account())+'</p><button id="logout" class="wide">Abmelden</button>':'<form id="login"><label for="email">Admin-E-Mail</label><input id="email" type="email" autocomplete="username" required><label for="password">Passwort</label><input id="password" type="password" autocomplete="current-password" required><button class="primary wide">Als Admin anmelden</button></form><p>Das Passwort wird nicht gespeichert. Die Anmeldung gilt für dieses App-Fenster.</p>'}
 function scheduleSync(){clearTimeout(syncTimer);if(signedIn()&&navigator.onLine)syncTimer=setTimeout(()=>syncCloud(false),1800)}
-async function syncCloud(manual=false){if(syncBusy)return;if(!signedIn()){if(manual)toast('Bitte unter Team als Admin anmelden');return}if(!navigator.onLine){if(manual)toast('Offline · Änderungen bleiben lokal gespeichert');return}syncBusy=true;syncError='';state();try{const result=await exchange(structuredClone(db));while(busy)await new Promise(r=>setTimeout(r,30));const previous=structuredClone(db);busy=true;try{db=migrate(applyExchange(db,result));await write(db);channel?.postMessage('changed')}catch(e){db=previous;throw e}finally{busy=false}if(manual)toast('Cloud synchronisiert');if(tab==='settings')render();}catch(e){syncError=e.message;if(manual)toast(e.message)}finally{syncBusy=false;state();if(!syncError&&pending(db))scheduleSync()}}
+async function syncCloud(manual=false){if(syncBusy)return;if(!signedIn()){if(manual)toast('Bitte unter Team als Admin anmelden');return}if(!navigator.onLine){if(manual)toast('Offline · Änderungen bleiben lokal gespeichert');return}syncBusy=true;syncError='';state();try{const result=await exchange(structuredClone(db));while(busy)await new Promise(r=>setTimeout(r,30));const previous=structuredClone(db);busy=true;try{db=migrate(applyExchange(db,result));await write(db);channel?.postMessage('changed')}catch(e){db=previous;throw e}finally{busy=false}if(manual)toast('Cloud synchronisiert');render();}catch(e){syncError=e.message;if(manual)toast(e.message)}finally{syncBusy=false;state();if(!syncError&&pending(db))scheduleSync()}}
+
