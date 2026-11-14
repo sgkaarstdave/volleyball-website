@@ -1,0 +1,488 @@
+// Verified WVV snapshot; refresh via official CSV export.
+export const snapshot={
+  "season": "2026/27",
+  "league": "Bezirksklasse 16 Männer",
+  "checkedAt": "2026-11-14",
+  "source": "https://ergebnisdienst.volleyball.nrw/cms/home/erwachsene/bezirksklassen/bezirksklassen_maenner/bezirksklasse_16_maenner.xhtml?LeaguePresenter.matchSeriesId=116023057&LeaguePresenter.view=matches&playingScheduleMode=full",
+  "tableSource": "https://ergebnisdienst.volleyball.nrw/cms/home/erwachsene/bezirksklassen/bezirksklassen_maenner/bezirksklasse_16_maenner.xhtml?LeaguePresenter.view=resultTable&LeaguePresenter.matchSeriesId=116023057",
+  "fixtures": [
+    {
+      "key": "wvv-116023057-2",
+      "number": 2,
+      "matchId": "120748437",
+      "date": "2026-09-26",
+      "time": "16:15",
+      "timeMayBeDelayed": false,
+      "season": "2026/27",
+      "league": "Bezirksklasse 16 Männer",
+      "team1": "SG Kaarst",
+      "team2": "Osterather TV II",
+      "opponent": "Osterather TV II",
+      "host": "TG Neuss",
+      "isHost": false,
+      "venue": "Quirinus Gymnasium (41460 Neuss)",
+      "address": "Quirinus Gymnasium, Sternstr. 49, 41460 Neuss",
+      "referee": "TG Neuss",
+      "result": {
+        "own": 3,
+        "opponent": 0,
+        "setScores": [
+          [
+            25,
+            13
+          ],
+          [
+            25,
+            9
+          ],
+          [
+            25,
+            21
+          ]
+        ]
+      },
+      "source": "https://ergebnisdienst.volleyball.nrw/cms/home/erwachsene/bezirksklassen/bezirksklassen_maenner/bezirksklasse_16_maenner.xhtml?LeaguePresenter.matchSeriesId=116023057&LeaguePresenter.view=matches&playingScheduleMode=full",
+      "checkedAt": "2026-11-14"
+    },
+    {
+      "key": "wvv-116023057-9",
+      "number": 9,
+      "matchId": "120748446",
+      "date": "2026-10-18",
+      "time": "11:00",
+      "timeMayBeDelayed": false,
+      "season": "2026/27",
+      "league": "Bezirksklasse 16 Männer",
+      "team1": "SG Kaarst",
+      "team2": "DJK Kleinenbroich",
+      "opponent": "DJK Kleinenbroich",
+      "host": "SG Kaarst",
+      "isHost": true,
+      "venue": "Gemeinschaftsgrundschule Stakerseite (41564 Kaarst)",
+      "address": "Gemeinschaftsgrundschule Stakerseite, Pestalozzistr. 3, 41564 Kaarst",
+      "referee": null,
+      "result": {
+        "own": 3,
+        "opponent": 0,
+        "setScores": [
+          [
+            25,
+            14
+          ],
+          [
+            25,
+            15
+          ],
+          [
+            28,
+            26
+          ]
+        ]
+      },
+      "source": "https://ergebnisdienst.volleyball.nrw/cms/home/erwachsene/bezirksklassen/bezirksklassen_maenner/bezirksklasse_16_maenner.xhtml?LeaguePresenter.matchSeriesId=116023057&LeaguePresenter.view=matches&playingScheduleMode=full",
+      "checkedAt": "2026-11-14"
+    },
+    {
+      "key": "wvv-116023057-20",
+      "number": 20,
+      "matchId": "120748459",
+      "date": "2026-10-31",
+      "time": "15:45",
+      "timeMayBeDelayed": false,
+      "season": "2026/27",
+      "league": "Bezirksklasse 16 Männer",
+      "team1": "SG Kaarst",
+      "team2": "TG Neuss II",
+      "opponent": "TG Neuss II",
+      "host": "DJK Tusa 06 Düsseldorf V",
+      "isHost": false,
+      "venue": "Schloß-Gymnasium Benrath (40597 Düsseldorf)",
+      "address": "Schloß-Gymnasium Benrath, Benrodestr. 132, 40597 Düsseldorf",
+      "referee": "DJK Tusa 06 Düsseldorf V",
+      "result": {
+        "own": 3,
+        "opponent": 0,
+        "setScores": [
+          [
+            25,
+            10
+          ],
+          [
+            25,
+            17
+          ],
+          [
+            25,
+            14
+          ]
+        ]
+      },
+      "source": "https://ergebnisdienst.volleyball.nrw/cms/home/erwachsene/bezirksklassen/bezirksklassen_maenner/bezirksklasse_16_maenner.xhtml?LeaguePresenter.matchSeriesId=116023057&LeaguePresenter.view=matches&playingScheduleMode=full",
+      "checkedAt": "2026-11-14"
+    },
+    {
+      "key": "wvv-116023057-23",
+      "number": 23,
+      "matchId": "120748463",
+      "date": "2026-11-14",
+      "time": "14:00",
+      "timeMayBeDelayed": false,
+      "season": "2026/27",
+      "league": "Bezirksklasse 16 Männer",
+      "team1": "ART Düsseldorf VI",
+      "team2": "SG Kaarst",
+      "opponent": "ART Düsseldorf VI",
+      "host": "ART Düsseldorf VI",
+      "isHost": false,
+      "venue": "Carl-Benz-Realschule (40547 Düsseldorf)",
+      "address": "Carl-Benz-Realschule, Lewitstr. 2, 40547 Düsseldorf",
+      "referee": "TG Neuss",
+      "result": {
+        "own": 3,
+        "opponent": 0,
+        "setScores": [
+          [
+            25,
+            16
+          ],
+          [
+            25,
+            17
+          ],
+          [
+            25,
+            16
+          ]
+        ]
+      },
+      "source": "https://ergebnisdienst.volleyball.nrw/cms/home/erwachsene/bezirksklassen/bezirksklassen_maenner/bezirksklasse_16_maenner.xhtml?LeaguePresenter.matchSeriesId=116023057&LeaguePresenter.view=matches&playingScheduleMode=full",
+      "checkedAt": "2026-11-14"
+    },
+    {
+      "key": "wvv-116023057-26",
+      "number": 26,
+      "matchId": "120748467",
+      "date": "2026-11-21",
+      "time": "18:15",
+      "timeMayBeDelayed": true,
+      "season": "2026/27",
+      "league": "Bezirksklasse 16 Männer",
+      "team1": "DJK Tusa 06 Düsseldorf V",
+      "team2": "SG Kaarst",
+      "opponent": "DJK Tusa 06 Düsseldorf V",
+      "host": "Osterather TV II",
+      "isHost": false,
+      "venue": "Städtisches Meerbusch-Gymnasium (40670 Meerbusch)",
+      "address": "Städtisches Meerbusch-Gymnasium, Mönkesweg 58, 40670 Meerbusch",
+      "referee": "Osterather TV II",
+      "result": null,
+      "source": "https://ergebnisdienst.volleyball.nrw/cms/home/erwachsene/bezirksklassen/bezirksklassen_maenner/bezirksklasse_16_maenner.xhtml?LeaguePresenter.matchSeriesId=116023057&LeaguePresenter.view=matches&playingScheduleMode=full",
+      "checkedAt": "2026-11-14"
+    },
+    {
+      "key": "wvv-116023057-13",
+      "number": 13,
+      "matchId": "120748451",
+      "date": "2026-11-25",
+      "time": "19:00",
+      "timeMayBeDelayed": false,
+      "season": "2026/27",
+      "league": "Bezirksklasse 16 Männer",
+      "team1": "ART Düsseldorf V",
+      "team2": "SG Kaarst",
+      "opponent": "ART Düsseldorf V",
+      "host": "ART Düsseldorf V",
+      "isHost": false,
+      "venue": "Georg-Büchner-Gymnasium (40474 Düsseldorf)",
+      "address": "Georg-Büchner-Gymnasium, Tersteegenstr. 62, 40474 Düsseldorf",
+      "referee": null,
+      "result": null,
+      "source": "https://ergebnisdienst.volleyball.nrw/cms/home/erwachsene/bezirksklassen/bezirksklassen_maenner/bezirksklasse_16_maenner.xhtml?LeaguePresenter.matchSeriesId=116023057&LeaguePresenter.view=matches&playingScheduleMode=full",
+      "checkedAt": "2026-11-14"
+    },
+    {
+      "key": "wvv-116023057-32",
+      "number": 32,
+      "matchId": "120748474",
+      "date": "2026-11-28",
+      "time": "16:15",
+      "timeMayBeDelayed": true,
+      "season": "2026/27",
+      "league": "Bezirksklasse 16 Männer",
+      "team1": "DJK Tusa 06 Düsseldorf IV",
+      "team2": "SG Kaarst",
+      "opponent": "DJK Tusa 06 Düsseldorf IV",
+      "host": "TG Neuss",
+      "isHost": false,
+      "venue": "Quirinus Gymnasium (41460 Neuss)",
+      "address": "Quirinus Gymnasium, Sternstr. 49, 41460 Neuss",
+      "referee": "TG Neuss",
+      "result": null,
+      "source": "https://ergebnisdienst.volleyball.nrw/cms/home/erwachsene/bezirksklassen/bezirksklassen_maenner/bezirksklasse_16_maenner.xhtml?LeaguePresenter.matchSeriesId=116023057&LeaguePresenter.view=matches&playingScheduleMode=full",
+      "checkedAt": "2026-11-14"
+    },
+    {
+      "key": "wvv-116023057-33",
+      "number": 33,
+      "matchId": "120748476",
+      "date": "2026-12-13",
+      "time": "15:00",
+      "timeMayBeDelayed": false,
+      "season": "2026/27",
+      "league": "Bezirksklasse 16 Männer",
+      "team1": "SG Kaarst",
+      "team2": "TG Neuss",
+      "opponent": "TG Neuss",
+      "host": "SG Kaarst",
+      "isHost": true,
+      "venue": "Gemeinschaftsgrundschule Stakerseite (41564 Kaarst)",
+      "address": "Gemeinschaftsgrundschule Stakerseite, Pestalozzistr. 3, 41564 Kaarst",
+      "referee": "DJK Kleinenbroich",
+      "result": null,
+      "source": "https://ergebnisdienst.volleyball.nrw/cms/home/erwachsene/bezirksklassen/bezirksklassen_maenner/bezirksklasse_16_maenner.xhtml?LeaguePresenter.matchSeriesId=116023057&LeaguePresenter.view=matches&playingScheduleMode=full",
+      "checkedAt": "2026-11-14"
+    },
+    {
+      "key": "wvv-116023057-38",
+      "number": 38,
+      "matchId": "120748482",
+      "date": "2026-12-19",
+      "time": "16:15",
+      "timeMayBeDelayed": true,
+      "season": "2026/27",
+      "league": "Bezirksklasse 16 Männer",
+      "team1": "Osterather TV II",
+      "team2": "SG Kaarst",
+      "opponent": "Osterather TV II",
+      "host": "TG Neuss II",
+      "isHost": false,
+      "venue": "Quirinus Gymnasium (41460 Neuss)",
+      "address": "Quirinus Gymnasium, Sternstr. 49, 41460 Neuss",
+      "referee": "TG Neuss II",
+      "result": null,
+      "source": "https://ergebnisdienst.volleyball.nrw/cms/home/erwachsene/bezirksklassen/bezirksklassen_maenner/bezirksklasse_16_maenner.xhtml?LeaguePresenter.matchSeriesId=116023057&LeaguePresenter.view=matches&playingScheduleMode=full",
+      "checkedAt": "2026-11-14"
+    },
+    {
+      "key": "wvv-116023057-45",
+      "number": 45,
+      "matchId": "120748491",
+      "date": "2027-01-16",
+      "time": "15:00",
+      "timeMayBeDelayed": false,
+      "season": "2026/27",
+      "league": "Bezirksklasse 16 Männer",
+      "team1": "DJK Kleinenbroich",
+      "team2": "SG Kaarst",
+      "opponent": "DJK Kleinenbroich",
+      "host": "DJK Kleinenbroich",
+      "isHost": false,
+      "venue": "Sporthalle Pestalozzistr. (41352 Korschenbroich)",
+      "address": "Sporthalle Pestalozzistr., Pestalozzistr. 19, 41352 Korschenbroich",
+      "referee": "ART Düsseldorf VI",
+      "result": null,
+      "source": "https://ergebnisdienst.volleyball.nrw/cms/home/erwachsene/bezirksklassen/bezirksklassen_maenner/bezirksklasse_16_maenner.xhtml?LeaguePresenter.matchSeriesId=116023057&LeaguePresenter.view=matches&playingScheduleMode=full",
+      "checkedAt": "2026-11-14"
+    },
+    {
+      "key": "wvv-116023057-49",
+      "number": 49,
+      "matchId": "120748496",
+      "date": "2027-01-23",
+      "time": "15:00",
+      "timeMayBeDelayed": false,
+      "season": "2026/27",
+      "league": "Bezirksklasse 16 Männer",
+      "team1": "SG Kaarst",
+      "team2": "ART Düsseldorf V",
+      "opponent": "ART Düsseldorf V",
+      "host": "SG Kaarst",
+      "isHost": true,
+      "venue": "Gemeinschaftsgrundschule Stakerseite (41564 Kaarst)",
+      "address": "Gemeinschaftsgrundschule Stakerseite, Pestalozzistr. 3, 41564 Kaarst",
+      "referee": "TG Neuss II",
+      "result": null,
+      "source": "https://ergebnisdienst.volleyball.nrw/cms/home/erwachsene/bezirksklassen/bezirksklassen_maenner/bezirksklasse_16_maenner.xhtml?LeaguePresenter.matchSeriesId=116023057&LeaguePresenter.view=matches&playingScheduleMode=full",
+      "checkedAt": "2026-11-14"
+    },
+    {
+      "key": "wvv-116023057-54",
+      "number": 54,
+      "matchId": "120748504",
+      "date": "2027-01-30",
+      "time": "14:15",
+      "timeMayBeDelayed": true,
+      "season": "2026/27",
+      "league": "Bezirksklasse 16 Männer",
+      "team1": "TG Neuss II",
+      "team2": "SG Kaarst",
+      "opponent": "TG Neuss II",
+      "host": "ART Düsseldorf V",
+      "isHost": false,
+      "venue": "Georg-Büchner-Gymnasium (40474 Düsseldorf)",
+      "address": "Georg-Büchner-Gymnasium, Tersteegenstr. 62, 40474 Düsseldorf",
+      "referee": "ART Düsseldorf V",
+      "result": null,
+      "source": "https://ergebnisdienst.volleyball.nrw/cms/home/erwachsene/bezirksklassen/bezirksklassen_maenner/bezirksklasse_16_maenner.xhtml?LeaguePresenter.matchSeriesId=116023057&LeaguePresenter.view=matches&playingScheduleMode=full",
+      "checkedAt": "2026-11-14"
+    },
+    {
+      "key": "wvv-116023057-59",
+      "number": 59,
+      "matchId": "120748508",
+      "date": "2027-02-14",
+      "time": "15:00",
+      "timeMayBeDelayed": false,
+      "season": "2026/27",
+      "league": "Bezirksklasse 16 Männer",
+      "team1": "SG Kaarst",
+      "team2": "ART Düsseldorf VI",
+      "opponent": "ART Düsseldorf VI",
+      "host": "SG Kaarst",
+      "isHost": true,
+      "venue": "Gemeinschaftsgrundschule Stakerseite (41564 Kaarst)",
+      "address": "Gemeinschaftsgrundschule Stakerseite, Pestalozzistr. 3, 41564 Kaarst",
+      "referee": "Osterather TV II",
+      "result": null,
+      "source": "https://ergebnisdienst.volleyball.nrw/cms/home/erwachsene/bezirksklassen/bezirksklassen_maenner/bezirksklasse_16_maenner.xhtml?LeaguePresenter.matchSeriesId=116023057&LeaguePresenter.view=matches&playingScheduleMode=full",
+      "checkedAt": "2026-11-14"
+    },
+    {
+      "key": "wvv-116023057-64",
+      "number": 64,
+      "matchId": "120748514",
+      "date": "2027-02-20",
+      "time": "16:15",
+      "timeMayBeDelayed": true,
+      "season": "2026/27",
+      "league": "Bezirksklasse 16 Männer",
+      "team1": "SG Kaarst",
+      "team2": "DJK Tusa 06 Düsseldorf V",
+      "opponent": "DJK Tusa 06 Düsseldorf V",
+      "host": "TG Neuss",
+      "isHost": false,
+      "venue": "Quirinus Gymnasium (41460 Neuss)",
+      "address": "Quirinus Gymnasium, Sternstr. 49, 41460 Neuss",
+      "referee": "TG Neuss",
+      "result": null,
+      "source": "https://ergebnisdienst.volleyball.nrw/cms/home/erwachsene/bezirksklassen/bezirksklassen_maenner/bezirksklasse_16_maenner.xhtml?LeaguePresenter.matchSeriesId=116023057&LeaguePresenter.view=matches&playingScheduleMode=full",
+      "checkedAt": "2026-11-14"
+    },
+    {
+      "key": "wvv-116023057-68",
+      "number": 68,
+      "matchId": "120748519",
+      "date": "2027-03-06",
+      "time": "14:15",
+      "timeMayBeDelayed": true,
+      "season": "2026/27",
+      "league": "Bezirksklasse 16 Männer",
+      "team1": "SG Kaarst",
+      "team2": "DJK Tusa 06 Düsseldorf IV",
+      "opponent": "DJK Tusa 06 Düsseldorf IV",
+      "host": "ART Düsseldorf V",
+      "isHost": false,
+      "venue": "Georg-Büchner-Gymnasium (40474 Düsseldorf)",
+      "address": "Georg-Büchner-Gymnasium, Tersteegenstr. 62, 40474 Düsseldorf",
+      "referee": "ART Düsseldorf V",
+      "result": null,
+      "source": "https://ergebnisdienst.volleyball.nrw/cms/home/erwachsene/bezirksklassen/bezirksklassen_maenner/bezirksklasse_16_maenner.xhtml?LeaguePresenter.matchSeriesId=116023057&LeaguePresenter.view=matches&playingScheduleMode=full",
+      "checkedAt": "2026-11-14"
+    },
+    {
+      "key": "wvv-116023057-69",
+      "number": 69,
+      "matchId": "120748521",
+      "date": "2027-03-20",
+      "time": "15:00",
+      "timeMayBeDelayed": false,
+      "season": "2026/27",
+      "league": "Bezirksklasse 16 Männer",
+      "team1": "TG Neuss",
+      "team2": "SG Kaarst",
+      "opponent": "TG Neuss",
+      "host": "TG Neuss",
+      "isHost": false,
+      "venue": "Quirinus Gymnasium (41460 Neuss)",
+      "address": "Quirinus Gymnasium, Sternstr. 49, 41460 Neuss",
+      "referee": "DJK Tusa 06 Düsseldorf IV",
+      "result": null,
+      "source": "https://ergebnisdienst.volleyball.nrw/cms/home/erwachsene/bezirksklassen/bezirksklassen_maenner/bezirksklasse_16_maenner.xhtml?LeaguePresenter.matchSeriesId=116023057&LeaguePresenter.view=matches&playingScheduleMode=full",
+      "checkedAt": "2026-11-14"
+    }
+  ],
+  "standings": [
+    {
+      "rank": 1,
+      "team": "SG Kaarst",
+      "played": 4,
+      "wins": 4,
+      "sets": "12:0",
+      "points": 12
+    },
+    {
+      "rank": 2,
+      "team": "DJK Tusa 06 Düsseldorf IV",
+      "played": 5,
+      "wins": 4,
+      "sets": "12:3",
+      "points": 12
+    },
+    {
+      "rank": 3,
+      "team": "TG Neuss",
+      "played": 5,
+      "wins": 4,
+      "sets": "13:4",
+      "points": 12
+    },
+    {
+      "rank": 4,
+      "team": "ART Düsseldorf V",
+      "played": 5,
+      "wins": 4,
+      "sets": "12:7",
+      "points": 11
+    },
+    {
+      "rank": 5,
+      "team": "DJK Kleinenbroich",
+      "played": 5,
+      "wins": 3,
+      "sets": "10:6",
+      "points": 9
+    },
+    {
+      "rank": 6,
+      "team": "DJK Tusa 06 Düsseldorf V",
+      "played": 5,
+      "wins": 2,
+      "sets": "10:11",
+      "points": 8
+    },
+    {
+      "rank": 7,
+      "team": "Osterather TV II",
+      "played": 6,
+      "wins": 2,
+      "sets": "7:16",
+      "points": 4
+    },
+    {
+      "rank": 8,
+      "team": "ART Düsseldorf VI",
+      "played": 6,
+      "wins": 0,
+      "sets": "4:18",
+      "points": 1
+    },
+    {
+      "rank": 9,
+      "team": "TG Neuss II",
+      "played": 5,
+      "wins": 0,
+      "sets": "0:15",
+      "points": 0
+    }
+  ]
+};

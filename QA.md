@@ -32,3 +32,7 @@ QA-Daten liegen ausschließlich im getrennten Browser-Testspeicher, nicht in ein
 
 ## Spieltag bearbeiten
 - 20 automatische Tests bestanden. Neue Tests prüfen Gegner-/Datumsänderung an historischen beendeten Spielen bei stabiler ID, identischen Sätzen und Statistiken nach Neuladen sowie unveränderte Daten bei ungültigen Eingaben oder gelöschten Partien.
+
+## Offizieller Spielplan und Teamzentrale
+- 29 automatische Tests bestanden: 16 echte SG-Kaarst-Partien, korrekt ausgerichtete Ergebnisse/Orte/Uhrzeiten, importierte Wiederholungen ohne Duplikate, keine erfundenen Scouting-Sätze, manuelle Zuordnung bestehender Aggregate, Starten geplanter Spiele, Erhalt eigener Änderungen/Papierkorb, Erstabgleich auf zweitem Gerät, Berliner Tagesgrenze, CSV-Validierung und datierte Dashboard-Inhalte.
+- Quellen: offizielle WVV-Spielplanseite mit Staffel-ID 116023057 sowie deren verlinkter CSV-/ICS-Export und die offizielle Tabelle. Stand 14.11.2026: SG Kaarst Platz 1, vier Spiele/vier Siege, 12 Punkte/12:0 Sätze. Nächster Termin 21.11.2026, 18:15 Uhr, DJK Tusa 06 Düsseldorf V; WVV weist auf möglichen späteren Beginn hin.

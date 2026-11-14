@@ -16,7 +16,14 @@ export function updateMatch(d,id,{opponent,date}){
  if(!name||name.length>100)throw Error('Bitte einen Gegnernamen mit 1 bis 100 Zeichen eingeben.');
  const parsed=new Date(String(date)+'T00:00:00Z');
  if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!Number.isFinite(parsed.getTime())||parsed.toISOString().slice(0,10)!==date)throw Error('Bitte ein gültiges Datum auswählen.');
+ if(m.fixtureKey){m.manualOverrides={...m.manualOverrides,opponent:true,date:true};m.seeded=false;}
  m.opponent=name;m.date=date;
+}
+export function startTracking(d,id){
+ const m=d.matches.find(m=>m.id===id&&!m.deletedAt);if(!m)throw Error('Spieltag nicht verfügbar.');
+ if(m.done)throw Error('Dieser Spieltag ist beendet. Vorhandene Statistik über Spieldetails zuordnen.');
+ if(!m.sets.length){if(d.players.length<6)throw Error('Mindestens sechs Spieler erforderlich.');m.sets.push(emptySet(d.players.slice(0,6)));}
+ m.planned=false;m.seeded=false;d.current=m.id;
 }
 export function historical(){
  const kills=[[9,2,3,4,3,0,0,0],[4,2,2,0,3,5,0,0],[3,0,2,3,8,4,1,0]];

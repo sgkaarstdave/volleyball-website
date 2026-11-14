@@ -1,3 +1,4 @@
+import {historical,roster,categories,defaultWeights} from './model.mjs?v=13';
 // Public project configuration; no secret or service-role key belongs here.
 export const PROJECT='https://odghcjkznmxaeqlrvtbs.supabase.co';
 const KEY='sb_publishable_-Rz2O0TkZjres9XKIIwFWg_FLBDff_8';
@@ -14,9 +15,10 @@ export async function login(email,password){email=email.trim();const s=await req
 export async function logout(){try{if(session)await request('/auth/v1/logout',{method:'POST'})}finally{session=null;sessionStorage.removeItem('rallyboard-auth')}}
 const canonical=x=>Array.isArray(x)?x.map(canonical):x&&typeof x==='object'?Object.fromEntries(Object.keys(x).sort().map(k=>[k,canonical(x[k])])):x;
 const same=(a,b)=>JSON.stringify(canonical(a))===JSON.stringify(canonical(b));
+function pristineDefault(m){if(m.id==='historical-2026-11-14')return same(m,historical());if(m.id==='__rallyboard_settings__')return same(m,{id:m.id,players:roster,weights:defaultWeights,order:categories.slice(0,11)});return false}
 export function syncPlan(local,remote,bases={}){
  const map=new Map(local.map(m=>[m.id,m])),pull=[],push=[],next={...bases};
- for(const r of remote){const l=map.get(r.id),base=bases[r.id];if(!l||same(l,r.payload)){pull.push(r);next[r.id]={revision:r.revision,payload:r.payload};continue}if(base&&same(l,base.payload)){pull.push(r);next[r.id]={revision:r.revision,payload:r.payload};continue}if(!base||r.revision!==base.revision)throw Error('Cloud-Konflikt bei '+(l.opponent||'Teameinstellungen')+'. Lokale Daten bleiben erhalten.');}
+ for(const r of remote){const l=map.get(r.id),base=bases[r.id];if(!l||same(l,r.payload)||(!base&&(pristineDefault(l)||(l.seeded===true&&l.fixtureKey&&l.id===l.fixtureKey&&!l.deletedAt&&!l.manualOverrides&&!l.sets.length)))){pull.push(r);next[r.id]={revision:r.revision,payload:r.payload};continue}if(base&&same(l,base.payload)){pull.push(r);next[r.id]={revision:r.revision,payload:r.payload};continue}if(!base||r.revision!==base.revision)throw Error('Cloud-Konflikt bei '+(l.opponent||'Teameinstellungen')+'. Lokale Daten bleiben erhalten.');}
  const pulled=new Set(pull.map(r=>r.id));for(const m of local){if(pulled.has(m.id))continue;const b=bases[m.id];if(!b||!same(m,b.payload))push.push({payload:m,revision:b?.revision||0});}
  return {pull,push,bases:next};
 }

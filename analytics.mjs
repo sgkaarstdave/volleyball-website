@@ -1,4 +1,4 @@
-import {totals,defaultWeights} from './model.mjs?v=12';
+import {totals,defaultWeights} from './model.mjs?v=13';
 export const positive=['Kill','Ass','Blockpunkt','Gute Annahme','Gute Abwehr','Gute Sicherung'];
 export const negative=['Angriffsfehler','Aufschlagfehler','Annahmefehler','Abwehrfehler','Sicherungsfehler','Annahme/Abwehr-Fehler'];
 export const errorLabels=['Angriff','Aufschlag','Annahme','Abwehr','Sicherung','Annahme / Abwehr · historisch'];
@@ -9,7 +9,7 @@ export const seasonLabel=y=>y==='unknown'?'Datum unbekannt':y+'/'+String(Number(
 export function selectMatches(matches,{season='all',matchId='all',setIndex='all'}={}){return matches.filter(m=>!m.deletedAt&&(season==='all'||seasonOf(m.date)===season)&&(matchId==='all'||m.id===matchId)).map(m=>({...m,sets:m.sets.map((s,i)=>({...s,number:i+1})).filter((s,i)=>setIndex==='all'||String(i)===String(setIndex))}));}
 function normalize(actions){const a={};for(const[c,n]of Object.entries(actions||{})){const key=canonicalCategory(c);a[key]=(a[key]||0)+n}return a}
 export function analyze(matches,players=[],weights=defaultWeights){
- const selected=matches.filter(m=>!m.deletedAt),t=totals(selected),sets=selected.flatMap(m=>m.sets.map((s,i)=>({m,s,number:s.number||i+1}))),actions=Object.fromEntries(Object.entries(t.actions).map(([n,a])=>[n,normalize(a)]));
+ const selected=matches.filter(m=>!m.deletedAt&&m.sets.length),t=totals(selected),sets=selected.flatMap(m=>m.sets.map((s,i)=>({m,s,number:s.number||i+1}))),actions=Object.fromEntries(Object.entries(t.actions).map(([n,a])=>[n,normalize(a)]));
  const unknown=normalize(t.teamErrors),assigned={};for(const a of Object.values(actions))for(const[c,n]of Object.entries(a))assigned[c]=(assigned[c]||0)+n;
  const rows=[...new Set([...players,...Object.keys(actions)])].map(name=>{const a=actions[name]||{},original=t.actions[name]||{};return {name,actions:a,kills:a.Kill||0,aces:a.Ass||0,blocks:a.Blockpunkt||0,errors:sum(negative.map(c=>a[c]||0)),points:sum(Object.entries(original).map(([c,n])=>n*(weights[c]??defaultWeights[c]??0)))}});
  const errorRows=negative.map((category,i)=>({category,label:errorLabels[i],assigned:assigned[category]||0,unassigned:unknown[category]||0,total:(assigned[category]||0)+(unknown[category]||0)})).sort((a,b)=>b.total-a.total);
