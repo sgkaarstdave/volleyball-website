@@ -24,3 +24,7 @@ QA-Daten liegen ausschließlich im getrennten Browser-Testspeicher, nicht in ein
 
 ## Spieltag-Papierkorb
 - 14 automatische Tests bestanden. Zusätzliche Fälle: laufenden Spieltag entfernen, Neuladen, historische Aggregate ohne erneuten Import im Papierkorb behalten, sämtliche Originaldaten wiederherstellen, Lösch-/Wiederherstellungsmarkierungen im Cloud-Abgleich und Konflikt mit älteren Offline-Änderungen.
+
+## Neu gestaltete Auswertung
+- 18 automatische Tests bestanden. Neue Prüfungen: exakte historische Summen, keine erfundene Fehlerquote, Zuordnung von Spieler-/Teamfehlern, historische Sammelkategorien, Saison-/Satzfilter mit ursprünglicher Satznummer, ausgeschlossene Papierkorb-Einträge, CSV und Darstellung fehlender Werte.
+- Papierkorb zusätzlich an der veröffentlichten App im isolierten Testspeicher geprüft: QA-Spiel löschen, neu laden, Papierkorb öffnen, wiederherstellen. Keine Änderungen an den tatsächlichen Benutzerdaten.
