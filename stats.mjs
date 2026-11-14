@@ -1,4 +1,4 @@
-import {analyze,selectMatches,sortedPlayers,positive,negative,seasonOf,seasonLabel} from './analytics.mjs?v=11';
+import {analyze,selectMatches,sortedPlayers,positive,negative,seasonOf,seasonLabel} from './analytics.mjs?v=12';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=n=>new Intl.NumberFormat('de-DE',{maximumFractionDigits:1}).format(n);
 const percent=(n,total)=>total?fmt(n/total*100)+' %':'—';

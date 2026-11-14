@@ -9,6 +9,15 @@ export function trashMatch(d,id,at=new Date().toISOString()){
  m.deletedAt=at;if(d.current===id)d.current=null;
 }
 export function restoreMatch(d,id){const m=d.matches.find(m=>m.id===id);if(m)delete m.deletedAt;}
+export function updateMatch(d,id,{opponent,date}){
+ const m=d.matches.find(m=>m.id===id&&!m.deletedAt);
+ if(!m)throw Error('Dieser Spieltag ist nicht verfügbar.');
+ const name=String(opponent??'').trim();
+ if(!name||name.length>100)throw Error('Bitte einen Gegnernamen mit 1 bis 100 Zeichen eingeben.');
+ const parsed=new Date(String(date)+'T00:00:00Z');
+ if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!Number.isFinite(parsed.getTime())||parsed.toISOString().slice(0,10)!==date)throw Error('Bitte ein gültiges Datum auswählen.');
+ m.opponent=name;m.date=date;
+}
 export function historical(){
  const kills=[[9,2,3,4,3,0,0,0],[4,2,2,0,3,5,0,0],[3,0,2,3,8,4,1,0]];
  const pos=[{'4':7,'3':2,'5':4,'6':1,'2':0},{'4':7,'3':4,'5':2,'6':0,'2':0},{'4':5,'3':7,'5':0,'6':0,'2':2}];
