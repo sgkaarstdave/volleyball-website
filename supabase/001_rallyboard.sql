@@ -1,7 +1,7 @@
 -- Run only in a NEW RallyBoard Supabase project. Never in MiSai Hub.
 -- No frontend cloud writes are enabled until admin provisioning is complete.
 begin;
-create table public.rallyboard_admins (user_id uuid primary key references auth.users(id));
+create table public.rallyboard_admins (user_id uuid primary key references auth.users(id) on delete cascade);
 alter table public.rallyboard_admins enable row level security;
 create policy own_admin on public.rallyboard_admins for select to authenticated using(user_id=auth.uid());
 create table public.rallyboard_matches (
