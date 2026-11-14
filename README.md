@@ -19,3 +19,8 @@ Nur neues, separates RallyBoard-Projekt. `supabase/001_rallyboard.sql` vorbereit
 
 ## Grenzen / offene Erweiterungen
 Kein React/Vite-Umbau: die App bleibt bewusst ohne Paketinstallation betreibbar. Echte Angriffsquoten brauchen zusätzlich vollständig erfasste Angriffsversuche. Rotation, Einsatzzeiten, Aufschlagserien, Diagramme zur Entwicklung und automatischer WVV-Spielplanimport sind noch nicht implementiert. Spielbericht als strukturierter JSON-Export. Kein direkter Geräte-Test auf iPhone/Safari erfolgt.
+
+## Supabase-Anbindung ergänzt
+Das separate Projekt odghcjkznmxaeqlrvtbs ist mit ausschließlich öffentlichem Publishable-Key konfiguriert. Tabellen sind eingerichtet; anonyme Lesezugriffe auf alle drei Tabellen wurden mit HTTP 401 abgelehnt. SQL-Dateien 001 und 002 enthalten RLS und einen atomaren, revisionsgeprüften Abgleich. Admin-Login findet unter Team statt; Passwort wird nie gespeichert, Tokens liegen nur im sessionStorage des jeweiligen App-Fensters. Nach erneutem Öffnen kann eine neue Anmeldung nötig sein.
+Automatischer Abgleich nach lokaler Änderung/Netzrückkehr sowie manueller Abgleich unterstützen feste Event-UUIDs und Undo-Markierungen. Serverkonflikte werden ausdrücklich gemeldet und bleiben lokal erhalten. Während laufender Netzübertragung neu erfasste Aktionen werden nicht überschrieben. Kader, MVP-Gewichte und Aktionsreihenfolge werden ebenfalls synchronisiert.
+Zusätzliche Tests prüfen JSONB-Schlüsselreihenfolge, Konflikte, parallele lokale Änderungen, Event-IDs, Undo-Markierungen und Netzfehler. Ein tatsächlicher Login und authentifizierter Schreib-/Lesetest stehen noch aus und benötigen die Anmeldung des Benutzers in der App.

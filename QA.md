@@ -15,3 +15,8 @@
 - Supabase-Schema gegen echte Datenbank/RLS: eigenes Projekt und Admin fehlen.
 
 QA-Daten liegen ausschließlich im getrennten Browser-Testspeicher, nicht in einer Cloud oder im Code.
+
+## Ergänzung: Cloud
+- Insgesamt neun Tests bestanden, darunter Cloud-Konflikte, JSONB-Schlüsselreihenfolge, Änderungen während eines laufenden Abgleichs und gemockter Auth-/RPC-Transport einschließlich Undo-Markierung.
+- Live-Projekt nach Benutzereinrichtung geprüft: rallyboard_matches, rallyboard_events und rallyboard_admins sind vorhanden und verweigern anonyme Lesezugriffe (HTTP 401 / 42501).
+- Authentifizierter Ende-zu-Ende-Abgleich noch nicht geprüft: Benutzer muss sich selbst in der App anmelden. Keine Passwörter angefordert oder gespeichert.
