@@ -14,8 +14,9 @@ export function migrate(old){
  if(!Array.isArray(d.players)||!d.players.every(n=>typeof n==='string')||!Array.isArray(d.matches))throw Error('Ungültiges Backup');
  for(const m of d.matches){if(!m.id||!Array.isArray(m.sets)||typeof m.opponent!=='string')throw Error('Ungültiger Spieltag');for(const s of m.sets){s.events??=[];s.teamErrors??={};s.subs??=[];s.active??=[];s.pos??={};s.actions??={};s.score??=['',''];s.coverage??='Übernommene Daten; Vollständigkeit unbekannt';for(const a of [s.pos,s.teamErrors,...Object.values(s.actions)])for(const v of Object.values(a))if(!Number.isFinite(v)||v<0)throw Error('Ungültige Statistik');}}
  if(!d.matches.some(m=>m.id==='historical-2026-11-14'))d.matches.push(historical());
- d.schema=2;d.weights??={...defaultWeights};d.order??=categories.slice(0,11);delete d.undo;return d;
+ d.players=[...new Set([...d.players,...roster])];d.schema=2;d.weights??={...defaultWeights};d.order??=categories.slice(0,11);delete d.undo;return d;
 }
 export function totals(matches){const r={pos:{},actions:{},teamErrors:{}};for(const m of matches)for(const s of m.sets){for(const key of ['pos','teamErrors'])for(const [k,v]of Object.entries(s[key]||{}))r[key][k]=(r[key][k]||0)+v;for(const[n,a]of Object.entries(s.actions)) {r.actions[n]??={};for(const[c,v]of Object.entries(a))r.actions[n][c]=(r.actions[n][c]||0)+v;}for(const e of s.events||[]){if(e.void)continue;if(e.kind==='pos')r.pos[e.position]=(r.pos[e.position]||0)+1;if(e.kind==='action'){r.actions[e.player]??={};r.actions[e.player][e.category]=(r.actions[e.player][e.category]||0)+1;}}}return r;}
 export function record(s,event){if(s.events.some(e=>e.id===event.id))return;s.events.push(event);}
 export function undo(s){const e=s.events.findLast(e=>!e.void);if(!e)return null;e.void=true;if(e.kind==='sub')s.active[e.slot]=e.out;return e;}
+
