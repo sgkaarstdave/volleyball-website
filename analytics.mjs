@@ -1,4 +1,4 @@
-import {totals,defaultWeights} from './model.mjs?v=14';
+import {totals,defaultWeights} from './model.mjs?v=15';
 export const positive=['Kill','Ass','Blockpunkt','Gute Annahme','Gute Abwehr','Gute Sicherung'];
 export const negative=['Angriffsfehler','Aufschlagfehler','Annahmefehler','Abwehrfehler','Sicherungsfehler','Annahme/Abwehr-Fehler'];
 export const errorLabels=['Angriff','Aufschlag','Annahme','Abwehr','Sicherung','Annahme / Abwehr · historisch'];
@@ -21,5 +21,5 @@ export function analyze(matches,players=[],weights=defaultWeights){
 }
 function analyzeSet(m,s){const t=totals([{sets:[s]}]);let kills=0,aces=0,blocks=0,assigned=0;for(const a of Object.values(t.actions)){const n=normalize(a);kills+=n.Kill||0;aces+=n.Ass||0;blocks+=n.Blockpunkt||0;assigned+=sum(negative.map(c=>n[c]||0))}const unassigned=sum(Object.values(t.teamErrors));return {kills,aces,blocks,assigned,unassigned,errors:assigned+unassigned,setters:sum(Object.values(t.pos)),errorsMissing:m.historical&&s.coverage?.includes('Fehler nicht erfasst')&&!assigned&&!unassigned,errorsPartial:!!s.coverage?.includes('Angriffsfehler nicht erfasst')};}
 export function sortedPlayers(rows,sort='kills'){return [...rows].sort((a,b)=>sort==='name'?a.name.localeCompare(b.name,'de'):(sort==='errors'?b.errors-a.errors:sort==='mvp'?b.points-a.points:b.kills-a.kills)||a.name.localeCompare(b.name,'de'))}
-const quote=v=>'"'+String(v??'').replaceAll('"','""')+'"';
+const quote=v=>{let text=String(v??'');if(typeof v==='string'&&/^[=+\-@\t\r]/.test(text))text="'"+text;return '"'+text.replaceAll('"','""')+'"'};
 export function playerCsv(a){const header=['Spieler',...positive,...negative,'Fehler gesamt (erfasst)','MVP (erfasste Aktionen)'];const lines=a.rows.map(r=>[r.name,...[...positive,...negative].map(c=>a.partial(r.name,[c])?(r.actions[c]?r.actions[c]+' (unvollständig)':'nicht erfasst'):(r.actions[c]||0)),a.partial(r.name,negative)?(r.errors?r.errors+' (unvollständig)':'nicht erfasst'):r.errors,r.points]);return '\uFEFF'+[header,...lines].map(row=>row.map(quote).join(';')).join('\r\n')}

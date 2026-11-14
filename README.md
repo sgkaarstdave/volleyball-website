@@ -1,41 +1,39 @@
-# RallyBoard
-Mobile Volleyball-Scouting für SG Kaarst. Veröffentlichung über GitHub Pages, ohne Build-Abhängigkeiten.
+# RallyBoard · SG Kaarst
+Blau-weiße mobile Volleyball-App mit Vereinslogo, öffentlicher Teamzentrale und geschützter Administration. GitHub Pages, ohne Build-Abhängigkeiten.
 
-## Betrieb
-`node --test` prüft historische Daten, Migration, Undo, Wechsel, Offline-Shell und Cloud-Abgleich.
-`node preview.mjs` startet die lokale Vorschau auf http://127.0.0.1:4173.
-GitHub Pages veröffentlicht die statischen Dateien. Alle App-URLs berücksichtigen den Repository-Unterpfad.
+## Für Zuschauer
+Die App öffnet ohne Anmeldung. Startseite, Spielplan, Kader, Satzstände und freigegebene Statistiken sind lesbar. Kein Tracking, Bearbeiten, Löschen, Import oder Einstellungsänderungen. Die Anmeldung ist unter Team eingeklappt. Der App-Link enthält keine Zugangsdaten und kann in WhatsApp geteilt werden.
+Die App lädt einen öffentlichen Datenstand alle 30 Sekunden und beim Zurückkehren ins Fenster nach. Bereits geladene Daten werden separat offline zwischengespeichert. Offizielle Verbandsdaten sind als datierter WVV-Stand gekennzeichnet.
 
-## Lokale Daten und Migration
-IndexedDB `rallyboard-v2` ist die führende lokale Datenbank. Migration aus `rallyboard-v1` verändert den bisherigen localStorage-Eintrag nicht; zusätzlich wird dessen Original unter `legacy-original` archiviert. Fehler beim Lesen stoppen den Start. Änderungen werden erst nach Abschluss der Speichertransaktion bestätigt. Eine zweite offene App-Instanz lädt bei Änderungen neu; paralleles Tracking in mehreren Tabs ist nicht unterstützt.
-Historischer Import `historical-2026-11-14`: 58 Kills, 41 Zuspiele, 33 bekannte Teamfehler. Idempotente Satzaggregate, keine erfundenen Ereignisse oder Uhrzeiten. Fehlende Ergebnisse und Fehler bleiben unbekannt. Historische Aufstellungen sind unbekannt.
-JSON-Backups werden zusammengeführt. Konflikte bei gleicher Spieltag-ID brechen den Import ab. Regelmäßig Backups herunterladen, weil iOS Browserdaten löschen kann. Migration erfolgt nur am gleichen Ursprung und Browser; Safari und installierte PWAs können getrennte Speicher haben: gegebenenfalls JSON exportieren/importieren.
+## Für Admins
+Team → Admin-Anmeldung. Nur serverseitig in rallyboard_admins freigeschaltete Benutzer werden als Admin bestätigt. Eine bestätigte Sitzung erlaubt lokal das Bearbeiten und Tracking. Online ist ein gültiger Sitzungstoken erforderlich; offline bleibt eine zuvor bestätigte Sitzung maximal 24 Stunden lokal nutzbar. Tokens liegen im sessionStorage des App-Fensters; Passwörter werden nie gespeichert. Nach Abmelden oder Schließen kann eine erneute Anmeldung nötig sein.
+Der zentrale lokale Schreibpfad und der Cloud-Sync prüfen die Admin-Freigabe. Die eigentliche Schreibsicherheit der Cloud liegt zusätzlich in Supabase RLS und der geschützten Sync-Funktion. Das öffentliche Lese-RPC besitzt keine Schreiboperationen. Die privaten Tabellen bleiben für anon gesperrt.
 
-## Offline / iPhone
-Nach vollständigem ersten Laden installiert der Service Worker die App-Dateien. Safari: Teilen → Zum Home-Bildschirm. Aktionen und Undo funktionieren lokal. Vollständige neue App-Shells aktivieren sich nach dem Caching; laufende lokale Speichertransaktionen werden vor einem automatischen Neuladen abgewartet.
+## Aufstellung, Tracking und Wiederherstellung
+Vor dem ersten Satz müssen sechs unterschiedliche Spieler und ihre Positionen ausgewählt werden. Niemand wird automatisch aufgestellt. Jeder neue Satz öffnet erneut eine leere Aufstellung; die vorige kann ausdrücklich übernommen werden. Erfolgreiche Aktionen und Fehler werden weiterhin über große Spieler-/Aktionsbuttons erfasst. Gesten, Schlagrichtungen und Rotationsauswertungen sind vorerst zurückgestellt.
+Tracking ist nur am Spieltag oder rückwirkend möglich. Zukünftige Termine sind gesperrt, auch wenn sie in einer älteren App-Version bereits vorzeitig gestartet wurden. Solche Daten bleiben erhalten und können zurückgesetzt oder später fortgeführt werden.
+Spieltage → Papierkorb zeigt gelöschte Partien direkt über einen eigenen Filter. Wiederherstellen erhält alle Sätze und Statistiken. Direkt nach dem Löschen ist zusätzlich Rückgängig verfügbar.
+Verwalten → Tracking zurücksetzen archiviert alle bisherigen Sätze im Spieltag und lässt den Termin bestehen. Die Sicherung lässt sich unter Tracking-Daten wiederherstellen zurückholen. Neue aktive Satzdaten werden dabei nicht überschrieben. Es gibt keine endgültige Datenlöschung.
 
-## Eigenes Supabase-Projekt
-Konfiguriert ist ausschließlich `odghcjkznmxaeqlrvtbs` mit öffentlichem Publishable-Key. MiSai Hub wird nicht verwendet. `supabase/001_rallyboard.sql` erstellt RLS-geschützte Tabellen; `002_sync.sql` ergänzt einen atomaren Abgleich mit Revisionsprüfung. Der Benutzer hat die Einrichtung bestätigt. Anonyme Lesezugriffe auf alle drei Tabellen wurden mit HTTP 401 verweigert. Öffentliche Registrierung im Supabase-Dashboard deaktivieren und nur den eigenen Admin in `rallyboard_admins` freischalten.
-Unter Team mit E-Mail und Passwort anmelden. Das Passwort wird nie gespeichert. Sitzungstokens liegen nur im sessionStorage des jeweiligen App-Fensters; nach erneutem Öffnen kann eine Anmeldung nötig sein. Keine Spieleraccounts. Kein Service-Role-Key im Frontend.
-Automatischer Sync nach lokaler Änderung und Netzrückkehr, zusätzlich manueller Sync. Stabile Event-UUIDs verhindern doppelte Events; Undo überträgt Markierungen. Spieltag, Kader, MVP-Gewichte und Aktionsreihenfolge werden synchronisiert. Revisionskonflikte stoppen den Abgleich und lassen lokale Daten bestehen. Während laufender Netzübertragung neu erfasste Aktionen bleiben erhalten. Lokale Änderungen warten offline auf die nächste Anmeldung/Verbindung.
-Tatsächlicher authentifizierter Ende-zu-Ende-Abgleich und RLS unter mehreren Benutzerrollen stehen noch aus; der Benutzer muss sich selbst in der App anmelden. Tests verwenden einen simulierten Auth-/RPC-Transport.
+## Daten, Migration und Auswertung
+IndexedDB rallyboard-v2 speichert private Admin-Daten unter app und den öffentlichen Cache unter public-board. Zuschauer sehen weder ungesendete Admin-Änderungen noch den privaten Papierkorb oder Tracking-Archive. Logout ersetzt die privaten Daten nicht durch die öffentliche Projektion.
+Migration aus localStorage rallyboard-v1 verändert dessen Original nicht und archiviert es zusätzlich unter legacy-original. Speicherfehler ersetzen keine vorhandenen privaten Daten. Regelmäßig JSON-Backups herunterladen; iOS kann Browserdaten löschen. Safari und installierte PWA können getrennte Speicher haben. Paralleles Tracking in mehreren Tabs ist nicht unterstützt.
+Der historische Import vom 14.11.2026 bleibt idempotent: 58 Kills, 41 Zuspiele und 33 bekannte Teamfehler als Satzaggregate. Keine erfundenen Live-Ereignisse. Fehlende Werte erscheinen als Gedankenstrich, unvollständige Werte mit Stern. Historische Teamfehler werden keinen Spielern zugeschrieben.
+Team-, Spieler- und Satzvergleich lassen sich nach Saison, Spieltag und Satz filtern. Fehleranteile beziehen sich auf erfasste Fehler. Echte Erfolgs-/Fehlerquoten werden ohne vollständige Versuche nicht behauptet. CSV- und JSON-Auswertungen berücksichtigen die Filter.
 
-## Weitere Grenzen
-Kein React/Vite-Umbau: die App bleibt ohne Paketinstallation betreibbar. Echte Erfolgsquoten benötigen vollständig erfasste Versuche. Saisonfilter, Rotationsstatistik, Einsatzzeiten, Aufschlagserien, Entwicklungsvergleiche und automatischer WVV-Spielplanimport fehlen noch. Spielbericht ist ein strukturierter JSON-Export. Keine echte iPhone-/Safari-Prüfung; das Layout wurde mit iPhone-Abmessungen im Browser geprüft. Vollständiger Offline-Start auf iOS bleibt am Gerät zu testen.
+## Supabase
+Ausschließlich eigenes Projekt odghcjkznmxaeqlrvtbs; MiSai Hub wird nicht verwendet. Nur öffentlicher Publishable-Key im Frontend.
+- 001_rallyboard.sql: private Tabellen, Admin-Mitgliedschaft und RLS.
+- 002_sync.sql: atomarer Sync mit Revisionsprüfung und stabilen Event-IDs.
+- 003_admin_user_deletion.sql: Korrektur für bestehende Installationen, um ungenutzte Auth-Benutzer samt Admin-Verknüpfung löschen zu können; Spielstände bleiben durch ihre Eigentümerverweise geschützt.
+- 004_public_read_only.sql: vom Benutzer ausgeführt. Öffentliches Lese-RPC mit expliziter Projektion: aktive Spieltage, Kader und Statistiken. Keine Account-/Owner-IDs, Login-Tokens, Admin-Mitgliedschaft, gelöschten Spiele, Tracking-Archive oder internen Event-IDs. Die privaten Tabellen werden nicht pauschal öffentlich lesbar.
+Stabile UUIDs, Undo-Markierungen und Revisionen verhindern doppelte Ereignisse und stilles Überschreiben konkurrierender Änderungen. Neue lokale Aktionen während eines laufenden Sync bleiben erhalten.
 
-## Spieltage löschen und wiederherstellen
-Unter Spieltage hat jede Partie einen Löschen-Button mit Bestätigung. Die App setzt ein `deletedAt`-Datum, statt die Partie aus der Datenbank zu entfernen. Papierkorb und Wiederherstellung befinden sich auf derselben Seite. Gelöschte Spiele zählen weder zu Statistiken noch zu Berichten und werden nicht im Live-Modus geöffnet. JSON-Backups enthalten sie weiterhin. Die bestehende revisionsgeprüfte Cloud-Funktion synchronisiert die Löschmarkierung und ihre Rücknahme; keine zusätzliche SQL-Migration erforderlich. Konflikte mit offline bearbeiteten Versionen werden weiterhin gemeldet, statt still Änderungen zu überschreiben. Es gibt keine endgültige Löschung.
+## WVV
+Verifizierter Spielplan der Bezirksklasse 16 Männer 2026/27, Staffel-ID 116023057, Stand 14.11.2026: 16 SG-Kaarst-Partien. Referee-only Partien sind ausgeschlossen. Ergebnisse, Hallen, Gastgeber und gekennzeichnete mögliche Verzögerungen werden übernommen. Offizielle Ergebnisse erzeugen keine Scouting-Sätze oder Spielerwerte.
+Bei gleichem Datum und exakt gleichem Gegner kann vorhandenes Scouting zugeordnet werden. Unbekannte Gegner benötigen eine ausdrückliche Zuordnung über Spieldetails. IDs und Sätze bleiben erhalten.
+Admins können den offiziellen CSV-Export unter Spieltage → WVV-CSV importieren einlesen. Eigene Änderungen und Papierkorb bleiben erhalten. Die offizielle Tabelle bleibt ein ausgewiesener Snapshot; CSV aktualisiert nur den Spielplan. Entwickler können node scripts/refresh-wvv.mjs ausführen und nach Prüfung eine neue Asset-Version veröffentlichen.
 
-## Neue Auswertung
-Teamansicht mit erfassten Punkten, Kills, Fehlern, Zuspielen, Fehlerverteilung und Positionsdarstellung der Zuspiele. Spielertabellen haben Spaltengruppen für Überblick, positive Aktionen und Fehlerdetails, feste Namensspalte, Sortierung und CSV-Export. Filter für Saison (Juli–Juni), Spieltag und Satz gelten für Anzeige und Exporte. Ein separater Satzvergleich zeigt den Verlauf.
-Fehleranteile beziehen sich ausschließlich auf alle erfassten Fehler. Echte Fehlerquoten pro Versuch werden nicht berechnet, weil vollständige Aufschlag-/Angriffsversuche fehlen. Historische Teamfehler bleiben unzugeordnet; fehlende Spielerwerte erscheinen als Gedankenstrich, unvollständige vorhandene Werte mit Stern. Nullwerte im Live-Protokoll bedeuten keine erfassten Aktionen, nicht notwendigerweise keine realen Aktionen. Problembereiche und auffällige Spielerzahlen beschreiben Anzahlen; ohne Einsätze und Versuche sind sie keine belastbaren individuellen Leistungsquoten.
-
-## Gegner und Datum nachträglich ändern
-Spieltage → Bearbeiten öffnet die Stammdaten. Funktioniert bei laufenden, beendeten und historischen Partien. Während des Trackings auch über Satzpause / Ergebnis → Gegner / Datum bearbeiten erreichbar. Änderungen verwenden dieselbe Spieltag-ID und den vorhandenen Cloud-Abgleich; Sätze, Statistiken und Events bleiben erhalten. Leere Gegnernamen und ungültige Kalenderdaten werden abgewiesen. Bei einem Speicherfehler bleibt das Bearbeitungsfenster offen.
-
-## Teamzentrale und offizieller WVV-Spielplan
-Die Startseite zeigt das nächste Ligaspiel, kommende Begegnungen, letzte offizielle Ergebnisse, einen datierten Tabellenstand und Hinweise aus dem eigenen Scouting. Grundlage ist der vom Benutzer verlinkte WVV-Spielplan (Staffel-ID 116023057) für 2026/27, geprüft am 14.11.2026: 16 SG-Kaarst-Partien. Spiele, bei denen SG Kaarst nur das Schiedsgericht stellt, wurden ausgeschlossen. Bei Folgespielen wird die WVV-Verzögerungskennzeichnung angezeigt; Gastgeber und Team-1-Reihenfolge werden nicht verwechselt.
-Die 16 Partien werden beim App-Start idempotent als Spieltage angelegt. Offizielle Satzstände bleiben im Feld `official.result`; sie erzeugen keine Scouting-Ereignisse und keine Spielerwerte. Geplante Spiele besitzen bis zum Start keine Scouting-Sätze und werden in der Auswertung nicht als gescoutete Spiele gezählt. Tracking starten legt genau einen Satz mit sechs Spielern an. Alle Kalendertage beziehen sich auf Europe/Berlin.
-Ein vorhandener Spieltag mit exakt gleichem Datum und Gegner kann zugeordnet werden, ohne Daten zu ersetzen. Bei unbekanntem Gegner oder mehreren Kandidaten ist die Zuordnung ausdrücklich über Spieldetails erforderlich. „Details / Zuordnen“ führt Spielplan und bestehende Statistik zusammen, behält deren ID und Sätze, und hinterlegt für den bisherigen leeren WVV-Datensatz eine zusammengeführte Markierung. Die Statistik vom 14.11.2026 wird dadurch nicht ohne Benutzerentscheidung einem Gegner zugewiesen.
-Der Kalender lässt sich unter Spieltage → WVV-CSV importieren mit dem offiziellen CSV-Export derselben Staffel aktualisieren. Eigene Gegner-/Datumsänderungen, Scouting und Papierkorb werden respektiert. Der Tabellenstand ist ein datierter Snapshot und aktualisiert sich durch einen Spielplan-CSV-Import nicht; die App verlinkt die aktuelle Verbandstabelle. Es werden keine externen Nachrichten erfunden und keine laufend aktualisierten Verbandsdaten behauptet.
-Entwickler können `node scripts/refresh-wvv.mjs` im Repository ausführen, um die öffentlichen HTML-, CSV- und ICS-Exporte erneut zu prüfen und die versionierten Snapshots zu erzeugen. Die heruntergeladenen Rohdateien sind ignoriert; relevante SG-Kaarst-Fakten stehen in `data/wvv-2026-27.json` und `schedule-data.mjs`. Für eine Veröffentlichung muss anschließend die Asset-Version erhöht werden.
+## Entwicklung und Prüfung
+node --test führt die Regressionstests aus. node preview.mjs startet die lokale Vorschau. GitHub Actions testet und veröffentlicht die statischen Dateien. Alle Ressourcen berücksichtigen den Repository-Unterpfad.
+Browserprüfung ergänzt Tests; ein echtes iPhone/iOS-Gerät und ein vollständiger Offline-PWA-Start müssen am Gerät geprüft werden. Offline-Shell und Netzfehler sind zusätzlich simuliert getestet. Admin-Sitzungen und RLS werden nicht durch ein öffentliches Test-/Demo-Login umgangen.
