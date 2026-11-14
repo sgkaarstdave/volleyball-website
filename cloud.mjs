@@ -1,4 +1,4 @@
-import {historical,roster,categories,defaultWeights} from './model.mjs?v=13';
+import {historical,roster,categories,defaultWeights} from './model.mjs?v=14';
 // Public project configuration; no secret or service-role key belongs here.
 export const PROJECT='https://odghcjkznmxaeqlrvtbs.supabase.co';
 const KEY='sb_publishable_-Rz2O0TkZjres9XKIIwFWg_FLBDff_8';

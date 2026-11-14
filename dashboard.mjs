@@ -1,5 +1,5 @@
-import {snapshot,dashboardFixtures,linkCandidates} from './schedule.mjs?v=13';
-import {analyze,selectMatches,seasonOf} from './analytics.mjs?v=13';
+import {snapshot,dashboardFixtures,linkCandidates} from './schedule.mjs?v=14';
+import {analyze,selectMatches,seasonOf} from './analytics.mjs?v=14';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const dateLabel=(date,options={day:'2-digit',month:'2-digit',year:'numeric'})=>new Intl.DateTimeFormat('de-DE',{timeZone:'Europe/Berlin',...options}).format(new Date(date+'T12:00:00Z'));
 const dateChip=m=>'<div class="fixture-date"><b>'+dateLabel(m.date,{day:'2-digit'})+'</b><span>'+dateLabel(m.date,{month:'short'}).replace('.','')+'</span></div>';
