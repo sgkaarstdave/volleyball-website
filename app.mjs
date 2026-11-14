@@ -1,7 +1,7 @@
-import {renderStats} from './stats.mjs?v=10';
-import {selectMatches,analyze,playerCsv,seasonOf} from './analytics.mjs?v=10';
-import {signedIn,account,login,logout,exchange,applyExchange,pending} from './cloud.mjs?v=10';
-import {roster,positions,categories,defaultWeights,emptySet,migrate,totals,record,undo,visibleMatches,trashMatch,restoreMatch} from './model.mjs?v=10';
+import {renderStats} from './stats.mjs?v=11';
+import {selectMatches,analyze,playerCsv,seasonOf} from './analytics.mjs?v=11';
+import {signedIn,account,login,logout,exchange,applyExchange,pending} from './cloud.mjs?v=11';
+import {roster,positions,categories,defaultWeights,emptySet,migrate,totals,record,undo,visibleMatches,trashMatch,restoreMatch} from './model.mjs?v=11';
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let statsSeason='all',statsView='team',statsGroup='overview',statsSort='kills';
 let syncBusy=false,syncError='',syncTimer;

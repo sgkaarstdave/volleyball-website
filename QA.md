@@ -28,3 +28,4 @@ QA-Daten liegen ausschließlich im getrennten Browser-Testspeicher, nicht in ein
 ## Neu gestaltete Auswertung
 - 18 automatische Tests bestanden. Neue Prüfungen: exakte historische Summen, keine erfundene Fehlerquote, Zuordnung von Spieler-/Teamfehlern, historische Sammelkategorien, Saison-/Satzfilter mit ursprünglicher Satznummer, ausgeschlossene Papierkorb-Einträge, CSV und Darstellung fehlender Werte.
 - Papierkorb zusätzlich an der veröffentlichten App im isolierten Testspeicher geprüft: QA-Spiel löschen, neu laden, Papierkorb öffnen, wiederherstellen. Keine Änderungen an den tatsächlichen Benutzerdaten.
+- Veröffentlichte Auswertung zusätzlich im Browser geprüft: Teamansicht, Spielertabelle, MVP-Sortierung, Fehlerdetails, Satz-3-Filter (21 Kills / 16 erfasste Fehler / 14 Zuspiele). Bei 390 × 844 bleibt die Seite innerhalb der Bildschirmbreite; die Tabelle scrollt separat und hält die Namensspalte fest.
