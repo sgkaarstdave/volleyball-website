@@ -1,0 +1,3981 @@
+{
+  "seed": 20261115,
+  "sets": [
+    [
+      25,
+      23
+    ],
+    [
+      22,
+      25
+    ],
+    [
+      25,
+      19
+    ],
+    [
+      28,
+      26
+    ]
+  ],
+  "rallies": 193,
+  "traceChecks": 458,
+  "undoChecks": 29,
+  "reloadChecks": 193,
+  "scenarios": {
+    "Ass": 8,
+    "Annahmefehler nach unprotokolliertem Aufschlag": 6,
+    "Annahme–Zuspiel–Angriff ins Aus": 6,
+    "Notzuspiel im Hinterfeld ins Aus": 13,
+    "Direkter zweiter Ball": 13,
+    "Teilgesten: Annahme, Zuspiel und Angriff": 13,
+    "Langer Ballwechsel mit mehreren abgewehrten Angriffen": 12,
+    "Direkter Blockpunkt": 12,
+    "Block und erster Folgekontakt durch denselben Spieler": 12,
+    "Angriff geblockt, Sicherung auf Angreiferseite und neuer Angriff": 12,
+    "Überpass / direkter Annahme-Rückball und Gegenangriff": 12,
+    "Verpasster gegnerischer Rückball ohne erfundene Spielerwerte": 12,
+    "Block-out nach bestätigter gegnerischer Blockberührung": 11,
+    "Zuspiel-/Technikfehler": 11,
+    "Dritter Kontakt als Angriff ins Netz": 11,
+    "Punkt ohne Spielerzuordnung bei verpasstem Ballwechsel": 10,
+    "Aufschlag ins Netz": 5,
+    "Aufschlag ins Aus": 7,
+    "Annahme–Zuspiel–Kill": 7
+  },
+  "stats": {
+    "us": {
+      "David": {
+        "serves": 20,
+        "inferredContacts": 91,
+        "aces": 1,
+        "defenses": 2,
+        "defensesPlayed": 2,
+        "receptions": 2,
+        "receptionsPlayed": 2,
+        "receptionsImprecise": 2,
+        "attacks": 66,
+        "kills": 21,
+        "blockOutKills": 5,
+        "errors": 11,
+        "attackErrors": 8,
+        "sets": 2,
+        "emergencySets": 2,
+        "setErrors": 2,
+        "emergencySetErrors": 2,
+        "serveErrors": 1
+      },
+      "Devin": {
+        "sets": 7,
+        "inferredContacts": 126,
+        "emergencySets": 7,
+        "errors": 13,
+        "setErrors": 7,
+        "emergencySetErrors": 7,
+        "freeballs": 9,
+        "directReturns": 5,
+        "receptions": 74,
+        "receptionsPlayed": 71,
+        "defenses": 46,
+        "defensesPlayed": 43,
+        "defenseErrors": 3,
+        "receptionsImprecise": 4,
+        "receiveErrors": 3
+      },
+      "Cedric": {
+        "serves": 15,
+        "inferredContacts": 18,
+        "blockAttempts": 7,
+        "blocks": 3,
+        "defenses": 5,
+        "defensesPlayed": 5,
+        "aces": 1,
+        "errors": 1,
+        "serveErrors": 1
+      },
+      "Jan": {
+        "sets": 99,
+        "inferredContacts": 104,
+        "setsPlayed": 96,
+        "serves": 11,
+        "errors": 4,
+        "setErrors": 3,
+        "serveErrors": 1
+      },
+      "Rayan": {
+        "attacks": 56,
+        "inferredContacts": 74,
+        "kills": 20,
+        "errors": 11,
+        "attackErrors": 10,
+        "serves": 14,
+        "defenses": 3,
+        "defensesPlayed": 3,
+        "blockOutKills": 1,
+        "receptions": 5,
+        "receptionsPlayed": 5,
+        "receptionsImprecise": 5,
+        "aces": 1,
+        "serveErrors": 1
+      },
+      "Dave": {
+        "sets": 25,
+        "inferredContacts": 25,
+        "setsPlayed": 23,
+        "errors": 2,
+        "setErrors": 2,
+        "serves": 4
+      },
+      "Lukas": {
+        "blockAttempts": 8,
+        "defenses": 14,
+        "defensesPlayed": 14,
+        "serves": 12,
+        "inferredContacts": 23,
+        "blocks": 2,
+        "aces": 1,
+        "errors": 2,
+        "serveErrors": 2
+      },
+      "Slawa": {
+        "serves": 17,
+        "inferredContacts": 21,
+        "defenses": 1,
+        "defensesPlayed": 1,
+        "receptions": 1,
+        "receptionsPlayed": 1,
+        "receptionsImprecise": 1,
+        "aces": 1,
+        "errors": 2,
+        "serveErrors": 1,
+        "sets": 1,
+        "emergencySets": 1,
+        "setErrors": 1,
+        "emergencySetErrors": 1,
+        "attacks": 1,
+        "kills": 1
+      }
+    },
+    "them": {
+      "G1": {
+        "receptions": 15,
+        "errors": 7,
+        "receiveErrors": 1,
+        "inferredContacts": 79,
+        "receptionsPlayed": 14,
+        "attacks": 16,
+        "sets": 22,
+        "setsPlayed": 20,
+        "serves": 18,
+        "defenses": 15,
+        "defensesPlayed": 15,
+        "kills": 5,
+        "blockAttempts": 6,
+        "attackErrors": 3,
+        "setErrors": 2,
+        "freeballs": 1,
+        "serveErrors": 1,
+        "blockOutKills": 1,
+        "blocks": 1
+      },
+      "G3": {
+        "sets": 26,
+        "inferredContacts": 76,
+        "setsPlayed": 26,
+        "serves": 16,
+        "defenses": 11,
+        "defensesPlayed": 11,
+        "receptions": 17,
+        "receptionsPlayed": 16,
+        "attacks": 11,
+        "errors": 3,
+        "attackErrors": 1,
+        "blockAttempts": 4,
+        "kills": 5,
+        "serveErrors": 1,
+        "receiveErrors": 1,
+        "blocks": 1
+      },
+      "G4": {
+        "attacks": 27,
+        "inferredContacts": 73,
+        "errors": 7,
+        "attackErrors": 4,
+        "sets": 17,
+        "setsPlayed": 16,
+        "blockAttempts": 4,
+        "blocks": 3,
+        "serves": 15,
+        "receptions": 13,
+        "receptionsPlayed": 13,
+        "kills": 6,
+        "aces": 2,
+        "serveErrors": 1,
+        "defenses": 5,
+        "defensesPlayed": 4,
+        "freeballs": 1,
+        "emergencySets": 1,
+        "setErrors": 1,
+        "emergencySetErrors": 1,
+        "receptionsImprecise": 3,
+        "defenseErrors": 1,
+        "blockOutKills": 1
+      },
+      "G2": {
+        "serves": 15,
+        "inferredContacts": 59,
+        "receptions": 9,
+        "receptionsPlayed": 9,
+        "attacks": 21,
+        "errors": 8,
+        "attackErrors": 3,
+        "sets": 13,
+        "setsPlayed": 10,
+        "blockAttempts": 2,
+        "defenses": 7,
+        "defensesPlayed": 6,
+        "freeballs": 1,
+        "kills": 5,
+        "blockOutKills": 1,
+        "emergencySets": 2,
+        "setErrors": 3,
+        "emergencySetErrors": 2,
+        "blocks": 1,
+        "defenseErrors": 1,
+        "serveErrors": 1
+      },
+      "G5": {
+        "attacks": 17,
+        "inferredContacts": 73,
+        "kills": 8,
+        "sets": 27,
+        "setsPlayed": 24,
+        "serves": 12,
+        "defenses": 14,
+        "defensesPlayed": 14,
+        "errors": 6,
+        "setErrors": 3,
+        "receptions": 9,
+        "receptionsPlayed": 9,
+        "attackErrors": 3,
+        "blockOutKills": 2,
+        "blockAttempts": 3
+      },
+      "G6": {
+        "attacks": 24,
+        "inferredContacts": 64,
+        "kills": 3,
+        "errors": 6,
+        "attackErrors": 4,
+        "sets": 16,
+        "setsPlayed": 16,
+        "serves": 13,
+        "serveErrors": 1,
+        "receptions": 12,
+        "receiveErrors": 1,
+        "receptionsPlayed": 11,
+        "blockAttempts": 2,
+        "blocks": 1,
+        "freeballs": 2,
+        "defenses": 3,
+        "defensesPlayed": 3,
+        "aces": 1,
+        "receptionsImprecise": 2
+      },
+      "G7": {
+        "freeballs": 3,
+        "receptions": 6,
+        "inferredContacts": 9,
+        "receptionsPlayed": 6,
+        "defenses": 3,
+        "defensesPlayed": 2,
+        "serves": 1,
+        "errors": 1,
+        "defenseErrors": 1
+      }
+    },
+    "distribution": {
+      "us": {
+        "4": 119
+      },
+      "them": {
+        "4": 112
+      }
+    }
+  },
+  "log": [
+    {
+      "set": 1,
+      "rally": 1,
+      "scenario": "Ass",
+      "winner": "us",
+      "score": {
+        "us": 1,
+        "them": 0
+      },
+      "server": {
+        "team": "us",
+        "player": "David"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 0
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 1,
+      "rally": 2,
+      "scenario": "Annahmefehler nach unprotokolliertem Aufschlag",
+      "winner": "us",
+      "score": {
+        "us": 2,
+        "them": 0
+      },
+      "server": {
+        "team": "us",
+        "player": "David"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 0
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 1,
+      "rally": 3,
+      "scenario": "Annahme–Zuspiel–Angriff ins Aus",
+      "winner": "us",
+      "score": {
+        "us": 3,
+        "them": 0
+      },
+      "server": {
+        "team": "us",
+        "player": "David"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 0
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 1,
+      "rally": 4,
+      "scenario": "Notzuspiel im Hinterfeld ins Aus",
+      "winner": "them",
+      "score": {
+        "us": 3,
+        "them": 1
+      },
+      "server": {
+        "team": "them",
+        "player": "G2"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 1
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 1,
+      "rally": 5,
+      "scenario": "Direkter zweiter Ball",
+      "winner": "us",
+      "score": {
+        "us": 4,
+        "them": 1
+      },
+      "server": {
+        "team": "us",
+        "player": "Cedric"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 1
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 1,
+      "rally": 6,
+      "scenario": "Teilgesten: Annahme, Zuspiel und Angriff",
+      "winner": "them",
+      "score": {
+        "us": 4,
+        "them": 2
+      },
+      "server": {
+        "team": "them",
+        "player": "G3"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 2
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 1,
+      "rally": 7,
+      "scenario": "Langer Ballwechsel mit mehreren abgewehrten Angriffen",
+      "winner": "them",
+      "score": {
+        "us": 4,
+        "them": 3
+      },
+      "server": {
+        "team": "them",
+        "player": "G3"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 2
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 1,
+      "rally": 8,
+      "scenario": "Direkter Blockpunkt",
+      "winner": "them",
+      "score": {
+        "us": 4,
+        "them": 4
+      },
+      "server": {
+        "team": "them",
+        "player": "G3"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 2
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 1,
+      "rally": 9,
+      "scenario": "Block und erster Folgekontakt durch denselben Spieler",
+      "winner": "us",
+      "score": {
+        "us": 5,
+        "them": 4
+      },
+      "server": {
+        "team": "us",
+        "player": "Slawa"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 2
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 1,
+      "rally": 10,
+      "scenario": "Angriff geblockt, Sicherung auf Angreiferseite und neuer Angriff",
+      "winner": "us",
+      "score": {
+        "us": 6,
+        "them": 4
+      },
+      "server": {
+        "team": "us",
+        "player": "Slawa"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 2
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 1,
+      "rally": 11,
+      "scenario": "Überpass / direkter Annahme-Rückball und Gegenangriff",
+      "winner": "them",
+      "score": {
+        "us": 6,
+        "them": 5
+      },
+      "server": {
+        "team": "them",
+        "player": "G4"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 3
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 1,
+      "rally": 12,
+      "scenario": "Verpasster gegnerischer Rückball ohne erfundene Spielerwerte",
+      "winner": "us",
+      "score": {
+        "us": 7,
+        "them": 5
+      },
+      "server": {
+        "team": "us",
+        "player": "Rayan"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 3
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 1,
+      "rally": 13,
+      "scenario": "Block-out nach bestätigter gegnerischer Blockberührung",
+      "winner": "us",
+      "score": {
+        "us": 8,
+        "them": 5
+      },
+      "server": {
+        "team": "us",
+        "player": "Rayan"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 3
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 1,
+      "rally": 14,
+      "scenario": "Zuspiel-/Technikfehler",
+      "winner": "them",
+      "score": {
+        "us": 8,
+        "them": 6
+      },
+      "server": {
+        "team": "them",
+        "player": "G5"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 4
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 1,
+      "rally": 15,
+      "scenario": "Dritter Kontakt als Angriff ins Netz",
+      "winner": "us",
+      "score": {
+        "us": 9,
+        "them": 6
+      },
+      "server": {
+        "team": "us",
+        "player": "Lukas"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 4
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 1,
+      "rally": 16,
+      "scenario": "Punkt ohne Spielerzuordnung bei verpasstem Ballwechsel",
+      "winner": "them",
+      "score": {
+        "us": 9,
+        "them": 7
+      },
+      "server": {
+        "team": "them",
+        "player": "G6"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 5
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 1,
+      "rally": 17,
+      "scenario": "Aufschlag ins Netz",
+      "winner": "us",
+      "score": {
+        "us": 10,
+        "them": 7
+      },
+      "server": {
+        "team": "us",
+        "player": "Jan"
+      },
+      "rotation": {
+        "us": 5,
+        "them": 5
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 1,
+      "rally": 18,
+      "scenario": "Annahmefehler nach unprotokolliertem Aufschlag",
+      "winner": "us",
+      "score": {
+        "us": 11,
+        "them": 7
+      },
+      "server": {
+        "team": "us",
+        "player": "Jan"
+      },
+      "rotation": {
+        "us": 5,
+        "them": 5
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 1,
+      "rally": 19,
+      "scenario": "Annahme–Zuspiel–Angriff ins Aus",
+      "winner": "us",
+      "score": {
+        "us": 12,
+        "them": 7
+      },
+      "server": {
+        "team": "us",
+        "player": "Jan"
+      },
+      "rotation": {
+        "us": 5,
+        "them": 5
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 1,
+      "rally": 20,
+      "scenario": "Notzuspiel im Hinterfeld ins Aus",
+      "winner": "them",
+      "score": {
+        "us": 12,
+        "them": 8
+      },
+      "server": {
+        "team": "them",
+        "player": "G1"
+      },
+      "rotation": {
+        "us": 5,
+        "them": 0
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 1,
+      "rally": 21,
+      "scenario": "Direkter zweiter Ball",
+      "winner": "them",
+      "score": {
+        "us": 12,
+        "them": 9
+      },
+      "server": {
+        "team": "them",
+        "player": "G1"
+      },
+      "rotation": {
+        "us": 5,
+        "them": 0
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 1,
+      "rally": 22,
+      "scenario": "Teilgesten: Annahme, Zuspiel und Angriff",
+      "winner": "them",
+      "score": {
+        "us": 12,
+        "them": 10
+      },
+      "server": {
+        "team": "them",
+        "player": "G1"
+      },
+      "rotation": {
+        "us": 5,
+        "them": 0
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 1,
+      "rally": 23,
+      "scenario": "Langer Ballwechsel mit mehreren abgewehrten Angriffen",
+      "winner": "us",
+      "score": {
+        "us": 13,
+        "them": 10
+      },
+      "server": {
+        "team": "us",
+        "player": "David"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 0
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 1,
+      "rally": 24,
+      "scenario": "Direkter Blockpunkt",
+      "winner": "us",
+      "score": {
+        "us": 14,
+        "them": 10
+      },
+      "server": {
+        "team": "us",
+        "player": "David"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 0
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 1,
+      "rally": 25,
+      "scenario": "Block und erster Folgekontakt durch denselben Spieler",
+      "winner": "them",
+      "score": {
+        "us": 14,
+        "them": 11
+      },
+      "server": {
+        "team": "them",
+        "player": "G2"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 1
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 1,
+      "rally": 26,
+      "scenario": "Angriff geblockt, Sicherung auf Angreiferseite und neuer Angriff",
+      "winner": "us",
+      "score": {
+        "us": 15,
+        "them": 11
+      },
+      "server": {
+        "team": "us",
+        "player": "Cedric"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 1
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 1,
+      "rally": 27,
+      "scenario": "Überpass / direkter Annahme-Rückball und Gegenangriff",
+      "winner": "us",
+      "score": {
+        "us": 16,
+        "them": 11
+      },
+      "server": {
+        "team": "us",
+        "player": "Cedric"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 1
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 1,
+      "rally": 28,
+      "scenario": "Verpasster gegnerischer Rückball ohne erfundene Spielerwerte",
+      "winner": "them",
+      "score": {
+        "us": 16,
+        "them": 12
+      },
+      "server": {
+        "team": "them",
+        "player": "G3"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 2
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 1,
+      "rally": 29,
+      "scenario": "Block-out nach bestätigter gegnerischer Blockberührung",
+      "winner": "us",
+      "score": {
+        "us": 17,
+        "them": 12
+      },
+      "server": {
+        "team": "us",
+        "player": "Slawa"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 2
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 1,
+      "rally": 30,
+      "scenario": "Zuspiel-/Technikfehler",
+      "winner": "us",
+      "score": {
+        "us": 18,
+        "them": 12
+      },
+      "server": {
+        "team": "us",
+        "player": "Slawa"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 2
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 1,
+      "rally": 31,
+      "scenario": "Dritter Kontakt als Angriff ins Netz",
+      "winner": "them",
+      "score": {
+        "us": 18,
+        "them": 13
+      },
+      "server": {
+        "team": "them",
+        "player": "G4"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 3
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 1,
+      "rally": 32,
+      "scenario": "Punkt ohne Spielerzuordnung bei verpasstem Ballwechsel",
+      "winner": "them",
+      "score": {
+        "us": 18,
+        "them": 14
+      },
+      "server": {
+        "team": "them",
+        "player": "G4"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 3
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 1,
+      "rally": 33,
+      "scenario": "Ass",
+      "winner": "them",
+      "score": {
+        "us": 18,
+        "them": 15
+      },
+      "server": {
+        "team": "them",
+        "player": "G4"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 3
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 1,
+      "rally": 34,
+      "scenario": "Aufschlag ins Aus",
+      "winner": "us",
+      "score": {
+        "us": 19,
+        "them": 15
+      },
+      "server": {
+        "team": "us",
+        "player": "Rayan"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 3
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 1,
+      "rally": 35,
+      "scenario": "Annahme–Zuspiel–Kill",
+      "winner": "them",
+      "score": {
+        "us": 19,
+        "them": 16
+      },
+      "server": {
+        "team": "them",
+        "player": "G5"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 4
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 1,
+      "rally": 36,
+      "scenario": "Notzuspiel im Hinterfeld ins Aus",
+      "winner": "them",
+      "score": {
+        "us": 19,
+        "them": 17
+      },
+      "server": {
+        "team": "them",
+        "player": "G5"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 4
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 1,
+      "rally": 37,
+      "scenario": "Direkter zweiter Ball",
+      "winner": "them",
+      "score": {
+        "us": 19,
+        "them": 18
+      },
+      "server": {
+        "team": "them",
+        "player": "G5"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 4
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 1,
+      "rally": 38,
+      "scenario": "Teilgesten: Annahme, Zuspiel und Angriff",
+      "winner": "us",
+      "score": {
+        "us": 20,
+        "them": 18
+      },
+      "server": {
+        "team": "us",
+        "player": "Lukas"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 4
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 1,
+      "rally": 39,
+      "scenario": "Langer Ballwechsel mit mehreren abgewehrten Angriffen",
+      "winner": "us",
+      "score": {
+        "us": 21,
+        "them": 18
+      },
+      "server": {
+        "team": "us",
+        "player": "Lukas"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 4
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 1,
+      "rally": 40,
+      "scenario": "Direkter Blockpunkt",
+      "winner": "them",
+      "score": {
+        "us": 21,
+        "them": 19
+      },
+      "server": {
+        "team": "them",
+        "player": "G6"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 5
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 1,
+      "rally": 41,
+      "scenario": "Block und erster Folgekontakt durch denselben Spieler",
+      "winner": "them",
+      "score": {
+        "us": 21,
+        "them": 20
+      },
+      "server": {
+        "team": "them",
+        "player": "G6"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 5
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 1,
+      "rally": 42,
+      "scenario": "Angriff geblockt, Sicherung auf Angreiferseite und neuer Angriff",
+      "winner": "us",
+      "score": {
+        "us": 22,
+        "them": 20
+      },
+      "server": {
+        "team": "us",
+        "player": "Jan"
+      },
+      "rotation": {
+        "us": 5,
+        "them": 5
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 1,
+      "rally": 43,
+      "scenario": "Überpass / direkter Annahme-Rückball und Gegenangriff",
+      "winner": "them",
+      "score": {
+        "us": 22,
+        "them": 21
+      },
+      "server": {
+        "team": "them",
+        "player": "G1"
+      },
+      "rotation": {
+        "us": 5,
+        "them": 0
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 1,
+      "rally": 44,
+      "scenario": "Verpasster gegnerischer Rückball ohne erfundene Spielerwerte",
+      "winner": "them",
+      "score": {
+        "us": 22,
+        "them": 22
+      },
+      "server": {
+        "team": "them",
+        "player": "G1"
+      },
+      "rotation": {
+        "us": 5,
+        "them": 0
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 1,
+      "rally": 45,
+      "scenario": "Block-out nach bestätigter gegnerischer Blockberührung",
+      "winner": "us",
+      "score": {
+        "us": 23,
+        "them": 22
+      },
+      "server": {
+        "team": "us",
+        "player": "David"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 0
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 1,
+      "rally": 46,
+      "scenario": "Zuspiel-/Technikfehler",
+      "winner": "them",
+      "score": {
+        "us": 23,
+        "them": 23
+      },
+      "server": {
+        "team": "them",
+        "player": "G2"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 1
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 1,
+      "rally": 47,
+      "scenario": "Dritter Kontakt als Angriff ins Netz",
+      "winner": "us",
+      "score": {
+        "us": 24,
+        "them": 23
+      },
+      "server": {
+        "team": "us",
+        "player": "Cedric"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 1
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 1,
+      "rally": 48,
+      "scenario": "Punkt ohne Spielerzuordnung bei verpasstem Ballwechsel",
+      "winner": "us",
+      "score": {
+        "us": 25,
+        "them": 23
+      },
+      "server": {
+        "team": "us",
+        "player": "Cedric"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 1
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 2,
+      "rally": 1,
+      "scenario": "Aufschlag ins Netz",
+      "winner": "us",
+      "score": {
+        "us": 1,
+        "them": 0
+      },
+      "server": {
+        "team": "us",
+        "player": "Slawa"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 0
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 2,
+      "rally": 2,
+      "scenario": "Annahmefehler nach unprotokolliertem Aufschlag",
+      "winner": "us",
+      "score": {
+        "us": 2,
+        "them": 0
+      },
+      "server": {
+        "team": "us",
+        "player": "Slawa"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 0
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 2,
+      "rally": 3,
+      "scenario": "Annahme–Zuspiel–Angriff ins Aus",
+      "winner": "us",
+      "score": {
+        "us": 3,
+        "them": 0
+      },
+      "server": {
+        "team": "us",
+        "player": "Slawa"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 0
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 2,
+      "rally": 4,
+      "scenario": "Notzuspiel im Hinterfeld ins Aus",
+      "winner": "them",
+      "score": {
+        "us": 3,
+        "them": 1
+      },
+      "server": {
+        "team": "them",
+        "player": "G4"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 1
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 2,
+      "rally": 5,
+      "scenario": "Direkter zweiter Ball",
+      "winner": "us",
+      "score": {
+        "us": 4,
+        "them": 1
+      },
+      "server": {
+        "team": "us",
+        "player": "Rayan"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 1
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 2,
+      "rally": 6,
+      "scenario": "Teilgesten: Annahme, Zuspiel und Angriff",
+      "winner": "them",
+      "score": {
+        "us": 4,
+        "them": 2
+      },
+      "server": {
+        "team": "them",
+        "player": "G5"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 2
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 2,
+      "rally": 7,
+      "scenario": "Langer Ballwechsel mit mehreren abgewehrten Angriffen",
+      "winner": "them",
+      "score": {
+        "us": 4,
+        "them": 3
+      },
+      "server": {
+        "team": "them",
+        "player": "G5"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 2
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 2,
+      "rally": 8,
+      "scenario": "Direkter Blockpunkt",
+      "winner": "us",
+      "score": {
+        "us": 5,
+        "them": 3
+      },
+      "server": {
+        "team": "us",
+        "player": "Lukas"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 2
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 2,
+      "rally": 9,
+      "scenario": "Block und erster Folgekontakt durch denselben Spieler",
+      "winner": "them",
+      "score": {
+        "us": 5,
+        "them": 4
+      },
+      "server": {
+        "team": "them",
+        "player": "G6"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 3
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 2,
+      "rally": 10,
+      "scenario": "Angriff geblockt, Sicherung auf Angreiferseite und neuer Angriff",
+      "winner": "us",
+      "score": {
+        "us": 6,
+        "them": 4
+      },
+      "server": {
+        "team": "us",
+        "player": "Dave"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 3
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 2,
+      "rally": 11,
+      "scenario": "Überpass / direkter Annahme-Rückball und Gegenangriff",
+      "winner": "them",
+      "score": {
+        "us": 6,
+        "them": 5
+      },
+      "server": {
+        "team": "them",
+        "player": "G1"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 4
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 2,
+      "rally": 12,
+      "scenario": "Verpasster gegnerischer Rückball ohne erfundene Spielerwerte",
+      "winner": "them",
+      "score": {
+        "us": 6,
+        "them": 6
+      },
+      "server": {
+        "team": "them",
+        "player": "G1"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 4
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 2,
+      "rally": 13,
+      "scenario": "Block-out nach bestätigter gegnerischer Blockberührung",
+      "winner": "us",
+      "score": {
+        "us": 7,
+        "them": 6
+      },
+      "server": {
+        "team": "us",
+        "player": "David"
+      },
+      "rotation": {
+        "us": 5,
+        "them": 4
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 2,
+      "rally": 14,
+      "scenario": "Zuspiel-/Technikfehler",
+      "winner": "them",
+      "score": {
+        "us": 7,
+        "them": 7
+      },
+      "server": {
+        "team": "them",
+        "player": "G2"
+      },
+      "rotation": {
+        "us": 5,
+        "them": 5
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 2,
+      "rally": 15,
+      "scenario": "Dritter Kontakt als Angriff ins Netz",
+      "winner": "them",
+      "score": {
+        "us": 7,
+        "them": 8
+      },
+      "server": {
+        "team": "them",
+        "player": "G2"
+      },
+      "rotation": {
+        "us": 5,
+        "them": 5
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 2,
+      "rally": 16,
+      "scenario": "Punkt ohne Spielerzuordnung bei verpasstem Ballwechsel",
+      "winner": "us",
+      "score": {
+        "us": 8,
+        "them": 8
+      },
+      "server": {
+        "team": "us",
+        "player": "Cedric"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 5
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 2,
+      "rally": 17,
+      "scenario": "Ass",
+      "winner": "us",
+      "score": {
+        "us": 9,
+        "them": 8
+      },
+      "server": {
+        "team": "us",
+        "player": "Cedric"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 5
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 2,
+      "rally": 18,
+      "scenario": "Aufschlag ins Aus",
+      "winner": "them",
+      "score": {
+        "us": 9,
+        "them": 9
+      },
+      "server": {
+        "team": "them",
+        "player": "G3"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 0
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 2,
+      "rally": 19,
+      "scenario": "Annahme–Zuspiel–Angriff ins Aus",
+      "winner": "them",
+      "score": {
+        "us": 9,
+        "them": 10
+      },
+      "server": {
+        "team": "them",
+        "player": "G3"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 0
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 2,
+      "rally": 20,
+      "scenario": "Notzuspiel im Hinterfeld ins Aus",
+      "winner": "them",
+      "score": {
+        "us": 9,
+        "them": 11
+      },
+      "server": {
+        "team": "them",
+        "player": "G3"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 0
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 2,
+      "rally": 21,
+      "scenario": "Direkter zweiter Ball",
+      "winner": "us",
+      "score": {
+        "us": 10,
+        "them": 11
+      },
+      "server": {
+        "team": "us",
+        "player": "Slawa"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 0
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 2,
+      "rally": 22,
+      "scenario": "Teilgesten: Annahme, Zuspiel und Angriff",
+      "winner": "us",
+      "score": {
+        "us": 11,
+        "them": 11
+      },
+      "server": {
+        "team": "us",
+        "player": "Slawa"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 0
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 2,
+      "rally": 23,
+      "scenario": "Langer Ballwechsel mit mehreren abgewehrten Angriffen",
+      "winner": "us",
+      "score": {
+        "us": 12,
+        "them": 11
+      },
+      "server": {
+        "team": "us",
+        "player": "Slawa"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 0
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 2,
+      "rally": 24,
+      "scenario": "Direkter Blockpunkt",
+      "winner": "them",
+      "score": {
+        "us": 12,
+        "them": 12
+      },
+      "server": {
+        "team": "them",
+        "player": "G4"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 1
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 2,
+      "rally": 25,
+      "scenario": "Block und erster Folgekontakt durch denselben Spieler",
+      "winner": "us",
+      "score": {
+        "us": 13,
+        "them": 12
+      },
+      "server": {
+        "team": "us",
+        "player": "Rayan"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 1
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 2,
+      "rally": 26,
+      "scenario": "Angriff geblockt, Sicherung auf Angreiferseite und neuer Angriff",
+      "winner": "us",
+      "score": {
+        "us": 14,
+        "them": 12
+      },
+      "server": {
+        "team": "us",
+        "player": "Rayan"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 1
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 2,
+      "rally": 27,
+      "scenario": "Überpass / direkter Annahme-Rückball und Gegenangriff",
+      "winner": "them",
+      "score": {
+        "us": 14,
+        "them": 13
+      },
+      "server": {
+        "team": "them",
+        "player": "G5"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 2
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 2,
+      "rally": 28,
+      "scenario": "Verpasster gegnerischer Rückball ohne erfundene Spielerwerte",
+      "winner": "them",
+      "score": {
+        "us": 14,
+        "them": 14
+      },
+      "server": {
+        "team": "them",
+        "player": "G5"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 2
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 2,
+      "rally": 29,
+      "scenario": "Block-out nach bestätigter gegnerischer Blockberührung",
+      "winner": "them",
+      "score": {
+        "us": 14,
+        "them": 15
+      },
+      "server": {
+        "team": "them",
+        "player": "G5"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 2
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 2,
+      "rally": 30,
+      "scenario": "Zuspiel-/Technikfehler",
+      "winner": "us",
+      "score": {
+        "us": 15,
+        "them": 15
+      },
+      "server": {
+        "team": "us",
+        "player": "Lukas"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 2
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 2,
+      "rally": 31,
+      "scenario": "Dritter Kontakt als Angriff ins Netz",
+      "winner": "us",
+      "score": {
+        "us": 16,
+        "them": 15
+      },
+      "server": {
+        "team": "us",
+        "player": "Lukas"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 2
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 2,
+      "rally": 32,
+      "scenario": "Punkt ohne Spielerzuordnung bei verpasstem Ballwechsel",
+      "winner": "them",
+      "score": {
+        "us": 16,
+        "them": 16
+      },
+      "server": {
+        "team": "them",
+        "player": "G6"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 3
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 2,
+      "rally": 33,
+      "scenario": "Ass",
+      "winner": "them",
+      "score": {
+        "us": 16,
+        "them": 17
+      },
+      "server": {
+        "team": "them",
+        "player": "G6"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 3
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 2,
+      "rally": 34,
+      "scenario": "Annahmefehler nach unprotokolliertem Aufschlag",
+      "winner": "them",
+      "score": {
+        "us": 16,
+        "them": 18
+      },
+      "server": {
+        "team": "them",
+        "player": "G6"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 3
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 2,
+      "rally": 35,
+      "scenario": "Annahme–Zuspiel–Kill",
+      "winner": "us",
+      "score": {
+        "us": 17,
+        "them": 18
+      },
+      "server": {
+        "team": "us",
+        "player": "Jan"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 3
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 2,
+      "rally": 36,
+      "scenario": "Notzuspiel im Hinterfeld ins Aus",
+      "winner": "us",
+      "score": {
+        "us": 18,
+        "them": 18
+      },
+      "server": {
+        "team": "us",
+        "player": "Jan"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 3
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 2,
+      "rally": 37,
+      "scenario": "Direkter zweiter Ball",
+      "winner": "them",
+      "score": {
+        "us": 18,
+        "them": 19
+      },
+      "server": {
+        "team": "them",
+        "player": "G1"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 4
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 2,
+      "rally": 38,
+      "scenario": "Teilgesten: Annahme, Zuspiel und Angriff",
+      "winner": "them",
+      "score": {
+        "us": 18,
+        "them": 20
+      },
+      "server": {
+        "team": "them",
+        "player": "G1"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 4
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 2,
+      "rally": 39,
+      "scenario": "Langer Ballwechsel mit mehreren abgewehrten Angriffen",
+      "winner": "them",
+      "score": {
+        "us": 18,
+        "them": 21
+      },
+      "server": {
+        "team": "them",
+        "player": "G1"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 4
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 2,
+      "rally": 40,
+      "scenario": "Direkter Blockpunkt",
+      "winner": "us",
+      "score": {
+        "us": 19,
+        "them": 21
+      },
+      "server": {
+        "team": "us",
+        "player": "David"
+      },
+      "rotation": {
+        "us": 5,
+        "them": 4
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 2,
+      "rally": 41,
+      "scenario": "Block und erster Folgekontakt durch denselben Spieler",
+      "winner": "us",
+      "score": {
+        "us": 20,
+        "them": 21
+      },
+      "server": {
+        "team": "us",
+        "player": "David"
+      },
+      "rotation": {
+        "us": 5,
+        "them": 4
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 2,
+      "rally": 42,
+      "scenario": "Angriff geblockt, Sicherung auf Angreiferseite und neuer Angriff",
+      "winner": "us",
+      "score": {
+        "us": 21,
+        "them": 21
+      },
+      "server": {
+        "team": "us",
+        "player": "David"
+      },
+      "rotation": {
+        "us": 5,
+        "them": 4
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 2,
+      "rally": 43,
+      "scenario": "Überpass / direkter Annahme-Rückball und Gegenangriff",
+      "winner": "them",
+      "score": {
+        "us": 21,
+        "them": 22
+      },
+      "server": {
+        "team": "them",
+        "player": "G2"
+      },
+      "rotation": {
+        "us": 5,
+        "them": 5
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 2,
+      "rally": 44,
+      "scenario": "Verpasster gegnerischer Rückball ohne erfundene Spielerwerte",
+      "winner": "us",
+      "score": {
+        "us": 22,
+        "them": 22
+      },
+      "server": {
+        "team": "us",
+        "player": "Cedric"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 5
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 2,
+      "rally": 45,
+      "scenario": "Block-out nach bestätigter gegnerischer Blockberührung",
+      "winner": "them",
+      "score": {
+        "us": 22,
+        "them": 23
+      },
+      "server": {
+        "team": "them",
+        "player": "G3"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 0
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 2,
+      "rally": 46,
+      "scenario": "Zuspiel-/Technikfehler",
+      "winner": "them",
+      "score": {
+        "us": 22,
+        "them": 24
+      },
+      "server": {
+        "team": "them",
+        "player": "G3"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 0
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 2,
+      "rally": 47,
+      "scenario": "Dritter Kontakt als Angriff ins Netz",
+      "winner": "them",
+      "score": {
+        "us": 22,
+        "them": 25
+      },
+      "server": {
+        "team": "them",
+        "player": "G3"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 0
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 3,
+      "rally": 1,
+      "scenario": "Ass",
+      "winner": "us",
+      "score": {
+        "us": 1,
+        "them": 0
+      },
+      "server": {
+        "team": "us",
+        "player": "Slawa"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 0
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 3,
+      "rally": 2,
+      "scenario": "Aufschlag ins Aus",
+      "winner": "them",
+      "score": {
+        "us": 1,
+        "them": 1
+      },
+      "server": {
+        "team": "them",
+        "player": "G6"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 1
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 3,
+      "rally": 3,
+      "scenario": "Annahme–Zuspiel–Kill",
+      "winner": "us",
+      "score": {
+        "us": 2,
+        "them": 1
+      },
+      "server": {
+        "team": "us",
+        "player": "Rayan"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 1
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 3,
+      "rally": 4,
+      "scenario": "Notzuspiel im Hinterfeld ins Aus",
+      "winner": "them",
+      "score": {
+        "us": 2,
+        "them": 2
+      },
+      "server": {
+        "team": "them",
+        "player": "G1"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 2
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 3,
+      "rally": 5,
+      "scenario": "Direkter zweiter Ball",
+      "winner": "us",
+      "score": {
+        "us": 3,
+        "them": 2
+      },
+      "server": {
+        "team": "us",
+        "player": "Lukas"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 2
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 3,
+      "rally": 6,
+      "scenario": "Teilgesten: Annahme, Zuspiel und Angriff",
+      "winner": "us",
+      "score": {
+        "us": 4,
+        "them": 2
+      },
+      "server": {
+        "team": "us",
+        "player": "Lukas"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 2
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 3,
+      "rally": 7,
+      "scenario": "Langer Ballwechsel mit mehreren abgewehrten Angriffen",
+      "winner": "them",
+      "score": {
+        "us": 4,
+        "them": 3
+      },
+      "server": {
+        "team": "them",
+        "player": "G2"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 3
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 3,
+      "rally": 8,
+      "scenario": "Direkter Blockpunkt",
+      "winner": "them",
+      "score": {
+        "us": 4,
+        "them": 4
+      },
+      "server": {
+        "team": "them",
+        "player": "G2"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 3
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 3,
+      "rally": 9,
+      "scenario": "Block und erster Folgekontakt durch denselben Spieler",
+      "winner": "us",
+      "score": {
+        "us": 5,
+        "them": 4
+      },
+      "server": {
+        "team": "us",
+        "player": "Dave"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 3
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 3,
+      "rally": 10,
+      "scenario": "Angriff geblockt, Sicherung auf Angreiferseite und neuer Angriff",
+      "winner": "us",
+      "score": {
+        "us": 6,
+        "them": 4
+      },
+      "server": {
+        "team": "us",
+        "player": "Dave"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 3
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 3,
+      "rally": 11,
+      "scenario": "Überpass / direkter Annahme-Rückball und Gegenangriff",
+      "winner": "us",
+      "score": {
+        "us": 7,
+        "them": 4
+      },
+      "server": {
+        "team": "us",
+        "player": "Dave"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 3
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 3,
+      "rally": 12,
+      "scenario": "Verpasster gegnerischer Rückball ohne erfundene Spielerwerte",
+      "winner": "them",
+      "score": {
+        "us": 7,
+        "them": 5
+      },
+      "server": {
+        "team": "them",
+        "player": "G3"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 4
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 3,
+      "rally": 13,
+      "scenario": "Block-out nach bestätigter gegnerischer Blockberührung",
+      "winner": "us",
+      "score": {
+        "us": 8,
+        "them": 5
+      },
+      "server": {
+        "team": "us",
+        "player": "David"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 4
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 3,
+      "rally": 14,
+      "scenario": "Zuspiel-/Technikfehler",
+      "winner": "us",
+      "score": {
+        "us": 9,
+        "them": 5
+      },
+      "server": {
+        "team": "us",
+        "player": "David"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 4
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 3,
+      "rally": 15,
+      "scenario": "Dritter Kontakt als Angriff ins Netz",
+      "winner": "us",
+      "score": {
+        "us": 10,
+        "them": 5
+      },
+      "server": {
+        "team": "us",
+        "player": "David"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 4
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 3,
+      "rally": 16,
+      "scenario": "Punkt ohne Spielerzuordnung bei verpasstem Ballwechsel",
+      "winner": "them",
+      "score": {
+        "us": 10,
+        "them": 6
+      },
+      "server": {
+        "team": "them",
+        "player": "G4"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 5
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 3,
+      "rally": 17,
+      "scenario": "Ass",
+      "winner": "them",
+      "score": {
+        "us": 10,
+        "them": 7
+      },
+      "server": {
+        "team": "them",
+        "player": "G4"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 5
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 3,
+      "rally": 18,
+      "scenario": "Annahmefehler nach unprotokolliertem Aufschlag",
+      "winner": "them",
+      "score": {
+        "us": 10,
+        "them": 8
+      },
+      "server": {
+        "team": "them",
+        "player": "G4"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 5
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 3,
+      "rally": 19,
+      "scenario": "Annahme–Zuspiel–Kill",
+      "winner": "us",
+      "score": {
+        "us": 11,
+        "them": 8
+      },
+      "server": {
+        "team": "us",
+        "player": "Cedric"
+      },
+      "rotation": {
+        "us": 5,
+        "them": 5
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 3,
+      "rally": 20,
+      "scenario": "Notzuspiel im Hinterfeld ins Aus",
+      "winner": "us",
+      "score": {
+        "us": 12,
+        "them": 8
+      },
+      "server": {
+        "team": "us",
+        "player": "Cedric"
+      },
+      "rotation": {
+        "us": 5,
+        "them": 5
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 3,
+      "rally": 21,
+      "scenario": "Direkter zweiter Ball",
+      "winner": "us",
+      "score": {
+        "us": 13,
+        "them": 8
+      },
+      "server": {
+        "team": "us",
+        "player": "Cedric"
+      },
+      "rotation": {
+        "us": 5,
+        "them": 5
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 3,
+      "rally": 22,
+      "scenario": "Teilgesten: Annahme, Zuspiel und Angriff",
+      "winner": "them",
+      "score": {
+        "us": 13,
+        "them": 9
+      },
+      "server": {
+        "team": "them",
+        "player": "G5"
+      },
+      "rotation": {
+        "us": 5,
+        "them": 0
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 3,
+      "rally": 23,
+      "scenario": "Langer Ballwechsel mit mehreren abgewehrten Angriffen",
+      "winner": "us",
+      "score": {
+        "us": 14,
+        "them": 9
+      },
+      "server": {
+        "team": "us",
+        "player": "Slawa"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 0
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 3,
+      "rally": 24,
+      "scenario": "Direkter Blockpunkt",
+      "winner": "us",
+      "score": {
+        "us": 15,
+        "them": 9
+      },
+      "server": {
+        "team": "us",
+        "player": "Slawa"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 0
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 3,
+      "rally": 25,
+      "scenario": "Block und erster Folgekontakt durch denselben Spieler",
+      "winner": "us",
+      "score": {
+        "us": 16,
+        "them": 9
+      },
+      "server": {
+        "team": "us",
+        "player": "Slawa"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 0
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 3,
+      "rally": 26,
+      "scenario": "Angriff geblockt, Sicherung auf Angreiferseite und neuer Angriff",
+      "winner": "them",
+      "score": {
+        "us": 16,
+        "them": 10
+      },
+      "server": {
+        "team": "them",
+        "player": "G6"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 1
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 3,
+      "rally": 27,
+      "scenario": "Überpass / direkter Annahme-Rückball und Gegenangriff",
+      "winner": "them",
+      "score": {
+        "us": 16,
+        "them": 11
+      },
+      "server": {
+        "team": "them",
+        "player": "G6"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 1
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 3,
+      "rally": 28,
+      "scenario": "Verpasster gegnerischer Rückball ohne erfundene Spielerwerte",
+      "winner": "us",
+      "score": {
+        "us": 17,
+        "them": 11
+      },
+      "server": {
+        "team": "us",
+        "player": "Rayan"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 1
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 3,
+      "rally": 29,
+      "scenario": "Block-out nach bestätigter gegnerischer Blockberührung",
+      "winner": "us",
+      "score": {
+        "us": 18,
+        "them": 11
+      },
+      "server": {
+        "team": "us",
+        "player": "Rayan"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 1
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 3,
+      "rally": 30,
+      "scenario": "Zuspiel-/Technikfehler",
+      "winner": "us",
+      "score": {
+        "us": 19,
+        "them": 11
+      },
+      "server": {
+        "team": "us",
+        "player": "Rayan"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 1
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 3,
+      "rally": 31,
+      "scenario": "Dritter Kontakt als Angriff ins Netz",
+      "winner": "them",
+      "score": {
+        "us": 19,
+        "them": 12
+      },
+      "server": {
+        "team": "them",
+        "player": "G1"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 2
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 3,
+      "rally": 32,
+      "scenario": "Punkt ohne Spielerzuordnung bei verpasstem Ballwechsel",
+      "winner": "us",
+      "score": {
+        "us": 20,
+        "them": 12
+      },
+      "server": {
+        "team": "us",
+        "player": "Lukas"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 2
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 3,
+      "rally": 33,
+      "scenario": "Ass",
+      "winner": "us",
+      "score": {
+        "us": 21,
+        "them": 12
+      },
+      "server": {
+        "team": "us",
+        "player": "Lukas"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 2
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 3,
+      "rally": 34,
+      "scenario": "Aufschlag ins Aus",
+      "winner": "them",
+      "score": {
+        "us": 21,
+        "them": 13
+      },
+      "server": {
+        "team": "them",
+        "player": "G2"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 3
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 3,
+      "rally": 35,
+      "scenario": "Annahme–Zuspiel–Angriff ins Aus",
+      "winner": "them",
+      "score": {
+        "us": 21,
+        "them": 14
+      },
+      "server": {
+        "team": "them",
+        "player": "G2"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 3
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 3,
+      "rally": 36,
+      "scenario": "Notzuspiel im Hinterfeld ins Aus",
+      "winner": "them",
+      "score": {
+        "us": 21,
+        "them": 15
+      },
+      "server": {
+        "team": "them",
+        "player": "G2"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 3
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 3,
+      "rally": 37,
+      "scenario": "Direkter zweiter Ball",
+      "winner": "us",
+      "score": {
+        "us": 22,
+        "them": 15
+      },
+      "server": {
+        "team": "us",
+        "player": "Jan"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 3
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 3,
+      "rally": 38,
+      "scenario": "Teilgesten: Annahme, Zuspiel und Angriff",
+      "winner": "them",
+      "score": {
+        "us": 22,
+        "them": 16
+      },
+      "server": {
+        "team": "them",
+        "player": "G3"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 4
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 3,
+      "rally": 39,
+      "scenario": "Langer Ballwechsel mit mehreren abgewehrten Angriffen",
+      "winner": "them",
+      "score": {
+        "us": 22,
+        "them": 17
+      },
+      "server": {
+        "team": "them",
+        "player": "G3"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 4
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 3,
+      "rally": 40,
+      "scenario": "Direkter Blockpunkt",
+      "winner": "us",
+      "score": {
+        "us": 23,
+        "them": 17
+      },
+      "server": {
+        "team": "us",
+        "player": "David"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 4
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 3,
+      "rally": 41,
+      "scenario": "Block und erster Folgekontakt durch denselben Spieler",
+      "winner": "them",
+      "score": {
+        "us": 23,
+        "them": 18
+      },
+      "server": {
+        "team": "them",
+        "player": "G4"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 5
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 3,
+      "rally": 42,
+      "scenario": "Angriff geblockt, Sicherung auf Angreiferseite und neuer Angriff",
+      "winner": "them",
+      "score": {
+        "us": 23,
+        "them": 19
+      },
+      "server": {
+        "team": "them",
+        "player": "G4"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 5
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 3,
+      "rally": 43,
+      "scenario": "Überpass / direkter Annahme-Rückball und Gegenangriff",
+      "winner": "us",
+      "score": {
+        "us": 24,
+        "them": 19
+      },
+      "server": {
+        "team": "us",
+        "player": "Cedric"
+      },
+      "rotation": {
+        "us": 5,
+        "them": 5
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 3,
+      "rally": 44,
+      "scenario": "Verpasster gegnerischer Rückball ohne erfundene Spielerwerte",
+      "winner": "us",
+      "score": {
+        "us": 25,
+        "them": 19
+      },
+      "server": {
+        "team": "us",
+        "player": "Cedric"
+      },
+      "rotation": {
+        "us": 5,
+        "them": 5
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 4,
+      "rally": 1,
+      "scenario": "Aufschlag ins Netz",
+      "winner": "us",
+      "score": {
+        "us": 1,
+        "them": 0
+      },
+      "server": {
+        "team": "us",
+        "player": "Lukas"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 0
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 4,
+      "rally": 2,
+      "scenario": "Aufschlag ins Aus",
+      "winner": "them",
+      "score": {
+        "us": 1,
+        "them": 1
+      },
+      "server": {
+        "team": "them",
+        "player": "G2"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 1
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 4,
+      "rally": 3,
+      "scenario": "Annahme–Zuspiel–Kill",
+      "winner": "us",
+      "score": {
+        "us": 2,
+        "them": 1
+      },
+      "server": {
+        "team": "us",
+        "player": "Jan"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 1
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 4,
+      "rally": 4,
+      "scenario": "Notzuspiel im Hinterfeld ins Aus",
+      "winner": "them",
+      "score": {
+        "us": 2,
+        "them": 2
+      },
+      "server": {
+        "team": "them",
+        "player": "G3"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 2
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 4,
+      "rally": 5,
+      "scenario": "Direkter zweiter Ball",
+      "winner": "us",
+      "score": {
+        "us": 3,
+        "them": 2
+      },
+      "server": {
+        "team": "us",
+        "player": "David"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 2
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 4,
+      "rally": 6,
+      "scenario": "Teilgesten: Annahme, Zuspiel und Angriff",
+      "winner": "us",
+      "score": {
+        "us": 4,
+        "them": 2
+      },
+      "server": {
+        "team": "us",
+        "player": "David"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 2
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 4,
+      "rally": 7,
+      "scenario": "Langer Ballwechsel mit mehreren abgewehrten Angriffen",
+      "winner": "us",
+      "score": {
+        "us": 5,
+        "them": 2
+      },
+      "server": {
+        "team": "us",
+        "player": "David"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 2
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 4,
+      "rally": 8,
+      "scenario": "Direkter Blockpunkt",
+      "winner": "them",
+      "score": {
+        "us": 5,
+        "them": 3
+      },
+      "server": {
+        "team": "them",
+        "player": "G4"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 3
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 4,
+      "rally": 9,
+      "scenario": "Block und erster Folgekontakt durch denselben Spieler",
+      "winner": "them",
+      "score": {
+        "us": 5,
+        "them": 4
+      },
+      "server": {
+        "team": "them",
+        "player": "G4"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 3
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 4,
+      "rally": 10,
+      "scenario": "Angriff geblockt, Sicherung auf Angreiferseite und neuer Angriff",
+      "winner": "them",
+      "score": {
+        "us": 5,
+        "them": 5
+      },
+      "server": {
+        "team": "them",
+        "player": "G4"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 3
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 4,
+      "rally": 11,
+      "scenario": "Überpass / direkter Annahme-Rückball und Gegenangriff",
+      "winner": "us",
+      "score": {
+        "us": 6,
+        "them": 5
+      },
+      "server": {
+        "team": "us",
+        "player": "Cedric"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 3
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 4,
+      "rally": 12,
+      "scenario": "Verpasster gegnerischer Rückball ohne erfundene Spielerwerte",
+      "winner": "us",
+      "score": {
+        "us": 7,
+        "them": 5
+      },
+      "server": {
+        "team": "us",
+        "player": "Cedric"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 3
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 4,
+      "rally": 13,
+      "scenario": "Block-out nach bestätigter gegnerischer Blockberührung",
+      "winner": "them",
+      "score": {
+        "us": 7,
+        "them": 6
+      },
+      "server": {
+        "team": "them",
+        "player": "G5"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 4
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 4,
+      "rally": 14,
+      "scenario": "Zuspiel-/Technikfehler",
+      "winner": "us",
+      "score": {
+        "us": 8,
+        "them": 6
+      },
+      "server": {
+        "team": "us",
+        "player": "Slawa"
+      },
+      "rotation": {
+        "us": 5,
+        "them": 4
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 4,
+      "rally": 15,
+      "scenario": "Dritter Kontakt als Angriff ins Netz",
+      "winner": "them",
+      "score": {
+        "us": 8,
+        "them": 7
+      },
+      "server": {
+        "team": "them",
+        "player": "G6"
+      },
+      "rotation": {
+        "us": 5,
+        "them": 5
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 4,
+      "rally": 16,
+      "scenario": "Punkt ohne Spielerzuordnung bei verpasstem Ballwechsel",
+      "winner": "us",
+      "score": {
+        "us": 9,
+        "them": 7
+      },
+      "server": {
+        "team": "us",
+        "player": "Rayan"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 5
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 4,
+      "rally": 17,
+      "scenario": "Ass",
+      "winner": "us",
+      "score": {
+        "us": 10,
+        "them": 7
+      },
+      "server": {
+        "team": "us",
+        "player": "Rayan"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 5
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 4,
+      "rally": 18,
+      "scenario": "Aufschlag ins Aus",
+      "winner": "them",
+      "score": {
+        "us": 10,
+        "them": 8
+      },
+      "server": {
+        "team": "them",
+        "player": "G1"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 0
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 4,
+      "rally": 19,
+      "scenario": "Annahme–Zuspiel–Angriff ins Aus",
+      "winner": "them",
+      "score": {
+        "us": 10,
+        "them": 9
+      },
+      "server": {
+        "team": "them",
+        "player": "G1"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 0
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 4,
+      "rally": 20,
+      "scenario": "Notzuspiel im Hinterfeld ins Aus",
+      "winner": "them",
+      "score": {
+        "us": 10,
+        "them": 10
+      },
+      "server": {
+        "team": "them",
+        "player": "G1"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 0
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 4,
+      "rally": 21,
+      "scenario": "Direkter zweiter Ball",
+      "winner": "us",
+      "score": {
+        "us": 11,
+        "them": 10
+      },
+      "server": {
+        "team": "us",
+        "player": "Lukas"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 0
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 4,
+      "rally": 22,
+      "scenario": "Teilgesten: Annahme, Zuspiel und Angriff",
+      "winner": "us",
+      "score": {
+        "us": 12,
+        "them": 10
+      },
+      "server": {
+        "team": "us",
+        "player": "Lukas"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 0
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 4,
+      "rally": 23,
+      "scenario": "Langer Ballwechsel mit mehreren abgewehrten Angriffen",
+      "winner": "us",
+      "score": {
+        "us": 13,
+        "them": 10
+      },
+      "server": {
+        "team": "us",
+        "player": "Lukas"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 0
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 4,
+      "rally": 24,
+      "scenario": "Direkter Blockpunkt",
+      "winner": "them",
+      "score": {
+        "us": 13,
+        "them": 11
+      },
+      "server": {
+        "team": "them",
+        "player": "G2"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 1
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 4,
+      "rally": 25,
+      "scenario": "Block und erster Folgekontakt durch denselben Spieler",
+      "winner": "them",
+      "score": {
+        "us": 13,
+        "them": 12
+      },
+      "server": {
+        "team": "them",
+        "player": "G2"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 1
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 4,
+      "rally": 26,
+      "scenario": "Angriff geblockt, Sicherung auf Angreiferseite und neuer Angriff",
+      "winner": "them",
+      "score": {
+        "us": 13,
+        "them": 13
+      },
+      "server": {
+        "team": "them",
+        "player": "G2"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 1
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 4,
+      "rally": 27,
+      "scenario": "Überpass / direkter Annahme-Rückball und Gegenangriff",
+      "winner": "us",
+      "score": {
+        "us": 14,
+        "them": 13
+      },
+      "server": {
+        "team": "us",
+        "player": "Jan"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 1
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 4,
+      "rally": 28,
+      "scenario": "Verpasster gegnerischer Rückball ohne erfundene Spielerwerte",
+      "winner": "us",
+      "score": {
+        "us": 15,
+        "them": 13
+      },
+      "server": {
+        "team": "us",
+        "player": "Jan"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 1
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 4,
+      "rally": 29,
+      "scenario": "Block-out nach bestätigter gegnerischer Blockberührung",
+      "winner": "them",
+      "score": {
+        "us": 15,
+        "them": 14
+      },
+      "server": {
+        "team": "them",
+        "player": "G3"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 2
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 4,
+      "rally": 30,
+      "scenario": "Zuspiel-/Technikfehler",
+      "winner": "us",
+      "score": {
+        "us": 16,
+        "them": 14
+      },
+      "server": {
+        "team": "us",
+        "player": "David"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 2
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 4,
+      "rally": 31,
+      "scenario": "Dritter Kontakt als Angriff ins Netz",
+      "winner": "us",
+      "score": {
+        "us": 17,
+        "them": 14
+      },
+      "server": {
+        "team": "us",
+        "player": "David"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 2
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 4,
+      "rally": 32,
+      "scenario": "Punkt ohne Spielerzuordnung bei verpasstem Ballwechsel",
+      "winner": "us",
+      "score": {
+        "us": 18,
+        "them": 14
+      },
+      "server": {
+        "team": "us",
+        "player": "David"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 2
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 4,
+      "rally": 33,
+      "scenario": "Aufschlag ins Netz",
+      "winner": "them",
+      "score": {
+        "us": 18,
+        "them": 15
+      },
+      "server": {
+        "team": "them",
+        "player": "G4"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 3
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 4,
+      "rally": 34,
+      "scenario": "Annahmefehler nach unprotokolliertem Aufschlag",
+      "winner": "them",
+      "score": {
+        "us": 18,
+        "them": 16
+      },
+      "server": {
+        "team": "them",
+        "player": "G4"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 3
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 4,
+      "rally": 35,
+      "scenario": "Annahme–Zuspiel–Kill",
+      "winner": "us",
+      "score": {
+        "us": 19,
+        "them": 16
+      },
+      "server": {
+        "team": "us",
+        "player": "Cedric"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 3
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 4,
+      "rally": 36,
+      "scenario": "Notzuspiel im Hinterfeld ins Aus",
+      "winner": "us",
+      "score": {
+        "us": 20,
+        "them": 16
+      },
+      "server": {
+        "team": "us",
+        "player": "Cedric"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 3
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 4,
+      "rally": 37,
+      "scenario": "Direkter zweiter Ball",
+      "winner": "them",
+      "score": {
+        "us": 20,
+        "them": 17
+      },
+      "server": {
+        "team": "them",
+        "player": "G5"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 4
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 4,
+      "rally": 38,
+      "scenario": "Teilgesten: Annahme, Zuspiel und Angriff",
+      "winner": "us",
+      "score": {
+        "us": 21,
+        "them": 17
+      },
+      "server": {
+        "team": "us",
+        "player": "Slawa"
+      },
+      "rotation": {
+        "us": 5,
+        "them": 4
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 4,
+      "rally": 39,
+      "scenario": "Langer Ballwechsel mit mehreren abgewehrten Angriffen",
+      "winner": "them",
+      "score": {
+        "us": 21,
+        "them": 18
+      },
+      "server": {
+        "team": "them",
+        "player": "G6"
+      },
+      "rotation": {
+        "us": 5,
+        "them": 5
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 4,
+      "rally": 40,
+      "scenario": "Direkter Blockpunkt",
+      "winner": "them",
+      "score": {
+        "us": 21,
+        "them": 19
+      },
+      "server": {
+        "team": "them",
+        "player": "G6"
+      },
+      "rotation": {
+        "us": 5,
+        "them": 5
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 4,
+      "rally": 41,
+      "scenario": "Block und erster Folgekontakt durch denselben Spieler",
+      "winner": "them",
+      "score": {
+        "us": 21,
+        "them": 20
+      },
+      "server": {
+        "team": "them",
+        "player": "G6"
+      },
+      "rotation": {
+        "us": 5,
+        "them": 5
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 4,
+      "rally": 42,
+      "scenario": "Angriff geblockt, Sicherung auf Angreiferseite und neuer Angriff",
+      "winner": "us",
+      "score": {
+        "us": 22,
+        "them": 20
+      },
+      "server": {
+        "team": "us",
+        "player": "Rayan"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 5
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 4,
+      "rally": 43,
+      "scenario": "Überpass / direkter Annahme-Rückball und Gegenangriff",
+      "winner": "us",
+      "score": {
+        "us": 23,
+        "them": 20
+      },
+      "server": {
+        "team": "us",
+        "player": "Rayan"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 5
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 4,
+      "rally": 44,
+      "scenario": "Verpasster gegnerischer Rückball ohne erfundene Spielerwerte",
+      "winner": "them",
+      "score": {
+        "us": 23,
+        "them": 21
+      },
+      "server": {
+        "team": "them",
+        "player": "G1"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 0
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 4,
+      "rally": 45,
+      "scenario": "Block-out nach bestätigter gegnerischer Blockberührung",
+      "winner": "them",
+      "score": {
+        "us": 23,
+        "them": 22
+      },
+      "server": {
+        "team": "them",
+        "player": "G1"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 0
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 4,
+      "rally": 46,
+      "scenario": "Zuspiel-/Technikfehler",
+      "winner": "them",
+      "score": {
+        "us": 23,
+        "them": 23
+      },
+      "server": {
+        "team": "them",
+        "player": "G1"
+      },
+      "rotation": {
+        "us": 0,
+        "them": 0
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 4,
+      "rally": 47,
+      "scenario": "Dritter Kontakt als Angriff ins Netz",
+      "winner": "us",
+      "score": {
+        "us": 24,
+        "them": 23
+      },
+      "server": {
+        "team": "us",
+        "player": "Lukas"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 0
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 4,
+      "rally": 48,
+      "scenario": "Punkt ohne Spielerzuordnung bei verpasstem Ballwechsel",
+      "winner": "them",
+      "score": {
+        "us": 24,
+        "them": 24
+      },
+      "server": {
+        "team": "them",
+        "player": "G2"
+      },
+      "rotation": {
+        "us": 1,
+        "them": 1
+      },
+      "liberoSlot": 1
+    },
+    {
+      "set": 4,
+      "rally": 49,
+      "scenario": "Aufschlag ins Netz",
+      "winner": "us",
+      "score": {
+        "us": 25,
+        "them": 24
+      },
+      "server": {
+        "team": "us",
+        "player": "Jan"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 1
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 4,
+      "rally": 50,
+      "scenario": "Aufschlag ins Aus",
+      "winner": "them",
+      "score": {
+        "us": 25,
+        "them": 25
+      },
+      "server": {
+        "team": "them",
+        "player": "G3"
+      },
+      "rotation": {
+        "us": 2,
+        "them": 2
+      },
+      "liberoSlot": 6
+    },
+    {
+      "set": 4,
+      "rally": 51,
+      "scenario": "Annahme–Zuspiel–Kill",
+      "winner": "us",
+      "score": {
+        "us": 26,
+        "them": 25
+      },
+      "server": {
+        "team": "us",
+        "player": "David"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 2
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 4,
+      "rally": 52,
+      "scenario": "Notzuspiel im Hinterfeld ins Aus",
+      "winner": "them",
+      "score": {
+        "us": 26,
+        "them": 26
+      },
+      "server": {
+        "team": "them",
+        "player": "G4"
+      },
+      "rotation": {
+        "us": 3,
+        "them": 3
+      },
+      "liberoSlot": 5
+    },
+    {
+      "set": 4,
+      "rally": 53,
+      "scenario": "Direkter zweiter Ball",
+      "winner": "us",
+      "score": {
+        "us": 27,
+        "them": 26
+      },
+      "server": {
+        "team": "us",
+        "player": "Cedric"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 3
+      },
+      "liberoSlot": null
+    },
+    {
+      "set": 4,
+      "rally": 54,
+      "scenario": "Teilgesten: Annahme, Zuspiel und Angriff",
+      "winner": "us",
+      "score": {
+        "us": 28,
+        "them": 26
+      },
+      "server": {
+        "team": "us",
+        "player": "Cedric"
+      },
+      "rotation": {
+        "us": 4,
+        "them": 3
+      },
+      "liberoSlot": null
+    }
+  ],
+  "stress": {
+    "sets": 24,
+    "rallies": 1192,
+    "traceChecks": 2859,
+    "undoChecks": 176
+  }
+}
