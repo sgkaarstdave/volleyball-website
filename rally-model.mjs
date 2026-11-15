@@ -2,7 +2,7 @@
 export const STORAGE_KEY = 'rallyboard-rally-lab-v2';
 export const BACKUP_KEY = STORAGE_KEY + '-backup';
 export const ROSTER = ['Rayan','Cedric','Slawa','Jan','Lukas','David','Devin','Lionel','Dave'];
-export const OPPONENTS = ['G1','G2','G3','G4','G5','G6'];
+export const OPPONENTS = Array.from({length:12},(_,i)=>'G'+(i+1));
 export const TYPES = {serve:'Aufschlag',receive:'Annahme',defense:'Abwehr',set:'Zuspiel',attack:'Angriff',block:'Block',freeball:'Ball zurück',unknownReturn:'Nicht erfasster Rückball'};
 export const SPOTS = ['4','3','2','2h','6'];
 export const spotLabel = p => p === '2h' ? '2 Hinterfeld' : p;

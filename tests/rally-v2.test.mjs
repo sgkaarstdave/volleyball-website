@@ -91,6 +91,11 @@ test('regular substitutions enforce fixed pairs, one return and six total, witho
   s=add(s,{kind:'sub',team:'us',out:'David',in:'Lionel'});s=add(s,{kind:'sub',team:'us',out:'Lionel',in:'David'});s=add(s,{kind:'sub',team:'us',out:'Rayan',in:'Dave'});s=add(s,{kind:'sub',team:'us',out:'Dave',in:'Rayan'});
   assert.equal(state(s).teams.us.subs,6);assert.throws(()=>add(s,{kind:'sub',team:'us',out:'Cedric',in:'Devin'}),/Sechs/);assert.deepEqual(state(s).teams.us.order,lineup);
 });
+test('opponent replacements keep their current rotated server slot and return only as the same pair',()=>{
+  let s=add(fresh('us'),{kind:'point',winner:'them'});assert.equal(serverOf(state(s)).player,'G2');
+  s=add(s,{kind:'sub',team:'them',out:'G2',in:'G7'});assert.equal(serverOf(state(s)).player,'G7');assert.equal(state(s).teams.them.rotation,1);
+  assert.throws(()=>add(s,{kind:'sub',team:'them',out:'G7',in:'G8'}),/Rückwechsel/);s=add(s,{kind:'sub',team:'them',out:'G7',in:'G2'});assert.equal(serverOf(state(s)).player,'G2');
+});
 test('service from wrong player, repeated contact, excessive contacts and illegal back-row/libero block are rejected',()=>{
   const s=fresh('us');assert.throws(()=>trace(s,[[.23,.57],[.23,.2]],'Rayan'),/Aufschläger/);
   const play=contacts=>add(s,{kind:'play',contacts});assert.throws(()=>play([{team:'us',player:'Rayan',type:'serve',result:'point'}]),/Aufschläger/);
