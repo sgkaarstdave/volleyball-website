@@ -1,5 +1,5 @@
-import {STORAGE_KEY,BACKUP_KEY,newSession,validateSession,rolesFromSetter,startSet,reduceSet,appendEvent,undoEvent,fieldLineup,serverOf,playerNodes,recognizeTrace,confirmTrace,reviseDraft,TYPES,SPOTS,spotLabel,other} from './rally-model.mjs?v=rally5';
-import {esc,teamLabel,eventText,contactText,renderActive,renderWelcome,renderStats,renderTraceReview,renderBlockControls,contactName} from './rally-view.mjs?v=rally5';
+import {STORAGE_KEY,BACKUP_KEY,newSession,validateSession,rolesFromSetter,startSet,reduceSet,appendEvent,undoEvent,fieldLineup,serverOf,playerNodes,recognizeTrace,confirmTrace,reviseDraft,TYPES,SPOTS,spotLabel,other} from './rally-model.mjs?v=rally6';
+import {esc,teamLabel,eventText,contactText,renderActive,renderWelcome,renderStats,renderTraceReview,renderBlockControls,contactName} from './rally-view.mjs?v=rally6';
 const $=s=>document.querySelector(s),uid=()=>crypto.randomUUID();
 let session=newSession(),baseline=null,error='',broken=false,legacyRaw=null,override='auto',rotationOnly=false,gesture=null;
 try{baseline=localStorage.getItem(STORAGE_KEY);if(baseline)session=validateSession(JSON.parse(baseline));else{legacyRaw=localStorage.getItem('rallyboard-scout-lab-v1');if(legacyRaw){const previous=JSON.parse(legacyRaw);session.legacyV1=previous;if(previous.roster?.length>=6)session.roster=[...previous.roster];}}}catch(e){broken=true;error='Vorhandene Testdaten konnten nicht geladen werden. Exportiere die Sicherung vor einem neuen Test.';}
@@ -55,7 +55,6 @@ function confirmPanel(draft){
   const review=renderTraceReview(draft);
   dialog(heading('ERKANNTER SPIELZUG',esc(draft.player)+' · '+contactName(last))+`${review}${renderBlockControls(draft)}<p class="rally-question">${esc(draft.question)}</p><div class="rally-confirm">${errorSuggested?'<button class="failure" data-result="error">Ja · Fehler zählen</button><button id="draw-again">Nein · neu zeichnen</button>':scoring?'<button class="success" data-result="point">Ja · Punkt</button><button data-result="continue">Nein · Ball läuft weiter</button>':'<button class="success" data-result="played">Ja · weitergespielt</button><button id="draw-again">Nein · verwerfen</button>'}</div>${scoring?'<button class="wide" data-result="error">Angriffs-/Kontaktfehler · Gegnerpunkt</button>':''}<p class="fine">${errorSuggested?'Die ganze gezeichnete Kontaktfolge wird zusammen gespeichert, der Gegner bekommt einen Punkt.':scoring?'Bei „Nein“ gibt es keinen Fehler und keinen Punkt. Vorher gezeichnete Annahme und Zuspiel werden trotzdem als weitergespielt erfasst.':'Kein Punkt. Der nächste erwartete Kontakt wird automatisch gewählt.'}</p><details class="dialog-details"><summary>Erkennung prüfen oder korrigieren</summary><p>Die Kontaktfolge ist aus deinem Weg abgeleitet. Nicht gezeichnete Ballkontakte werden nicht als gute Annahme oder gutes Zuspiel erfunden.</p>${draft.prefixCount?'<p>Vorheriger Aufschlag/Rückball wurde aus der Spielsituation ergänzt und ist als abgeleitet markiert.</p>':''}${last.type==='attack'?`<label class="form-label" for="rally-origin">Angriffsort</label><select class="form-input" id="rally-origin"><option value="">Nicht zuordnen</option>${SPOTS.map(p=>`<option value="${p}" ${draft.origin===p?'selected':''}>Pos. ${spotLabel(p)}</option>`).join('')}</select>`:''}<label class="form-label" for="rally-contact-type">Letzten Kontakt korrigieren</label><select class="form-input" id="rally-contact-type">${Object.entries(TYPES).filter(([t])=>t!=='unknownReturn').map(([t,label])=>`<option value="${t}" ${t===last.type?'selected':''}>${label}</option>`).join('')}</select><button class="wide" id="only-last">Nur den letzten Kontakt erfassen</button></details>`);
   $('#rally-origin')?.addEventListener('change',e=>{draft=reviseDraft(draft,{origin:e.target.value});});
-  $('#block-ball-to')?.addEventListener('change',e=>{draft=reviseDraft(draft,{blockBallTo:e.target.value});});
   $('#reception-quality')?.addEventListener('change',e=>{draft=reviseDraft(draft,{quality:e.target.value||null});});
   document.querySelectorAll('[data-inferred-type]').forEach(b=>b.onclick=()=>confirmPanel(reviseDraft(draft,{type:b.dataset.inferredType})));
   $('#rally-contact-type').onchange=e=>confirmPanel(reviseDraft(draft,{type:e.target.value}));
@@ -78,26 +77,21 @@ function confirmBlock(draft){
     notice(e.message+' Für einen beobachteten Angriff direkt vom Angreifer zum Vorderfeldblocker ziehen.');
     return;
   }
-  function save(result,ballTo){
+  function save(result){
     if(current().id!==set.id || current().events.length!==eventCount){
       $('#lab-dialog').close();notice('Der Spielstand hat sich geändert. Bitte den Block erneut erfassen.');return;
     }
-    const reviewed=ballTo?reviseDraft(draft,{blockBallTo:ballTo}):draft;
-    if(commit(confirmTrace(reviewed,result))){
+    if(commit(confirmTrace(draft,result))){
       $('#lab-dialog').close();
       if(override==='block'){override='auto';$('#rally-type').value='auto';}
-      notice(result==='continue'?'Ball läuft weiter · '+teamLabel(ballTo):result==='point'?'Blockpunkt für '+draft.player:'Blockfehler gezählt');
+      notice(result==='continue'?'Block erfasst · nächsten Kontakt spielen':result==='point'?'Blockpunkt für '+draft.player:'Blockfehler gezählt');
     }
   }
   const title=heading('BLOCK · '+teamLabel(draft.team),esc(draft.player)+' · Blockpunkt?');
   dialog(title+renderTraceReview(draft)+'<div class="rally-confirm"><button id="block-point" class="success">Ja · Blockpunkt</button><button id="block-continues">Nein · Ball läuft weiter</button></div><button id="block-fault" class="wide">Blockfehler · Punkt für die Gegenseite</button>');
   $('#block-point').onclick=()=>save('point');
   $('#block-fault').onclick=()=>save('error');
-  $('#block-continues').onclick=()=>{
-    dialog(heading('BALL LÄUFT WEITER','Wer spielt den nächsten Ball?')+'<div class="rally-confirm"><button id="block-us">SG Kaarst</button><button id="block-them">Gegner</button></div>');
-    $('#block-us').onclick=()=>save('continue','us');
-    $('#block-them').onclick=()=>save('continue','them');
-  };
+  $('#block-continues').onclick=()=>save('continue');
 }
 // Pointer capture sends pointerup to the court. Hit-test the visible badge
 // and name at release instead of using the captured event target.

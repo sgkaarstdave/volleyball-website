@@ -68,7 +68,7 @@ function applyContact(state,c,{strict=false}={}) {
   }
   const lineup=fieldLineup(state,c.team),slot=lineup.indexOf(c.player)+1;
   check(slot>0,'Spieler ist nicht auf dem Feld.');
-  check(c.team===state.phase.team,'Dieser Kontakt passt nicht zur aktuellen Ballseite.');
+  check(state.phase.team===null || c.team===state.phase.team,'Dieser Kontakt passt nicht zur aktuellen Ballseite.');
   if(c.type==='serve')check(state.phase.type==='serve'&&c.team===state.serving&&slot===1&&c.player===serverOf(state).player,'Der Aufschläger muss der aktuelle Spieler auf Position 1 sein.');
   else check(state.phase.type!=='serve','Der Aufschlag fehlt noch.');
   if(c.type==='block'){
@@ -103,7 +103,11 @@ function applyContact(state,c,{strict=false}={}) {
     addStat(state,c.team,c.player,{serve:'aces',attack:'kills',block:'blocks',freeball:'directReturns'}[c.type]);if(c.blockOut)addStat(state,c.team,c.player,'blockOutKills');scorePoint(state,c.team);return;
   }
   if(['serve','attack','freeball'].includes(c.type))state.phase={team:other(c.team),type:c.type==='serve'?'receive':'defense',touches:0,player:null};
-  else if(c.type==='block')state.phase={team:c.ballTo||c.team,type:'defense',touches:0,player:null};
+  else if(c.type==='block'){
+    // Older blocks without this field defaulted to the blocking team's side.
+    const team=c.ballTo===null?null:(c.ballTo||c.team);
+    state.phase={team,type:'defense',touches:0,player:null};
+  }
   else state.phase={team:c.team,type:c.type==='set'?'attack':'set',touches:state.phase.touches+1,player:c.toPlayer||null};
   state.last=c;
 }
@@ -209,14 +213,14 @@ function attackToBlock(state, attacker, blocker, samples) {
   const attackAlreadyRecorded = ballTeam === blocker.team && previous?.type === 'attack'
     && previous.team === attacker.team && previous.player === attacker.player;
   if (!attackAlreadyRecorded) {
-    if (ballTeam !== attacker.team) {
+    if (ballTeam !== null && ballTeam !== attacker.team) {
       contacts.push({team:ballTeam, player:null, type:'unknownReturn', result:'played', inferred:true});
     }
     contacts.push({team:attacker.team, player:attacker.player, type:'attack', result:'continue', origin:attacker.origin});
   }
   contacts.push({team:blocker.team, player:blocker.player, type:'block', result:'continue'});
   return {contacts, team:blocker.team, player:blocker.player, type:'block', question:'Blockpunkt?',
-    blockBallTo:blocker.team, target:null, reason:'other', prefixCount:contacts.filter(c=>c.inferred).length,
+    target:null, reason:'other', prefixCount:contacts.filter(c=>c.inferred).length,
     samples:samples.map(p=>p.slice(0,2))};
 }
 
@@ -230,7 +234,8 @@ function manualBlock(state,team,player) {
     contacts.push({...server,type:'serve',result:'played',inferred:true});
     ballTeam=other(server.team);
   }
-  const incoming=state.last?.team===other(team) && ['attack','freeball','unknownReturn','block'].includes(state.last.type) && ballTeam===team;
+  const incoming=ballTeam===null || (state.last?.team===other(team)
+    && ['attack','freeball','unknownReturn','block'].includes(state.last.type) && ballTeam===team);
   if(!incoming){
     if(ballTeam===team)contacts.push({team,player:null,type:'unknownReturn',result:'played',inferred:true});
     contacts.push({team:other(team),player:null,type:'unknownReturn',result:'played',inferred:true});
@@ -238,7 +243,7 @@ function manualBlock(state,team,player) {
   const prefixCount=contacts.length;
   contacts.push({team,player,type:'block',result:'continue'});
   return {team,player,type:'block',question:'Blockpunkt?',tap:true,target:null,samples:null,
-    reason:'other',contacts,prefixCount,blockBallTo:team,confirmMissingAttack:!incoming};
+    reason:'other',contacts,prefixCount,confirmMissingAttack:!incoming};
 }
 
 export function recognizeTrace(state,{team,player,samples,nodes=playerNodes(state),tap=false,override=null,endNode=null}){
@@ -259,7 +264,7 @@ export function recognizeTrace(state,{team,player,samples,nodes=playerNodes(stat
   }
   const prefix=[],expected=state.phase;
   let type=expected.type;
-  if(expected.team!==team){
+  if(expected.team!==null && expected.team!==team){
     if(type==='serve'){prefix.push({team:expected.team,player:serverOf(state).player,type:'serve',result:'played',inferred:true});type='receive';}
     else{prefix.push({team:expected.team,player:null,type:'unknownReturn',result:'played',inferred:true});type='defense';}
   }
@@ -315,7 +320,7 @@ export function recognizeTrace(state,{team,player,samples,nodes=playerNodes(stat
   const nextNode=visited[1]||recipient;
   const receptionQuality=!tap&&contacts[0].type==='receive'&&backNode(visited[0])&&nextNode&&backNode(nextNode)&&nextNode.role!=='Z'?{index:prefix.length,player:contacts[0].player,value:'imprecise',reason:'Die Annahme geht zu einem weiteren Hinterfeldspieler statt zum regulären Zuspielziel.'}:null;
   const lastActor=visited.at(-1),alternatives=last.evidence?.touchNumber===2&&!last.evidence.crossedNet&&['out','net'].includes(target)?['set','attack']:[];
-  return {contacts:[...prefix,...contacts],team,player:last.player,type:last.type,question:label,target,reason:target==='out'?'out':target==='net'?'net':'other',tap,samples:tap?null:samples.map(p=>p.slice(0,2)),origin:spot,prefixCount:prefix.length,receptionQuality,emergencyCandidate:lastActor.role!=='Z'&&backNode(lastActor),alternatives,...(last.type==='block'?{blockBallTo:target==='opponent'?other(team):team}:{})};
+  return {contacts:[...prefix,...contacts],team,player:last.player,type:last.type,question:label,target,reason:target==='out'?'out':target==='net'?'net':'other',tap,samples:tap?null:samples.map(p=>p.slice(0,2)),origin:spot,prefixCount:prefix.length,receptionQuality,emergencyCandidate:lastActor.role!=='Z'&&backNode(lastActor),alternatives};
 }
 export function confirmTrace(draft,result){
   const event={kind:'play',contacts:copy(draft.contacts),reason:draft.reason,trace:draft.samples};
@@ -324,7 +329,7 @@ export function confirmTrace(draft,result){
   const confirmedBlockOut=last.type==='attack'&&draft.target==='out'&&draft.blockTouch===true&&result==='point';
   if(['net','out'].includes(draft.target)||last.type==='serve'&&draft.target==='own')check(result==='error'||confirmedBlockOut,'Für dieses Ziel bitte Fehler bestätigen oder neu zeichnen.');
   if(confirmedBlockOut){last.blockOut=true;event.reason='blockout';}
-  if(last.type==='block')last.ballTo=draft.blockBallTo||last.team;
+  if(last.type==='block' && result==='continue')last.ballTo=draft.blockBallTo??null;
   if(last.type==='attack'){last.origin=draft.origin||'';for(const c of event.contacts)if(c.type==='set')c.origin=draft.origin||'';}
   return event;
 }

@@ -49,10 +49,14 @@ test('block dialog buttons save the swipe or tap, continue on either side, cance
   function click(id){assert.ok(dialog.open && dialog.html.includes('id="'+id+'"'));find('#'+id).onclick();}
   for(const team of ['us','them']){
     gesture('G4','Slawa');click('block-continues');
-    assert.equal(saved().stats.us.Slawa,undefined);
-    click('block-'+team);
     assert.equal(dialog.open,false);assert.deepEqual(saved().score,{us:0,them:0});
-    assert.equal(saved().phase.team,team);assert.equal(saved().stats.us.Slawa.blockAttempts,1);
+    assert.equal(saved().phase.team,null);assert.equal(saved().stats.us.Slawa.blockAttempts,1);
+    const [from,to]=team==='us'?['Rayan','G3']:['G4','Slawa'];
+    gesture(from,to);click('block-point');
+    assert.equal(saved().stats[team][from].attacks,team==='us'?1:2);
+    assert.equal(saved().gaps,0);
+    find('#rally-undo').onclick();
+    assert.equal(saved().phase.team,null);
     find('#rally-undo').onclick();
   }
   gesture('G4','Slawa');click('block-point');

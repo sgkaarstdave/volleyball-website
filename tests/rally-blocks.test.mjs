@@ -62,14 +62,35 @@ test('continued block can land on attacking side; coverage there gets three cont
   let s=play(incoming(),[contact('us','Slawa','block','continue',{ballTo:'them'})]);assert.equal(state(s).phase.team,'them');assert.equal(state(s).phase.touches,0);
   s=play(s,[contact('them','G1','defense'),contact('them','G3','set'),contact('them','G4','attack','point')]);assert.deepEqual(state(s).score,{us:0,them:1});assert.equal(state(s).stats.us.Slawa.blocks,undefined);
 });
+test('open block survives reload; either team can draw coverage, set and attack, then undo',()=>{
+  const setup=incoming();
+  const block=recognizeTrace(state(setup),{team:'us',player:'Slawa',tap:true,override:'block'});
+  const pending=JSON.parse(JSON.stringify(play(setup,confirmTrace(block,'continue').contacts)));
+  assert.equal(state(pending).phase.team,null);
+  for(const [team,players] of [['us',['Slawa','Jan','Rayan']],['them',['G1','G3','G4']]]){
+    const nodes=playerNodes(state(pending));
+    const coords=players.map(player=>{const n=nodes.find(n=>n.team===team && n.player===player);return [n.x,n.y];});
+    const samples=coords.flatMap((p,i)=>[[...p,i*300],[...p,i*300+180]]);
+    samples.push([coords[2][0],team==='us'?.2:.7,900]);
+    const draft=recognizeTrace(state(pending),{team,player:players[0],samples});
+    assert.deepEqual(draft.contacts.map(c=>c.type),['defense','set','attack']);
+    const next=play(pending,confirmTrace(draft,'point').contacts);
+    assert.equal(state(next).score[team],1);assert.equal(state(next).gaps,0);
+    assert.deepEqual(undoEvent(next),pending);
+    const repeat=recognizeTrace(state(pending),{team,player:players[2],tap:true,override:'block'});
+    assert.equal(repeat.confirmMissingAttack,false);
+    assert.deepEqual(repeat.contacts.map(c=>c.type),['block']);
+    assert.equal(state(play(pending,confirmTrace(repeat,'continue').contacts)).phase.team,null);
+  }
+});
 test('new events reject blocking a serve; existing unversioned test data remains readable',()=>{
   const s=play(fresh(),[contact('us','David','serve','continue')]),event={id:'legacy-block',kind:'play',contacts:[contact('them','G3','block','point')]};
   assert.throws(()=>appendEvent(s,event),/Aufschlag.*geblockt/);
   const legacy=structuredClone(s);legacy.sets[0].events.push(event);assert.doesNotThrow(()=>validateSession(legacy));assert.equal(state(legacy).score.them,1);
 });
-test('block review chooses ball side and contact log makes the selection visible',()=>{
+test('previously selected block destinations still replay and appear in the log',()=>{
   const s=incoming(),draft=recognizeTrace(state(s),{team:'us',player:'Slawa',tap:true,override:'block'}),corrected=reviseDraft(draft,{blockBallTo:'them'}),event=confirmTrace(corrected,'continue');
-  assert.match(renderBlockControls(corrected),/value="them" selected/);assert.match(contactText(event.contacts[0]),/Ball bei Gegner/);assert.equal(state(play(s,event.contacts)).phase.team,'them');
+  assert.equal(renderBlockControls(corrected),'');assert.match(contactText(event.contacts[0]),/Ball bei Gegner/);assert.equal(state(play(s,event.contacts)).phase.team,'them');
 });
 test('out attack only becomes a kill with explicit opponent block touch; serve and net stay errors',()=>{
   const s=incoming(),a=playerNodes(state(s)).find(n=>n.player==='Rayan'),draft=recognizeTrace(state(s),{team:'us',player:'Rayan',samples:[[a.x,a.y,0],[a.x,.2,100],[a.x,.01,200]],override:'attack'});
