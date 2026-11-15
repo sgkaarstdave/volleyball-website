@@ -1,0 +1,130 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {newSession,rolesFromSetter,startSet,reduceSet,appendEvent,undoEvent,fieldLineup,serverOf,playerNodes,recognizeTrace,confirmTrace,totals,validateSession,targetAt,STORAGE_KEY} from '../rally-model.mjs';
+import {renderActive,renderStats} from '../rally-view.mjs';
+const lineup=['David','Cedric','Slawa','Rayan','Lukas','Jan'],opponent=['G1','G2','G3','G4','G5','G6'];
+const config=(serving='them',libero=null)=>({lineups:{us:lineup,them:opponent},system:{type:'5:1',roles:rolesFromSetter(lineup,'Jan'),libero},serving});
+const fresh=(serving='them',libero=null)=>startSet(newSession(),config(serving,libero),'set-1');
+const state=s=>reduceSet(s.sets.at(-1));
+const add=(s,e)=>appendEvent(s,{id:'e'+s.sets.at(-1).events.length,...e});
+function path(points){const out=[];let t=0;for(let i=1;i<points.length;i++){const a=points[i-1],b=points[i];for(let j=0;j<15;j++){out.push([a[0]+(b[0]-a[0])*j/15,a[1]+(b[1]-a[1])*j/15,t]);t+=5;}}out.push([...points.at(-1),t]);return out;}
+const trace=(s,points,player='David',team='us')=>recognizeTrace(state(s),{team,player,samples:path(points)});
+const tap=(s,player,team='us')=>recognizeTrace(state(s),{team,player,tap:true});
+const confirm=(s,d,r)=>add(s,confirmTrace(d,r));
+test('two-team setup is explicit; 5:1 opposite roles and optional bench libero are checked',()=>{
+  assert.equal(newSession().sets.length,0);assert.throws(()=>startSet(newSession(),{...config(),serving:null},'a'),/Aufschlag/);
+  assert.throws(()=>startSet(newSession(),{...config(),lineups:{us:lineup,them:[]}},'a'),/beide/);
+  assert.throws(()=>fresh('us','David'),/Libero/);assert.equal(state(fresh('us','Devin')).system.libero,'Devin');
+  const alternate=rolesFromSetter(lineup,'Jan',true);assert.equal(alternate.Slawa,'D');assert.notDeepEqual(alternate,config().system.roles);assert.deepEqual(lineup,['David','Cedric','Slawa','Rayan','Lukas','Jan']);
+});
+test('first team and rotation select the correct server; a service error rotates the opponent only',()=>{
+  let s=fresh('us');assert.deepEqual(serverOf(state(s)),{team:'us',player:'David'});
+  const d=trace(s,[[.77,.915],[.98,.2]]);assert.equal(d.question,'Aufschlagfehler ins Aus?');assert.deepEqual(state(s).score,{us:0,them:0});
+  s=confirm(s,d,'error');const a=state(s);assert.deepEqual(a.score,{us:0,them:1});assert.equal(a.teams.us.rotation,0);assert.equal(a.teams.them.rotation,1);assert.deepEqual(serverOf(a),{team:'them',player:'G2'});assert.equal(a.stats.us.David.serveErrors,1);
+});
+test('after opponent service a tapped receiver suggests reception error, never rotates the serving opponent again',()=>{
+  let s=confirm(fresh('us'),trace(fresh('us'),[[.77,.915],[.98,.2]]),'error');const d=tap(s,'David');
+  assert.equal(d.question,'Annahmefehler?');assert.deepEqual(d.contacts.map(c=>c.type),['serve','receive']);assert.equal(d.contacts[0].player,'G2');
+  s=confirm(s,d,'error');const a=state(s);assert.deepEqual(a.score,{us:0,them:2});assert.equal(a.teams.them.rotation,1);assert.equal(serverOf(a).player,'G2');assert.equal(a.stats.us.David.receiveErrors,1);assert.equal(a.stats.them.G2.aces,undefined);
+});
+test('continuous receive → runner → attacker → opponents yields all three contacts and only asks attack outcome',()=>{
+  const s=fresh(),nodes=playerNodes(state(s)),receiver=nodes.find(n=>n.player==='David'),setter=nodes.find(n=>n.player==='Jan'),attacker=nodes.find(n=>n.player==='Rayan');
+  const d=trace(s,[[receiver.x,receiver.y],[setter.x,setter.y],[attacker.x,attacker.y],[.23,.21]]);
+  assert.equal(d.question,'Angriff erfolgreich?');assert.deepEqual(d.contacts.map(c=>c.type),['serve','receive','set','attack']);
+  assert.deepEqual(d.contacts.map(c=>c.player),['G1','David','Jan','Rayan']);assert.equal(d.origin,'4');
+  const a=state(confirm(s,d,'point'));assert.deepEqual(a.score,{us:1,them:0});assert.equal(a.stats.us.David.receptionsPlayed,1);assert.equal(a.stats.us.Jan.setsPlayed,1);assert.equal(a.distribution.us['4'],1);assert.equal(a.stats.us.Rayan.kills,1);assert.equal(a.teams.us.rotation,1);assert.equal(a.teams.them.rotation,0);assert.equal(serverOf(a).player,'Cedric');
+});
+test('same long chain with no attack point remains a rally and still retains played reception and set',()=>{
+  const s=fresh(),d=trace(s,[[.77,.75],[.64,.565],[.23,.57],[.23,.21]]),a=state(confirm(s,d,'continue'));
+  assert.deepEqual(a.score,{us:0,them:0});assert.equal(a.stats.us.David.receptionsPlayed,1);assert.equal(a.stats.us.Jan.setsPlayed,1);assert.equal(a.stats.us.Rayan.kills,undefined);assert.equal(a.stats.us.Rayan.errors,undefined);assert.deepEqual(a.phase,{team:'them',type:'defense',touches:0,player:null});assert.equal(a.teams.us.rotation,0);
+});
+test('ending on the setter only records delivery, not an invented setter contact',()=>{
+  const s=fresh(),d=trace(s,[[.77,.75],[.64,.565]]);assert.deepEqual(d.contacts.map(c=>c.type),['serve','receive']);
+  const a=state(confirm(s,d,'played'));assert.equal(a.stats.us.Jan,undefined);assert.equal(a.phase.type,'set');assert.equal(a.phase.player,'Jan');
+});
+test('partial reception and set gestures compose without duplicate reception or set',()=>{
+  let s=fresh();s=confirm(s,trace(s,[[.77,.75],[.64,.565]]),'played');let nodes=playerNodes(state(s)),z=nodes.find(n=>n.player==='Jan'),r=nodes.find(n=>n.player==='Rayan');
+  s=confirm(s,trace(s,[[z.x,z.y],[r.x,r.y]],'Jan'),'played');const a=state(s);assert.equal(a.phase.type,'attack');assert.equal(a.stats.us.David.receptionsPlayed,1);assert.equal(a.stats.us.Jan.setsPlayed,1);assert.equal(a.stats.us.Rayan,undefined);
+});
+test('path passing straight by a third player does not silently add that player as contact',()=>{
+  const s=fresh(),d=trace(s,[[.77,.75],[.64,.565],[.23,.57],[.23,.21]]);
+  assert.ok(!d.contacts.some(c=>c.player==='Slawa'));assert.equal(d.contacts.filter(c=>c.team==='us').length,3);
+});
+test('missed opponent return is marked as an unassigned gap and does not invent player contacts',()=>{
+  let s=fresh();s=confirm(s,trace(s,[[.77,.75],[.64,.565],[.23,.57],[.23,.21]]),'continue');
+  const d=tap(s,'David');assert.equal(d.contacts[0].type,'unknownReturn');assert.equal(d.contacts[0].player,null);assert.equal(d.type,'defense');
+  s=confirm(s,d,'error');const a=state(s);assert.equal(a.gaps,1);assert.equal(a.stats.them.G1.attacks,undefined);assert.equal(a.stats.us.David.defenseErrors,1);
+});
+test('libero automatically replaces back-row middle, restores a serving middle and leaves front row',()=>{
+  let s=fresh('them','Devin'),a=state(s);assert.equal(a.teams.us.liberoSlot,5);assert.equal(fieldLineup(a,'us')[4],'Devin');
+  s=add(s,{kind:'point',winner:'us'});a=state(s);assert.equal(a.teams.us.order[0],'Cedric');assert.equal(a.teams.us.liberoSlot,null);assert.equal(serverOf(a).player,'Cedric');
+  s=add(s,{kind:'point',winner:'them'});a=state(s);assert.equal(a.teams.us.liberoSlot,1);assert.equal(fieldLineup(a,'us')[0],'Devin');
+  s=add(s,{kind:'point',winner:'us'});a=state(s);assert.equal(a.teams.us.liberoSlot,6);assert.equal(fieldLineup(a,'us')[5],'Devin');
+});
+test('libero stays frozen during a rally; player attribution belongs to the libero not the replaced middle',()=>{
+  let s=fresh('them','Devin');const d=tap(s,'Devin');s=confirm(s,d,'error');assert.equal(state(s).stats.us.Devin.receiveErrors,1);assert.equal(state(s).stats.us.Lukas,undefined);
+  s=add(s,{kind:'point',winner:'us'});const serving=state(s);assert.equal(serving.teams.us.liberoSlot,null);
+  const sv=serverOf(serving);s=confirm(s,trace(s,[[.77,.915],[.2,.2]],sv.player),'continue');assert.equal(state(s).teams.us.liberoSlot,null);
+});
+test('both rotation orders return after six sideouts and opponents keep their service during a streak',()=>{
+  let s=fresh('them');for(let i=0;i<6;i++){s=add(s,{kind:'point',winner:'us'});s=add(s,{kind:'point',winner:'them'});}const a=state(s);assert.deepEqual(a.teams.us.order,lineup);assert.deepEqual(a.teams.them.order,opponent);assert.equal(a.teams.us.rotation,0);assert.equal(a.teams.them.rotation,0);
+  s=add(s,{kind:'point',winner:'them'});assert.equal(state(s).teams.them.rotation,0);
+});
+test('5:1 runner targets and long contact chains work across all six rotations without changing order',()=>{
+  let s=fresh('them');for(let i=0;i<6;i++){
+    const a=state(s),before=[...a.teams.us.order],nodes=playerNodes(a),z=nodes.find(n=>n.team==='us'&&n.role==='Z'),receiver=nodes.find(n=>n.team==='us'&&n.role!=='Z'&&[1,5,6].includes(n.slot)),attacker=nodes.find(n=>n.team==='us'&&n.role==='AA'&&[2,3,4].includes(n.slot));
+    assert.equal(z.x,.64);assert.equal(z.y,.565);assert.equal(attacker.x,.23);assert.equal(z.slot,a.teams.us.order.indexOf('Jan')+1);
+    const d=trace(s,[[receiver.x,receiver.y],[z.x,z.y],[attacker.x,attacker.y],[.23,.21]],receiver.player);assert.deepEqual(d.contacts.slice(-3).map(c=>c.type),['receive','set','attack']);assert.equal(d.origin,'4');
+    const next=state(confirm(s,d,'continue'));assert.deepEqual(next.teams.us.order,before);assert.equal(next.stats.us.Jan.setsPlayed,1);
+    s=add(s,{kind:'point',winner:'us'});s=add(s,{kind:'point',winner:'them'});
+  }
+});
+test('undo and reload restore the entire contact chain, both teams, server, libero and stats',()=>{
+  const s=fresh('them','Devin'),d=trace(s,[[.77,.75],[.64,.565],[.23,.57],[.23,.21]]),next=confirm(s,d,'point'),loaded=validateSession(JSON.parse(JSON.stringify(next)));
+  assert.deepEqual(state(next),state(loaded));assert.deepEqual(undoEvent(loaded),s);assert.deepEqual(totals(undoEvent(loaded)).us,{});
+});
+test('regular substitutions enforce fixed pairs, one return and six total, without changing role or rotation',()=>{
+  let s=fresh('us');s=add(s,{kind:'sub',team:'us',out:'Jan',in:'Devin'});assert.equal(state(s).teams.us.roles.Devin,'Z');
+  assert.throws(()=>add(s,{kind:'sub',team:'us',out:'Devin',in:'Lionel'}),/Rückwechsel/);
+  s=add(s,{kind:'sub',team:'us',out:'Devin',in:'Jan'});assert.throws(()=>add(s,{kind:'sub',team:'us',out:'Jan',in:'Devin'}),/bereits/);
+  s=add(s,{kind:'sub',team:'us',out:'David',in:'Lionel'});s=add(s,{kind:'sub',team:'us',out:'Lionel',in:'David'});s=add(s,{kind:'sub',team:'us',out:'Rayan',in:'Dave'});s=add(s,{kind:'sub',team:'us',out:'Dave',in:'Rayan'});
+  assert.equal(state(s).teams.us.subs,6);assert.throws(()=>add(s,{kind:'sub',team:'us',out:'Cedric',in:'Devin'}),/Sechs/);assert.deepEqual(state(s).teams.us.order,lineup);
+});
+test('service from wrong player, repeated contact, excessive contacts and illegal back-row/libero block are rejected',()=>{
+  const s=fresh('us');assert.throws(()=>trace(s,[[.23,.57],[.23,.2]],'Rayan'),/Aufschläger/);
+  const play=contacts=>add(s,{kind:'play',contacts});assert.throws(()=>play([{team:'us',player:'Rayan',type:'serve',result:'point'}]),/Aufschläger/);
+  let ongoing=confirm(s,trace(s,[[.77,.915],[.2,.2]]),'continue');ongoing=add(ongoing,{kind:'play',contacts:[{team:'them',player:'G1',type:'receive',result:'played'}]});
+  assert.throws(()=>add(ongoing,{kind:'play',contacts:[{team:'them',player:'G1',type:'set',result:'played'}]}),/Derselbe/);
+  const us=fresh('them','Devin');assert.throws(()=>add(us,{kind:'play',contacts:[{team:'them',player:'G1',type:'serve',result:'played'},{team:'us',player:'Devin',type:'block',result:'point'}]}),/Hinterfeld/);
+});
+test('timeouts and corrections are reversible and are refused during the rally',()=>{
+  let s=fresh();s=add(s,{kind:'timeout',team:'us'});s=add(s,{kind:'timeout',team:'us'});assert.throws(()=>add(s,{kind:'timeout',team:'us'}),/Zwei/);
+  const before=structuredClone(s);s=add(s,{kind:'rotate',team:'them'});assert.equal(serverOf(state(s)).player,'G2');assert.deepEqual(undoEvent(s),before);
+  s=confirm(s,trace(s,[[.77,.75],[.64,.565]]),'played');assert.throws(()=>add(s,{kind:'timeout',team:'us'}),/zwischen/);
+});
+test('out/net drafts cannot become kills, and a direct second-contact attack never fabricates a setter assist',()=>{
+  const s=fresh('us'),d=trace(s,[[.77,.915],[.5,.465]]);assert.equal(d.target,'net');assert.throws(()=>confirmTrace(d,'point'),/Fehler/);
+  const recv=fresh(),direct=trace(recv,[[.77,.75],[.23,.57],[.23,.2]]),a=state(confirm(recv,direct,'point'));assert.equal(a.stats.us.Rayan.kills,1);assert.equal(a.stats.us.Jan,undefined);assert.deepEqual(a.distribution.us,{});
+  assert.equal(targetAt([.95,.2],'us'),'out');assert.equal(targetAt([.5,.2],'them'),'own');
+});
+test('receiver into net remains a reception error; unassigned attack spot removes inferred destination',()=>{
+  const s=fresh(),d=trace(s,[[.77,.75],[.6,.465]]);assert.equal(d.type,'receive');assert.equal(d.question,'Annahmefehler?');
+  const a=state(confirm(s,d,'error'));assert.equal(a.stats.us.David.receiveErrors,1);assert.equal(a.stats.us.David.attackErrors,undefined);
+  const chain=trace(s,[[.77,.75],[.64,.565],[.23,.57],[.23,.21]]);chain.origin='';const next=state(confirm(s,chain,'point'));assert.equal(next.stats.us.Jan.setsPlayed,1);assert.deepEqual(next.distribution.us,{});
+  const own=fresh('us'),short=trace(own,[[.77,.915],[.6,.75]]);assert.equal(short.contacts.at(-1).result,'error');assert.throws(()=>confirmTrace(short,'point'),/Fehler/);
+});
+test('two-point set end, fresh lineup each set and fifth set target 15 are enforced',()=>{
+  let s=fresh('us');assert.throws(()=>startSet(s,config(),'next'),/laufenden/);
+  for(let set=1;set<=4;set++){for(let i=0;i<25;i++)s=add(s,{kind:'point',winner:set%2?'us':'them'});assert.equal(state(s).finished,true);s=startSet(s,config(set%2?'them':'us'),'set-'+(set+1));}
+  assert.equal(s.sets[4].target,15);assert.deepEqual(state(s).score,{us:0,them:0});assert.equal(state(s).teams.us.rotation,0);
+});
+test('iphone layout reserves bottom safe zone, uses two-team nodes and no production data modules',async()=>{
+  const s=fresh(),html=renderActive(s);assert.equal((html.match(/class="rally-player/g)||[]).length,12);assert.ok(html.includes('iphone-guard'));assert.ok(html.includes('Gegner'));assert.ok(html.includes('preserveAspectRatio="none"'));
+  const css=await readFile(new URL('../rally.css',import.meta.url),'utf8');assert.ok(css.includes('env(safe-area-inset-bottom)'));assert.ok(css.includes('minmax(0,1fr)'));assert.ok(css.includes('100svh'));assert.ok(css.includes('98px'));
+  const controller=await readFile(new URL('../rally-lab.mjs',import.meta.url),'utf8');for(const bad of ['cloud.mjs','supabase.co','rallyboard-auth','indexedDB'])assert.ok(!controller.includes(bad));assert.notEqual(STORAGE_KEY,'rallyboard-scout-lab-v1');
+  assert.ok(renderStats(s).includes('keine Bewertung der Annahmequalität'));
+});
+
+test('service alternates across sets, deuce needs two-point margin and three set wins end the match',()=>{let s=fresh('us');for(let i=0;i<24;i++){s=add(s,{kind:'point',winner:'us'});s=add(s,{kind:'point',winner:'them'});}s=add(s,{kind:'point',winner:'us'});assert.equal(state(s).finished,false);s=add(s,{kind:'point',winner:'us'});assert.equal(state(s).finished,true);assert.throws(()=>startSet(s,config('us'),'bad'),/Aufschlagrecht/);s=startSet(s,config('them'),'set-2');for(let i=0;i<25;i++)s=add(s,{kind:'point',winner:'us'});s=startSet(s,config('us'),'set-3');for(let i=0;i<25;i++)s=add(s,{kind:'point',winner:'us'});assert.throws(()=>startSet(s,config('them'),'set-4'),/beendet/);});
+test('a fourth team contact and a wrong-team contact are refused without mutating saved data',()=>{let s=fresh('them');s=add(s,{kind:'play',contacts:[{team:'them',player:'G1',type:'serve',result:'played'},{team:'us',player:'David',type:'receive',result:'played'},{team:'us',player:'Jan',type:'set',result:'played'},{team:'us',player:'Rayan',type:'defense',result:'played'}]});const before=JSON.stringify(s);assert.throws(()=>add(s,{kind:'play',contacts:[{team:'us',player:'Lukas',type:'attack',result:'point'}]}),/drei/);assert.throws(()=>add(s,{kind:'play',contacts:[{team:'them',player:'G2',type:'attack',result:'point'}]}),/Ballseite/);assert.equal(JSON.stringify(s),before);});
