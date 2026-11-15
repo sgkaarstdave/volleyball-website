@@ -76,14 +76,17 @@ function applyContact(state,c) {
   if(c.type!=='block'&&state.last?.team===c.team&&state.last.player===c.player)check(false,'Derselbe Spieler kann nicht zwei aufeinanderfolgende Kontakte übernehmen.');
   check(c.type==='block'||state.phase.touches<3,'Mehr als drei Mannschaftskontakte.');
   check(!c.origin||SPOTS.includes(c.origin),'Angriffsort unbekannt.');
+  check(!c.receptionQuality||(c.type==='receive'&&['imprecise','controlled'].includes(c.receptionQuality)&&c.qualityConfirmed===true),'Annahmebewertung muss ausdrücklich bestätigt werden.');
   if(c.result==='point')check(['serve','attack','block','freeball'].includes(c.type),'Dieser Kontakt allein ist kein direkter Punkt.');
   const attempt={serve:'serves',receive:'receptions',defense:'defenses',set:'sets',attack:'attacks',block:'blockAttempts',freeball:'freeballs'}[c.type];
   addStat(state,c.team,c.player,attempt);
   if(c.inferred)addStat(state,c.team,c.player,'inferredContacts');
+  if(c.type==='set'&&c.emergency)addStat(state,c.team,c.player,'emergencySets');
   if(c.result==='error'){
-    addStat(state,c.team,c.player,'errors');addStat(state,c.team,c.player,c.type+'Errors');scorePoint(state,other(c.team));return;
+    addStat(state,c.team,c.player,'errors');addStat(state,c.team,c.player,c.type+'Errors');if(c.type==='set'&&c.emergency)addStat(state,c.team,c.player,'emergencySetErrors');scorePoint(state,other(c.team));return;
   }
   if(c.type==='receive'||c.type==='defense')addStat(state,c.team,c.player,c.type==='receive'?'receptionsPlayed':'defensesPlayed');
+  if(c.type==='receive'&&c.receptionQuality)addStat(state,c.team,c.player,c.receptionQuality==='imprecise'?'receptionsImprecise':'receptionsControlled');
   if(c.type==='set'){
     addStat(state,c.team,c.player,'setsPlayed');
     if(c.origin)state.distribution[c.team][c.origin]=(state.distribution[c.team][c.origin]||0)+1;
@@ -145,13 +148,45 @@ export function playerNodes(state,{rotationOnly=false}={}){
       }
       if(state.phase.type==='serve'&&state.serving===team&&slot===1){x=.77;y=.915;}
       if(team==='them'){x=1-x;y=GEOMETRY.net-(y-GEOMETRY.net);if(state.phase.type==='serve'&&state.serving===team&&slot===1)y=.065;}
-      const origin=role==='AA'?(front?'4':'6'):role==='MB'?'3':role==='D'?(front?'2':'2h'):[2,3,4].includes(slot)?String(slot):slot===1?'2h':slot===6?'6':'';
+      const origin=role==='AA'?(front?'4':'6'):role==='MB'?(front?'3':''):role==='Z'?'':role==='D'?(front?'2':'2h'):[2,3,4].includes(slot)?String(slot):slot===1?'2h':slot===6?'6':'';
       nodes.push({id:team+':'+player,team,player,slot,role,x,y,origin,server:state.phase.type==='serve'&&state.serving===team&&slot===1});
     }
   }
   return nodes;
 }
 function dist(a,b){return Math.hypot((a[0]-b[0])*600,(a[1]-b[1])*640);}
+export function crossesNet(samples,team,from=0){
+  const g=GEOMETRY,side=y=>team==='us'?y-g.net:g.net-y;
+  for(let i=Math.max(1,from+1);i<samples.length;i++)if(side(samples[i-1][1])>=0&&side(samples[i][1])<0)return true;
+  return false;
+}
+const backNode=n=>Math.abs(n.y-GEOMETRY.net)>.16;
+export function classifyLastContact({expectedType,touchNumber,crossedNet,target,actor,override}){
+  let type;
+  if(override)type=override;
+  else if(expectedType==='serve')type='serve';
+  else if(touchNumber>=3)type='attack';
+  else if(touchNumber===2)type=crossedNet?(actor.role==='L'?'freeball':'attack'):'set';
+  else if(crossedNet)type='freeball';
+  else type=expectedType;
+  const emergency=type==='set'&&actor.role!=='Z'&&backNode(actor);
+  return {type,emergency,evidence:{touchNumber,crossedNet,actorBack:backNode(actor),target}};
+}
+export function questionFor(contact,target){
+  if(contact.emergency&&contact.type==='set')return contact.result==='error'?'Notzuspiel '+(target==='out'?'ins Aus':target==='net'?'ins Netz':'misslungen')+'?':'Notzuspiel weitergespielt?';
+  if(contact.type==='serve'&&target==='out')return 'Aufschlagfehler ins Aus?';
+  if(contact.type==='serve'&&target==='net')return 'Aufschlagfehler ins Netz?';
+  if(contact.result==='error')return ({serve:'Aufschlagfehler',attack:'Angriffsfehler',receive:'Annahmefehler',defense:'Abwehrfehler',set:'Zuspiel-/Technikfehler',block:'Blockfehler'}[contact.type]||'Fehler')+'?';
+  return {attack:'Angriff erfolgreich?',serve:'Direkter Aufschlagpunkt?',block:'Blockpunkt?',freeball:'Direkter Rückball ein Punkt?'}[contact.type]||TYPES[contact.type]+' weitergespielt?';
+}
+export function reviseDraft(draft,{type,onlyLast=false,quality,origin}={}){
+  const next=copy(draft),last=next.contacts.at(-1);
+  if(type){check(TYPES[type]&&type!=='unknownReturn','Kontaktart unbekannt.');last.type=type;last.emergency=type==='set'&&next.emergencyCandidate;}
+  if(onlyLast){const keepQuality=next.receptionQuality?.index===next.contacts.length-1;next.contacts=[...next.contacts.slice(0,next.prefixCount),last];if(next.receptionQuality){if(keepQuality)next.receptionQuality.index=next.prefixCount;else next.receptionQuality=null;}}
+  if(quality!==undefined&&next.receptionQuality){check([null,'imprecise','controlled'].includes(quality),'Unbekannte Annahmebewertung.');next.receptionQuality.value=quality;}
+  if(origin!==undefined){check(!origin||SPOTS.includes(origin),'Angriffsort unbekannt.');next.origin=origin;}
+  next.type=last.type;next.player=last.player;next.question=questionFor(last,next.target);return next;
+}
 export function recognizeTrace(state,{team,player,samples,nodes=playerNodes(state),tap=false,override=null}){
   check(!state.finished,'Der Satz ist beendet.');
   check(fieldLineup(state,team).includes(player),'Spieler nicht auf dem Feld.');
@@ -166,9 +201,11 @@ export function recognizeTrace(state,{team,player,samples,nodes=playerNodes(stat
   if(override)type=override;
   check(TYPES[type]&&type!=='unknownReturn','Kontaktart unbekannt.');
   if(type==='serve')check(team===state.serving&&player===serverOf(state).player,'Bitte vom aktuellen Aufschläger ziehen.');
-  const visited=[nodes.find(n=>n.team===team&&n.player===player&&!n.ghost)],seen=new Set([player]);
+  const startNode=nodes.find(n=>n.team===team&&n.player===player&&!n.ghost);
+  check(startNode,'Spielerposition fehlt.');
+  const visited=[startNode?{...startNode,traceIndex:0}:null],seen=new Set([player]);
   if(!tap&&type!=='serve'){
-    const hits=[];
+    const hits=[],backTransfers=[];
     for(const node of nodes){
       if(node.team!==team||seen.has(node.player))continue;
       const near=samples.map((p,i)=>({i,d:dist(p,[node.x,node.y])})).filter(v=>v.d<=29);if(!near.length)continue;
@@ -177,9 +214,16 @@ export function recognizeTrace(state,{team,player,samples,nodes=playerNodes(stat
       const a=[(at[0]-before[0])*600,(at[1]-before[1])*640],b=[(after[0]-at[0])*600,(after[1]-at[1])*640],length=Math.hypot(...a)*Math.hypot(...b);
       const angle=length?Math.acos(Math.max(-1,Math.min(1,(a[0]*b[0]+a[1]*b[1])/length))):0;
       const end=dist(samples.at(-1),[node.x,node.y])<=35,dwell=(samples[last][2]||0)-(samples[first][2]||0);
-      if(end||angle>.52||dwell>120)hits.push({node,first,d:closest.d});
+      if(['receive','defense'].includes(type)&&backNode(startNode)&&backNode(node))backTransfers.push({node,first,at:closest.i,d:closest.d});
+      if(end||angle>.52||dwell>120)hits.push({node,first,at:closest.i,d:closest.d});
     }
-    hits.sort((a,b)=>a.first-b.first||a.d-b.d);for(const hit of hits)if(!seen.has(hit.node.player)){visited.push(hit.node);seen.add(hit.node.player);}
+    // A single clearly touched back-row teammate is meaningful even on a straight
+    // lateral pass. Multiple collinear teammates require an intentional turn/pause.
+    if(!hits.length&&backTransfers.length&&targetAt(samples.at(-1),team)!=='opponent'){
+      check(backTransfers.length===1,'Mehrere Hinterspieler auf geradem Weg berührt. Beim gemeinten Spieler kurz halten oder die Richtung ändern.');
+      hits.push(backTransfers[0]);
+    }
+    hits.sort((a,b)=>a.first-b.first||a.d-b.d);for(const hit of hits)if(!seen.has(hit.node.player)){visited.push({...hit.node,traceIndex:hit.at});seen.add(hit.node.player);}
   }
   check(visited[0],'Spielerposition fehlt.');
   const to=tap?null:samples.at(-1).slice(0,2),target=to?targetAt(to,team):null;
@@ -187,26 +231,30 @@ export function recognizeTrace(state,{team,player,samples,nodes=playerNodes(stat
   const recipient=!tap&&visited.length>1&&dist(to,[visited.at(-1).x,visited.at(-1).y])<=35?visited.pop():null;
   check(visited.length<=3,'Mehr als drei Spieler berührt. Bitte kürzer zeichnen oder den Weg korrigieren.');
   const outgoing=!tap&&(target==='opponent'||target==='net'||target==='out');
+  const touchesBefore=prefix.length?0:expected.touches;
   const contacts=visited.map((n,i)=>{
-    let contactType=i===0?type:'set';
+    const touchNumber=touchesBefore+i+1;
+    let contactType=i===0?type:touchNumber>=3?'attack':'set',emergency=contactType==='set'&&n.role!=='Z'&&backNode(n),evidence;
     if(type!=='serve'&&outgoing&&i===visited.length-1){
-      if(override)contactType=override;
-      else if(visited.length===1&&['receive','defense','set'].includes(type))contactType=target==='opponent'?(type==='set'?'attack':'freeball'):type;
-      else contactType='attack';
+      const inference=classifyLastContact({expectedType:type,touchNumber,crossedNet:crossesNet(samples,team,n.traceIndex),target,actor:n,override});
+      contactType=inference.type;emergency=inference.emergency;evidence=inference.evidence;
     }
-    else if(i===2)contactType='attack';
-    return {team,player:n.player,type:contactType,result:'played',inferred:!tap,origin:n.origin||'',toPlayer:visited[i+1]?.player||recipient?.player||null};
+    return {team,player:n.player,type:contactType,result:'played',inferred:!tap,origin:n.origin||'',toPlayer:visited[i+1]?.player||recipient?.player||null,...(emergency?{emergency:true}:{}),...(evidence?{evidence}:{})};
   });
   const last=contacts.at(-1),spot=last.type==='attack'?last.origin:recipient?.origin||'';
   for(const c of contacts)if(c.type==='set')c.origin=spot;
   if(tap){last.type=type;last.result=['serve','receive','defense','set'].includes(type)?'error':'continue';}
   else last.result=['net','out'].includes(target)||last.type==='serve'&&target==='own'?'error':outgoing?'continue':'played';
-  const label=last.type==='serve'&&target==='out'?'Aufschlagfehler ins Aus?':last.type==='serve'&&target==='net'?'Aufschlagfehler ins Netz?':last.result==='error'?({serve:'Aufschlagfehler',attack:'Angriffsfehler',receive:'Annahmefehler',defense:'Abwehrfehler',set:'Zuspiel-/Technikfehler',block:'Blockfehler'}[last.type]||'Fehler')+'?':last.type==='attack'?'Angriff erfolgreich?':last.type==='serve'?'Direkter Aufschlagpunkt?':last.type==='block'?'Blockpunkt?':last.type==='freeball'?'Direkter Rückball ein Punkt?':TYPES[last.type]+' weitergespielt?';
-  return {contacts:[...prefix,...contacts],team,player:last.player,type:last.type,question:label,target,reason:target==='out'?'out':target==='net'?'net':'other',tap,samples:tap?null:samples.map(p=>p.slice(0,2)),origin:spot,prefixCount:prefix.length};
+  const label=questionFor(last,target);
+  const nextNode=visited[1]||recipient;
+  const receptionQuality=!tap&&contacts[0].type==='receive'&&backNode(visited[0])&&nextNode&&backNode(nextNode)&&nextNode.role!=='Z'?{index:prefix.length,player:contacts[0].player,value:'imprecise',reason:'Die Annahme geht zu einem weiteren Hinterfeldspieler statt zum regulären Zuspielziel.'}:null;
+  const lastActor=visited.at(-1),alternatives=last.evidence?.touchNumber===2&&!last.evidence.crossedNet&&['out','net'].includes(target)?['set','attack']:[];
+  return {contacts:[...prefix,...contacts],team,player:last.player,type:last.type,question:label,target,reason:target==='out'?'out':target==='net'?'net':'other',tap,samples:tap?null:samples.map(p=>p.slice(0,2)),origin:spot,prefixCount:prefix.length,receptionQuality,emergencyCandidate:lastActor.role!=='Z'&&backNode(lastActor),alternatives};
 }
 export function confirmTrace(draft,result){
   const event={kind:'play',contacts:copy(draft.contacts),reason:draft.reason,trace:draft.samples};
   const last=event.contacts.at(-1);last.result=result;
+  if(draft.receptionQuality?.value){const c=event.contacts[draft.receptionQuality.index];check(c?.type==='receive'&&c.player===draft.receptionQuality.player,'Annahmebewertung passt nicht mehr zur Kontaktkette.');c.receptionQuality=draft.receptionQuality.value;c.qualityConfirmed=true;}
   if(['net','out'].includes(draft.target)||last.type==='serve'&&draft.target==='own')check(result==='error','Für dieses Ziel bitte Fehler bestätigen oder neu zeichnen.');
   if(last.type==='attack'){last.origin=draft.origin||'';for(const c of event.contacts)if(c.type==='set')c.origin=draft.origin||'';}
   return event;

@@ -1,8 +1,8 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {newSession,rolesFromSetter,startSet,reduceSet,appendEvent,undoEvent,fieldLineup,serverOf,playerNodes,recognizeTrace,confirmTrace,totals,validateSession,targetAt,STORAGE_KEY} from '../rally-model.mjs';
-import {renderActive,renderStats} from '../rally-view.mjs';
+import {newSession,rolesFromSetter,startSet,reduceSet,appendEvent,undoEvent,fieldLineup,serverOf,playerNodes,recognizeTrace,confirmTrace,totals,validateSession,targetAt,STORAGE_KEY,reviseDraft,crossesNet} from '../rally-model.mjs';
+import {renderActive,renderStats,renderTraceReview,contactText} from '../rally-view.mjs';
 const lineup=['David','Cedric','Slawa','Rayan','Lukas','Jan'],opponent=['G1','G2','G3','G4','G5','G6'];
 const config=(serving='them',libero=null)=>({lineups:{us:lineup,them:opponent},system:{type:'5:1',roles:rolesFromSetter(lineup,'Jan'),libero},serving});
 const fresh=(serving='them',libero=null)=>startSet(newSession(),config(serving,libero),'set-1');
@@ -133,3 +133,59 @@ test('iphone layout reserves bottom safe zone, uses two-team nodes and no produc
 
 test('service alternates across sets, deuce needs two-point margin and three set wins end the match',()=>{let s=fresh('us');for(let i=0;i<24;i++){s=add(s,{kind:'point',winner:'us'});s=add(s,{kind:'point',winner:'them'});}s=add(s,{kind:'point',winner:'us'});assert.equal(state(s).finished,false);s=add(s,{kind:'point',winner:'us'});assert.equal(state(s).finished,true);assert.throws(()=>startSet(s,config('us'),'bad'),/Aufschlagrecht/);s=startSet(s,config('them'),'set-2');for(let i=0;i<25;i++)s=add(s,{kind:'point',winner:'us'});s=startSet(s,config('us'),'set-3');for(let i=0;i<25;i++)s=add(s,{kind:'point',winner:'us'});assert.throws(()=>startSet(s,config('them'),'set-4'),/beendet/);});
 test('a fourth team contact and a wrong-team contact are refused without mutating saved data',()=>{let s=fresh('them');s=add(s,{kind:'play',contacts:[{team:'them',player:'G1',type:'serve',result:'played'},{team:'us',player:'David',type:'receive',result:'played'},{team:'us',player:'Jan',type:'set',result:'played'},{team:'us',player:'Rayan',type:'defense',result:'played'}]});const before=JSON.stringify(s);assert.throws(()=>add(s,{kind:'play',contacts:[{team:'us',player:'Lukas',type:'attack',result:'point'}]}),/drei/);assert.throws(()=>add(s,{kind:'play',contacts:[{team:'them',player:'G2',type:'attack',result:'point'}]}),/Ballseite/);assert.equal(JSON.stringify(s),before);});
+
+test('back-row reception across another back player into own-side out is an emergency set error, not attack',()=>{
+  const s=fresh(),before=JSON.stringify(s),d=trace(s,[[.49,.77],[.23,.77],[.015,.77]]);
+  assert.deepEqual(d.contacts.map(c=>c.type),['serve','receive','set']);assert.equal(d.player,'Lukas');assert.equal(d.contacts.at(-1).emergency,true);assert.equal(d.question,'Notzuspiel ins Aus?');assert.equal(d.contacts.at(-1).evidence.crossedNet,false);
+  assert.equal(d.receptionQuality.player,'David');assert.equal(JSON.stringify(s),before);
+  const a=state(confirm(s,d,'error'));assert.equal(a.stats.us.David.receptionsPlayed,1);assert.equal(a.stats.us.David.receptionsImprecise,1);assert.equal(a.stats.us.David.errors,undefined);assert.equal(a.stats.us.Lukas.emergencySets,1);assert.equal(a.stats.us.Lukas.emergencySetErrors,1);assert.equal(a.stats.us.Lukas.attacks,undefined);assert.deepEqual(a.score,{us:0,them:1});assert.equal(a.teams.them.rotation,0);
+});
+test('same two back players sending second contact over net creates attack, with neither set nor assist',()=>{
+  const s=fresh(),d=trace(s,[[.49,.77],[.23,.77],[.23,.2]]);assert.equal(d.type,'attack');assert.equal(d.question,'Angriff erfolgreich?');assert.equal(d.contacts.at(-1).emergency,undefined);assert.equal(d.contacts.at(-1).evidence.touchNumber,2);assert.equal(d.contacts.at(-1).evidence.crossedNet,true);
+  const played=state(confirm(s,d,'continue'));assert.deepEqual(played.score,{us:0,them:0});assert.equal(played.stats.us.Lukas.attacks,1);assert.equal(played.stats.us.Lukas.errors,undefined);assert.equal(played.stats.us.Lukas.sets,undefined);assert.deepEqual(played.distribution.us,{});
+  const point=state(confirm(s,d,'point'));assert.equal(point.stats.us.Lukas.kills,1);assert.equal(point.stats.us.David.receptionsImprecise,1);assert.equal(point.teams.us.rotation,1);
+});
+test('second back-row contact over net and beyond opponent baseline is attack out, before crossing is set out',()=>{
+  const s=fresh(),long=trace(s,[[.49,.77],[.23,.77],[.23,.01]]),short=trace(s,[[.49,.77],[.23,.77],[.03,.9]]);
+  assert.equal(long.type,'attack');assert.equal(long.question,'Angriffsfehler?');assert.equal(short.type,'set');assert.equal(short.question,'Notzuspiel ins Aus?');
+  assert.equal(state(confirm(s,long,'error')).stats.us.Lukas.attackErrors,1);assert.equal(state(confirm(s,short,'error')).stats.us.Lukas.setErrors,1);assert.equal(state(confirm(s,short,'error')).stats.us.Lukas.attackErrors,undefined);
+});
+test('emergency set to own attacker remains played set; adding third contact creates a complete attack chain',()=>{
+  const s=fresh(),delivered=trace(s,[[.49,.77],[.23,.77],[.23,.59]]),full=trace(s,[[.49,.77],[.23,.77],[.23,.59],[.7,.2]]);
+  assert.deepEqual(delivered.contacts.map(c=>c.type),['serve','receive','set']);assert.equal(delivered.contacts.at(-1).emergency,true);const a=state(confirm(s,delivered,'played'));assert.equal(a.stats.us.Lukas.setsPlayed,1);assert.equal(a.stats.us.Rayan,undefined);assert.equal(a.phase.type,'attack');
+  assert.deepEqual(full.contacts.map(c=>c.type),['serve','receive','set','attack']);const b=state(confirm(s,full,'point'));assert.equal(b.stats.us.Lukas.emergencySets,1);assert.equal(b.stats.us.Rayan.kills,1);assert.equal(b.distribution.us['4'],1);
+});
+test('a second contact ending at net stays a set error; its back-row variant is marked emergency',()=>{
+  const s=fresh(),regular=trace(s,[[.49,.77],[.64,.565],[.64,.465]]),emergency=trace(s,[[.49,.77],[.23,.77],[.23,.465]]);
+  assert.equal(regular.type,'set');assert.ok(!regular.contacts.at(-1).emergency);assert.equal(regular.question,'Zuspiel-/Technikfehler?');assert.equal(regular.receptionQuality,null);
+  assert.equal(emergency.type,'set');assert.equal(emergency.question,'Notzuspiel ins Netz?');assert.equal(state(confirm(s,emergency,'error')).stats.us.Lukas.emergencySetErrors,1);
+});
+test('split reception and emergency set reproduce the same stats as one continuous chain and undo is complete',()=>{
+  const original=fresh(),whole=confirm(original,trace(original,[[.49,.77],[.23,.77],[.015,.77]]),'error');
+  let split=confirm(original,trace(original,[[.49,.77],[.23,.77]]),'played');const beforeSecond=structuredClone(split);split=confirm(split,trace(split,[[.23,.77],[.015,.77]],'Lukas'),'error');
+  assert.deepEqual(totals(split),totals(whole));assert.deepEqual(state(split).score,state(whole).score);assert.deepEqual(undoEvent(split),beforeSecond);
+  assert.deepEqual(undoEvent(whole),original);assert.deepEqual(state(validateSession(JSON.parse(JSON.stringify(whole)))),state(whole));
+});
+test('reception quality remains an explicit correctable proposal and never adds a second error point',()=>{
+  const s=fresh(),d=trace(s,[[.49,.77],[.23,.77],[.015,.77]]),unrated=reviseDraft(d,{quality:null}),controlled=reviseDraft(d,{quality:'controlled'});
+  assert.equal(state(confirm(s,unrated,'error')).stats.us.David.receptionsImprecise,undefined);assert.equal(state(confirm(s,controlled,'error')).stats.us.David.receptionsControlled,1);assert.deepEqual(state(confirm(s,d,'error')).score,{us:0,them:1});
+  const forged=confirmTrace(d,'error');forged.contacts[1].qualityConfirmed=false;assert.throws(()=>add(s,forged),/bestätigt/);assert.equal(d.receptionQuality.value,'imprecise');
+});
+test('manual type correction clears stale emergency labels and only-last drops the removed reception rating',()=>{
+  const s=fresh(),d=trace(s,[[.49,.77],[.23,.77],[.015,.77]]),attack=reviseDraft(d,{type:'attack'}),back=reviseDraft(attack,{type:'set'}),only=reviseDraft(d,{onlyLast:true});
+  assert.equal(attack.question,'Angriffsfehler?');assert.equal(attack.contacts.at(-1).emergency,false);assert.ok(!contactText(attack.contacts.at(-1)).includes('Notzuspiel'));assert.equal(back.question,'Notzuspiel ins Aus?');assert.equal(only.receptionQuality,null);
+  const next=state(confirm(s,only,'error'));assert.equal(next.stats.us.David,undefined);assert.equal(next.stats.us.Lukas.emergencySetErrors,1);
+  const html=renderTraceReview(d);assert.ok(html.includes('Notzuspiel'));assert.ok(html.includes('Vermutlich ungenau'));assert.ok(html.includes('Nicht bewerten'));assert.ok(html.includes('data-inferred-type="attack"'));
+  const qualityHtml=renderStats(confirm(s,d,'error'));assert.ok(qualityHtml.includes('Annahme ungenau'));assert.ok(qualityHtml.includes('Notzuspiel-Fehler'));
+});
+test('mirrored opponent back-row emergency set is classified and attributed to the opponent team',()=>{
+  const s=fresh('us'),nodes=playerNodes(state(s)),first=nodes.find(n=>n.team==='them'&&n.slot===1),second=nodes.find(n=>n.team==='them'&&n.slot===6);
+  const d=trace(s,[[first.x,first.y],[second.x,second.y],[.5,.005]],first.player,'them');assert.equal(d.type,'set');assert.equal(d.contacts.at(-1).emergency,true);
+  const a=state(confirm(s,d,'error'));assert.equal(a.stats.them.G6.emergencySetErrors,1);assert.deepEqual(a.score,{us:1,them:0});assert.deepEqual(a.stats.us.David,{serves:1,inferredContacts:1});
+});
+test('ambiguous straight transfer across two back teammates asks for a clearer contact, while a turn resolves it',()=>{
+  const c=config();c.system.roles=rolesFromSetter(lineup,'Slawa');const s=startSet(newSession(),c,'set-1');
+  assert.throws(()=>trace(s,[[.79,.77],[.015,.77]],'Jan'),/Mehrere Hinterspieler/);
+  const d=trace(s,[[.79,.77],[.23,.77],[.03,.93]],'Jan');assert.equal(d.player,'Lukas');assert.equal(d.type,'set');assert.equal(d.contacts.filter(c=>c.team==='us').length,2);
+  assert.equal(crossesNet([[.2,.77],[.2,.2],[.23,.77],[.02,.77]],'us',2),false);
+});
