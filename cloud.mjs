@@ -1,5 +1,5 @@
-import {adminAccess,requireAdminSession} from './access.mjs?v=16';
-import {historical,roster,categories,defaultWeights} from './model.mjs?v=16';
+import {adminAccess,requireAdminSession} from './access.mjs?v=17';
+import {historical,roster,categories,defaultWeights} from './model.mjs?v=17';
 // Public project configuration; no secret or service-role key belongs here.
 export const PROJECT='https://odghcjkznmxaeqlrvtbs.supabase.co';
 const KEY='sb_publishable_-Rz2O0TkZjres9XKIIwFWg_FLBDff_8';

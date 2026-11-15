@@ -1,5 +1,7 @@
 export const roster=['Rayan','Cedric','Slawa','Jan','Lukas','David','Devin','Lionel'];
+// Stable legacy key 5 denotes the corrected right-side back-row set, not court zone 5.
 export const positions=['4','3','2','5','6'];
+export const positionLabel=p=>String(p)==='5'?'2 Hinterfeld':String(p);
 export const categories=['Kill','Ass','Blockpunkt','Gute Annahme','Gute Abwehr','Gute Sicherung','Angriffsfehler','Aufschlagfehler','Annahmefehler','Abwehrfehler','Sicherungsfehler','Annahme/Abwehr-Fehler','Angabefehler'];
 export const defaultWeights=Object.fromEntries(categories.map((c,i)=>[c,i<3?3:i<6?1:c==='Sicherungsfehler'?-1:-2]));
 export const emptySet=(active)=>({pos:{},actions:{},subs:[],active:[...active],score:['',''],events:[],teamErrors:{},coverage:'Live erfasst; nur beobachtete Aktionen'});

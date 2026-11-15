@@ -1,4 +1,5 @@
-import {analyze,selectMatches,sortedPlayers,positive,negative,seasonOf,seasonLabel} from './analytics.mjs?v=16';
+import {positions,positionLabel} from './model.mjs?v=17';
+import {analyze,selectMatches,sortedPlayers,positive,negative,seasonOf,seasonLabel} from './analytics.mjs?v=17';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=n=>new Intl.NumberFormat('de-DE',{maximumFractionDigits:1}).format(n);
 const percent=(n,total)=>total?fmt(n/total*100)+' %':'—';
@@ -21,7 +22,7 @@ function errorPanel(a){
  const max=Math.max(1,...a.errorRows.map(r=>r.total));return '<section class="analysis-section"><div class="section-heading"><div><span class="eyebrow">Wo Punkte verloren gehen</span><h2>Fehler im Team</h2></div><span class="number-tag">'+a.errorCount+' erfasst</span></div>'+(a.errorCount?'<div class="error-distribution">'+a.errorRows.filter(r=>r.total).map(r=>'<div class="error-distribution-row"><div class="row"><b>'+esc(r.label)+'</b><span><strong>'+r.total+'</strong> <small>· '+percent(r.total,a.errorCount)+'</small></span></div><div class="error-track"><span style="width:'+r.total/max*100+'%"></span></div><small>'+r.assigned+' Spielern zugeordnet · '+r.unassigned+' ohne Zuordnung</small></div>').join('')+'</div><p class="table-note">Anteile beziehen sich auf die '+a.errorCount+' erfassten Fehler. Das ist keine Fehlerquote pro Versuch oder Ballkontakt.</p>':'<p class="analysis-empty">Keine Fehler im Protokoll dieser Auswahl. Bei historischen Lücken bedeutet das nicht, dass keine Fehler passiert sind.</p>')+'</section>';
 }
 function setterPanel(a){
- const pos=['4','3','2','5','6'];return '<section class="analysis-section"><div class="section-heading"><div><span class="eyebrow">Wohin der Ball geht</span><h2>Zuspielverteilung</h2></div><span class="number-tag">'+a.setterCount+' erfasst</span></div><div class="distribution-court"><span class="court-net">NETZ</span>'+pos.map(p=>'<div class="court-position court-pos-'+p+'"><small>Position '+p+'</small><b>'+(a.t.pos[p]||0)+'</b><span>'+percent(a.t.pos[p]||0,a.setterCount)+'</span></div>').join('')+'</div><p class="table-note">Anteil aller erfassten Zuspiele. Position 5 und 6 sind Hinterfeldpositionen. Keine Erfolgsquote der Angriffe.</p></section>';
+ const pos=positions;return '<section class="analysis-section"><div class="section-heading"><div><span class="eyebrow">Wohin der Ball geht</span><h2>Zuspielverteilung</h2></div><span class="number-tag">'+a.setterCount+' erfasst</span></div><div class="distribution-court"><span class="court-net">NETZ</span>'+pos.map(p=>'<div class="court-position court-pos-'+p+'"><small>Position '+positionLabel(p)+'</small><b>'+(a.t.pos[p]||0)+'</b><span>'+percent(a.t.pos[p]||0,a.setterCount)+'</span></div>').join('')+'</div><p class="table-note">Anteil aller erfassten Zuspiele. Position 2 und Position 2 Hinterfeld werden getrennt gezählt. Keine Erfolgsquote der Angriffe.</p></section>';
 }
 function insights(a){
  const topError=a.errorRows[0],topKill=sortedPlayers(a.rows,'kills')[0],topPlayerError=sortedPlayers(a.rows,'errors')[0];

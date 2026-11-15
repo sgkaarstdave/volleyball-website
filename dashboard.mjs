@@ -1,6 +1,6 @@
-import {canTrackDate} from './model.mjs?v=16';
-import {snapshot,dashboardFixtures,linkCandidates} from './schedule.mjs?v=16';
-import {analyze,selectMatches,seasonOf} from './analytics.mjs?v=16';
+import {canTrackDate} from './model.mjs?v=17';
+import {snapshot,dashboardFixtures,linkCandidates} from './schedule.mjs?v=17';
+import {analyze,selectMatches,seasonOf} from './analytics.mjs?v=17';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const dateLabel=(date,options={day:'2-digit',month:'2-digit',year:'numeric'})=>{const d=new Date(date+'T12:00:00Z');return Number.isFinite(d.getTime())?new Intl.DateTimeFormat('de-DE',{timeZone:'Europe/Berlin',...options}).format(d):'Datum unbekannt'};
 const dateChip=m=>'<div class="fixture-date"><b>'+dateLabel(m.date,{day:'2-digit'})+'</b><span>'+dateLabel(m.date,{month:'short'}).replace('.','')+'</span></div>';

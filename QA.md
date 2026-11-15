@@ -47,3 +47,7 @@ QA-Daten liegen ausschließlich im getrennten Browser-Testspeicher, nicht in ein
 - Veröffentlichte öffentliche Oberfläche ohne Login im Browser geprüft: Team/Kader mit eingeklappter Admin-Anmeldung, Spielplan ohne Start-/Ändern-/Löschen-/Import-Kontrollen, schreibgeschützter Spielstand und echte Cloud-Auswertung (58 Kills / 33 erfasste Fehler). Keine privaten QA-Daten sichtbar.
 - Blau-weiße Handyansicht bei 390 × 844 ohne seitlichen Seitenüberlauf, alle fünf Navigationspunkte sichtbar, keine Konsolenfehler. Kein echter iOS-Gerätetest und kein neuer authentifizierter Browser-Schreibtest.
 - 38 Tests nach zusätzlicher Prüfung: fehlende historische Asse/Blocks auch im öffentlichen Spielstand als fehlend gekennzeichnet, beobachtete Live-Nullwerte bleiben Null.
+
+## Korrektur der Zuspielposition
+- Die bisherige Zuspielkategorie 5 heißt jetzt Position 2 Hinterfeld, getrennt von Position 2 am Netz. Historische Aggregate, Live-Ereignisse, öffentliche Ansicht und Cloud-Backups behalten ihren stabilen Schlüssel; es werden keine Zähler verschoben oder doppelt gezählt. Aufstellungszonen bleiben reguläre Feldpositionen.
+- Auswertung zeigt den Hinterfeldangriff rechts hinten. Regression prüft 6 historische Zuspiele auf Position 2 Hinterfeld und 2 auf Position 2, Gesamtsumme weiterhin 41; gespeicherte Daten bleiben unverändert.

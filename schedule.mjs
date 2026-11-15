@@ -1,4 +1,4 @@
-import {snapshot} from './schedule-data.mjs?v=16';
+import {snapshot} from './schedule-data.mjs?v=17';
 export {snapshot};
 const clone=x=>structuredClone(x),normalize=s=>String(s).normalize('NFC').trim().replace(/\s+/g,' ').toLocaleLowerCase('de');
 export function applyFixtures(db,fixtures=snapshot.fixtures,{manual=false}={}){
