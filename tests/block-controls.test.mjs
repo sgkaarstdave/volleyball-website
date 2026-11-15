@@ -46,25 +46,25 @@ test('block dialog buttons save the swipe or tap, continue on either side, cance
     court.onpointerdown({target:a,isPrimary:true,pointerId:1,button:0,clientX:a.x,clientY:a.y,preventDefault(){}});
     court.onpointerup({pointerId:1,clientX:b.x,clientY:b.y});
   }
-  function click(id){assert.ok(dialog.open && dialog.html.includes('id="'+id+'"'));find('#'+id).onclick();}
+  async function click(id){assert.ok(dialog.open && dialog.html.includes('id="'+id+'"'));await find('#'+id).onclick();}
   for(const team of ['us','them']){
-    gesture('G4','Slawa');click('block-continues');
+    gesture('G4','Slawa');await click('block-continues');
     assert.equal(dialog.open,false);assert.deepEqual(saved().score,{us:0,them:0});
     assert.equal(saved().phase.team,null);assert.equal(saved().stats.us.Slawa.blockAttempts,1);
     const [from,to]=team==='us'?['Rayan','G3']:['G4','Slawa'];
-    gesture(from,to);click('block-point');
+    gesture(from,to);await click('block-point');
     assert.equal(saved().stats[team][from].attacks,team==='us'?1:2);
     assert.equal(saved().gaps,0);
-    find('#rally-undo').onclick();
+    await find('#rally-undo').onclick();
     assert.equal(saved().phase.team,null);
-    find('#rally-undo').onclick();
+    await find('#rally-undo').onclick();
   }
-  gesture('G4','Slawa');click('block-point');
+  gesture('G4','Slawa');await click('block-point');
   assert.equal(saved().score.us,1);assert.equal(saved().stats.them.G4.attacks,1);
-  find('#rally-undo').onclick();
+  await find('#rally-undo').onclick();
   find('#rally-type').onchange({target:{value:'block'}});
-  gesture('Slawa','Slawa');click('cancel-block');
+  gesture('Slawa','Slawa');await click('cancel-block');
   assert.deepEqual(saved().score,{us:0,them:0});
-  gesture('Slawa','Slawa');click('missing-attack');click('block-point');
+  gesture('Slawa','Slawa');await click('missing-attack');await click('block-point');
   assert.equal(saved().stats.us.Slawa.blocks,1);assert.equal(find('#rally-type').value,'auto');
 });

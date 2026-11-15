@@ -1,6 +1,6 @@
-import {dateLabel,fixtureMeta} from './dashboard.mjs?v=17';
-import {canTrackDate} from './model.mjs?v=17';
-import {snapshot,linkCandidates} from './schedule.mjs?v=17';
+import {dateLabel,fixtureMeta} from './dashboard.mjs?v=18';
+import {canTrackDate} from './model.mjs?v=18';
+import {snapshot,linkCandidates} from './schedule.mjs?v=18';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export function matchSummary(m){const r=m.official?.result;if(m.sets.length)return m.sets.map(s=>s.score.every(x=>x!=='')?esc(s.score.join(':')):'Satzstand nicht erfasst').join(' · ')+(r?' · WVV-Ergebnis: '+r.own+':'+r.opponent:'');return r?'WVV-Ergebnis: '+r.own+':'+r.opponent+' · '+r.setScores.map(s=>s.join(':')).join(' · '):'Noch kein Scouting'}
 export function renderMatches(db,{admin=false,filter='upcoming',today,newForm=''}={}){
