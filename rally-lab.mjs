@@ -1,10 +1,20 @@
-import {STORAGE_KEY,BACKUP_KEY,newSession,validateSession,rolesFromSetter,startSet,reduceSet,appendEvent,undoEvent,fieldLineup,serverOf,playerNodes,recognizeTrace,confirmTrace,reviseDraft,TYPES,SPOTS,spotLabel,other} from './rally-model.mjs?v=rally4';
-import {esc,teamLabel,eventText,contactText,renderActive,renderWelcome,renderStats,renderTraceReview,renderBlockControls,contactName} from './rally-view.mjs?v=rally4';
+import {STORAGE_KEY,BACKUP_KEY,newSession,validateSession,rolesFromSetter,startSet,reduceSet,appendEvent,undoEvent,fieldLineup,serverOf,playerNodes,recognizeTrace,confirmTrace,reviseDraft,TYPES,SPOTS,spotLabel,other} from './rally-model.mjs?v=rally5';
+import {esc,teamLabel,eventText,contactText,renderActive,renderWelcome,renderStats,renderTraceReview,renderBlockControls,contactName} from './rally-view.mjs?v=rally5';
 const $=s=>document.querySelector(s),uid=()=>crypto.randomUUID();
 let session=newSession(),baseline=null,error='',broken=false,legacyRaw=null,override='auto',rotationOnly=false,gesture=null;
 try{baseline=localStorage.getItem(STORAGE_KEY);if(baseline)session=validateSession(JSON.parse(baseline));else{legacyRaw=localStorage.getItem('rallyboard-scout-lab-v1');if(legacyRaw){const previous=JSON.parse(legacyRaw);session.legacyV1=previous;if(previous.roster?.length>=6)session.roster=[...previous.roster];}}}catch(e){broken=true;error='Vorhandene Testdaten konnten nicht geladen werden. Exportiere die Sicherung vor einem neuen Test.';}
 const current=()=>session.sets.at(-1),state=()=>current()&&reduceSet(current());
-function notice(text){$('#lab-notice').textContent=text;$('#lab-notice').style.display='block';clearTimeout(notice.timer);notice.timer=setTimeout(()=>$('#lab-notice').style.display='none',3700);}
+function notice(text){
+  const dialog=$('#lab-dialog');
+  if(dialog.open){
+    let message=dialog.querySelector('[role="alert"]');
+    if(!message){message=document.createElement('p');message.className='error';message.setAttribute('role','alert');dialog.querySelector('.dialog-head').after(message);}
+    message.textContent=text;
+    message.scrollIntoView({block:'nearest'});
+    return;
+  }
+  $('#lab-notice').textContent=text;$('#lab-notice').style.display='block';clearTimeout(notice.timer);notice.timer=setTimeout(()=>$('#lab-notice').style.display='none',3700);
+}
 function persist(next,force=false){try{if(broken&&!force)throw Error(error);if(localStorage.getItem(STORAGE_KEY)!==baseline)throw Error('Anderer Tab hat den Test geändert. Bitte neu laden.');validateSession(next);const raw=JSON.stringify(next);localStorage.setItem(STORAGE_KEY,raw);baseline=raw;session=next;broken=false;error='';render();return true;}catch(e){error=e.message;notice('Nicht gespeichert: '+error);return false;}}
 function commit(value){try{return persist(appendEvent(session,{id:uid(),at:new Date().toISOString(),...value}));}catch(e){notice(e.message);return false;}}
 const close='<button id="close-rally-dialog" type="button" aria-label="Schließen">✕</button>';
@@ -40,6 +50,7 @@ function setup(){
   paint();
 }
 function confirmPanel(draft){
+  if(draft.type==='block' && draft.contacts.at(-1).result!=='error')return confirmBlock(draft);
   const setId=current().id,count=current().events.length,last=draft.contacts.at(-1),errorSuggested=last.result==='error',scoring=['attack','serve','block','freeball'].includes(last.type)&&!errorSuggested;
   const review=renderTraceReview(draft);
   dialog(heading('ERKANNTER SPIELZUG',esc(draft.player)+' · '+contactName(last))+`${review}${renderBlockControls(draft)}<p class="rally-question">${esc(draft.question)}</p><div class="rally-confirm">${errorSuggested?'<button class="failure" data-result="error">Ja · Fehler zählen</button><button id="draw-again">Nein · neu zeichnen</button>':scoring?'<button class="success" data-result="point">Ja · Punkt</button><button data-result="continue">Nein · Ball läuft weiter</button>':'<button class="success" data-result="played">Ja · weitergespielt</button><button id="draw-again">Nein · verwerfen</button>'}</div>${scoring?'<button class="wide" data-result="error">Angriffs-/Kontaktfehler · Gegnerpunkt</button>':''}<p class="fine">${errorSuggested?'Die ganze gezeichnete Kontaktfolge wird zusammen gespeichert, der Gegner bekommt einen Punkt.':scoring?'Bei „Nein“ gibt es keinen Fehler und keinen Punkt. Vorher gezeichnete Annahme und Zuspiel werden trotzdem als weitergespielt erfasst.':'Kein Punkt. Der nächste erwartete Kontakt wird automatisch gewählt.'}</p><details class="dialog-details"><summary>Erkennung prüfen oder korrigieren</summary><p>Die Kontaktfolge ist aus deinem Weg abgeleitet. Nicht gezeichnete Ballkontakte werden nicht als gute Annahme oder gutes Zuspiel erfunden.</p>${draft.prefixCount?'<p>Vorheriger Aufschlag/Rückball wurde aus der Spielsituation ergänzt und ist als abgeleitet markiert.</p>':''}${last.type==='attack'?`<label class="form-label" for="rally-origin">Angriffsort</label><select class="form-input" id="rally-origin"><option value="">Nicht zuordnen</option>${SPOTS.map(p=>`<option value="${p}" ${draft.origin===p?'selected':''}>Pos. ${spotLabel(p)}</option>`).join('')}</select>`:''}<label class="form-label" for="rally-contact-type">Letzten Kontakt korrigieren</label><select class="form-input" id="rally-contact-type">${Object.entries(TYPES).filter(([t])=>t!=='unknownReturn').map(([t,label])=>`<option value="${t}" ${t===last.type?'selected':''}>${label}</option>`).join('')}</select><button class="wide" id="only-last">Nur den letzten Kontakt erfassen</button></details>`);
@@ -53,13 +64,62 @@ function confirmPanel(draft){
   document.querySelectorAll('[data-result]').forEach(b=>b.onclick=()=>{if(current().id!==setId||current().events.length!==count){$('#lab-dialog').close();notice('Der Ballwechsel hat sich geändert. Bitte neu erfassen.');return;}try{const before=state(),event=confirmTrace(b.dataset.blockTouch?reviseDraft(draft,{blockTouch:true}):draft,b.dataset.result);if(commit(event)){const after=state(),rotated=['us','them'].find(t=>before.teams[t].rotation!==after.teams[t].rotation);$('#lab-dialog').close();notice(after.finished?'Satz beendet · nächste Aufstellung im Spielmenü':rotated?teamLabel(rotated)+' rotiert · '+serverOf(after).player+' hat Aufschlag':'Spielzug gespeichert · '+TYPES[after.phase.type]+' als Nächstes');}}catch(e){notice(e.message);}});
 }
 function clearGesture(){gesture=null;document.body.classList.remove('rally-drawing');$('#rally-trail')?.setAttribute('d','');}
+function confirmBlock(draft){
+  const set=current(),eventCount=set.events.length;
+  if(draft.confirmMissingAttack){
+    dialog(heading('BLOCK','Hat der Gegner bereits angegriffen?')+'<p>Im Protokoll fehlt der Ball vor dem Block. Der Angriff bleibt ohne Spielerzuordnung.</p><div class="rally-confirm"><button id="missing-attack">Ja · weiter zum Block</button><button id="cancel-block">Abbrechen</button></div>');
+    $('#missing-attack').onclick=()=>confirmBlock({...draft,confirmMissingAttack:false});
+    $('#cancel-block').onclick=()=>$('#lab-dialog').close();
+    return;
+  }
+  try{
+    appendEvent(session,{...confirmTrace(draft,'continue'),id:uid()});
+  }catch(e){
+    notice(e.message+' Für einen beobachteten Angriff direkt vom Angreifer zum Vorderfeldblocker ziehen.');
+    return;
+  }
+  function save(result,ballTo){
+    if(current().id!==set.id || current().events.length!==eventCount){
+      $('#lab-dialog').close();notice('Der Spielstand hat sich geändert. Bitte den Block erneut erfassen.');return;
+    }
+    const reviewed=ballTo?reviseDraft(draft,{blockBallTo:ballTo}):draft;
+    if(commit(confirmTrace(reviewed,result))){
+      $('#lab-dialog').close();
+      if(override==='block'){override='auto';$('#rally-type').value='auto';}
+      notice(result==='continue'?'Ball läuft weiter · '+teamLabel(ballTo):result==='point'?'Blockpunkt für '+draft.player:'Blockfehler gezählt');
+    }
+  }
+  const title=heading('BLOCK · '+teamLabel(draft.team),esc(draft.player)+' · Blockpunkt?');
+  dialog(title+renderTraceReview(draft)+'<div class="rally-confirm"><button id="block-point" class="success">Ja · Blockpunkt</button><button id="block-continues">Nein · Ball läuft weiter</button></div><button id="block-fault" class="wide">Blockfehler · Punkt für die Gegenseite</button>');
+  $('#block-point').onclick=()=>save('point');
+  $('#block-fault').onclick=()=>save('error');
+  $('#block-continues').onclick=()=>{
+    dialog(heading('BALL LÄUFT WEITER','Wer spielt den nächsten Ball?')+'<div class="rally-confirm"><button id="block-us">SG Kaarst</button><button id="block-them">Gegner</button></div>');
+    $('#block-us').onclick=()=>save('continue','us');
+    $('#block-them').onclick=()=>save('continue','them');
+  };
+}
+// Pointer capture sends pointerup to the court. Hit-test the visible badge
+// and name at release instead of using the captured event target.
+function releasePlayer(court,x,y){
+  let nearest=null,best=Infinity;
+  for(const button of court.querySelectorAll('[data-node]')){
+    for(const label of button.querySelectorAll(':scope > span, :scope > b')){
+      const rect=label.getBoundingClientRect();
+      const dx=Math.max(rect.left-x,0,x-rect.right),dy=Math.max(rect.top-y,0,y-rect.bottom);
+      const distance=Math.hypot(dx,dy);
+      if(distance<=5 && distance<best){nearest=button.dataset.node;best=distance;}
+    }
+  }
+  return nearest;
+}
 function bindCourt(){
   const court=$('#rally-court');if(!court)return;
   const xy=e=>{const r=court.getBoundingClientRect();return [(e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height,performance.now()];};
   const tap=(team,player)=>{try{confirmPanel(recognizeTrace(state(),{team,player,tap:true,override:override==='auto'?null:override,nodes:playerNodes(state(),{rotationOnly})}));}catch(e){notice(e.message);}};
   court.onpointerdown=e=>{const b=e.target.closest('[data-node]');if(!b||b.disabled||!e.isPrimary||e.button!==0||gesture)return;const p=xy(e);gesture={id:e.pointerId,team:b.dataset.team,player:b.dataset.player,samples:[p],start:p,nodes:playerNodes(state(),{rotationOnly}),count:current().events.length};court.setPointerCapture(e.pointerId);document.body.classList.add('rally-drawing');e.preventDefault();};
   court.onpointermove=e=>{if(!gesture||e.pointerId!==gesture.id)return;const p=xy(e),last=gesture.samples.at(-1);if(Math.hypot(p[0]-last[0],p[1]-last[1])>.004&&gesture.samples.length<2000)gesture.samples.push(p);$('#rally-trail').setAttribute('d',gesture.samples.map((v,i)=>(i?'L':'M')+' '+v[0]*600+' '+v[1]*640).join(' '));};
-  court.onpointerup=e=>{if(!gesture||e.pointerId!==gesture.id)return;const g=gesture;g.samples.push(xy(e));clearGesture();if(court.hasPointerCapture(e.pointerId))court.releasePointerCapture(e.pointerId);if(g.count!==current().events.length){notice('Ballwechsel hat sich geändert. Bitte neu zeichnen.');return;}const moved=g.samples.some(p=>Math.hypot((p[0]-g.start[0])*600,(p[1]-g.start[1])*640)>30);if(!moved){tap(g.team,g.player);return;}try{confirmPanel(recognizeTrace(state(),{...g,override:override==='auto'?null:override}));}catch(error){notice(error.message);}};
+  court.onpointerup=e=>{if(!gesture||e.pointerId!==gesture.id)return;const g=gesture;g.samples.push(xy(e));clearGesture();if(court.hasPointerCapture(e.pointerId))court.releasePointerCapture(e.pointerId);if(g.count!==current().events.length){notice('Ballwechsel hat sich geändert. Bitte neu zeichnen.');return;}const moved=g.samples.some(p=>Math.hypot((p[0]-g.start[0])*600,(p[1]-g.start[1])*640)>30);if(!moved){tap(g.team,g.player);return;}try{confirmPanel(recognizeTrace(state(),{...g,endNode:releasePlayer(court,e.clientX,e.clientY),override:override==='auto'?null:override}));}catch(error){notice(error.message);}};
   court.onpointercancel=clearGesture;court.onlostpointercapture=clearGesture;
   court.querySelectorAll('[data-node]').forEach(b=>b.onclick=e=>{if(e.detail===0)tap(b.dataset.team,b.dataset.player);});
 }

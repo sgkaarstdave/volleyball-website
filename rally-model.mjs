@@ -197,11 +197,66 @@ export function reviseDraft(draft,{type,onlyLast=false,quality,origin,blockTouch
   if(blockBallTo!==undefined){check(last.type==='block'&&['us','them'].includes(blockBallTo),'Ballseite passt nicht zum Block.');next.blockBallTo=blockBallTo;}
   next.type=last.type;next.player=last.player;next.question=questionFor(last,next.target);return next;
 }
-export function recognizeTrace(state,{team,player,samples,nodes=playerNodes(state),tap=false,override=null}){
+function attackToBlock(state, attacker, blocker, samples) {
+  const contacts = [];
+  let ballTeam = state.phase.team;
+  if (state.phase.type === 'serve') {
+    const server = serverOf(state);
+    contacts.push({...server, type:'serve', result:'played', inferred:true});
+    ballTeam = other(server.team);
+  }
+  const previous = state.last;
+  const attackAlreadyRecorded = ballTeam === blocker.team && previous?.type === 'attack'
+    && previous.team === attacker.team && previous.player === attacker.player;
+  if (!attackAlreadyRecorded) {
+    if (ballTeam !== attacker.team) {
+      contacts.push({team:ballTeam, player:null, type:'unknownReturn', result:'played', inferred:true});
+    }
+    contacts.push({team:attacker.team, player:attacker.player, type:'attack', result:'continue', origin:attacker.origin});
+  }
+  contacts.push({team:blocker.team, player:blocker.player, type:'block', result:'continue'});
+  return {contacts, team:blocker.team, player:blocker.player, type:'block', question:'Blockpunkt?',
+    blockBallTo:blocker.team, target:null, reason:'other', prefixCount:contacts.filter(c=>c.inferred).length,
+    samples:samples.map(p=>p.slice(0,2))};
+}
+
+function manualBlock(state,team,player) {
+  const slot=fieldLineup(state,team).indexOf(player)+1;
+  check([2,3,4].includes(slot) && (team!=='us' || player!==state.system.libero),'Bitte einen Vorderfeldspieler auf Position 2, 3 oder 4 wählen.');
+  const contacts=[];
+  let ballTeam=state.phase.team;
+  if(state.phase.type==='serve'){
+    const server=serverOf(state);
+    contacts.push({...server,type:'serve',result:'played',inferred:true});
+    ballTeam=other(server.team);
+  }
+  const incoming=state.last?.team===other(team) && ['attack','freeball','unknownReturn','block'].includes(state.last.type) && ballTeam===team;
+  if(!incoming){
+    if(ballTeam===team)contacts.push({team,player:null,type:'unknownReturn',result:'played',inferred:true});
+    contacts.push({team:other(team),player:null,type:'unknownReturn',result:'played',inferred:true});
+  }
+  const prefixCount=contacts.length;
+  contacts.push({team,player,type:'block',result:'continue'});
+  return {team,player,type:'block',question:'Blockpunkt?',tap:true,target:null,samples:null,
+    reason:'other',contacts,prefixCount,blockBallTo:team,confirmMissingAttack:!incoming};
+}
+
+export function recognizeTrace(state,{team,player,samples,nodes=playerNodes(state),tap=false,override=null,endNode=null}){
   check(!state.finished,'Der Satz ist beendet.');
   check(fieldLineup(state,team).includes(player),'Spieler nicht auf dem Feld.');
+  if(tap && override==='block')return manualBlock(state,team,player);
   check(tap||(Array.isArray(samples)&&samples.length>=2&&samples.every(p=>Array.isArray(p)&&p.length>=2&&p.slice(0,2).every(Number.isFinite))&&samples.length<=3000),'Ungültiger Wischweg.');
   if(!tap)check(samples.slice(1).some(p=>dist(p,samples[0])>30),'Bitte weiter ziehen oder den Spieler antippen.');
+  if (!tap && endNode && (!override || override === 'block') && crossesNet(samples,team)) {
+    const attacker = nodes.find(n=>n.team===team && n.player===player && !n.ghost);
+    const blocker = nodes.find(n=>n.id===endNode && n.team!==team && !n.ghost);
+    const length = samples.slice(1).reduce((sum,p,i)=>sum+dist(samples[i],p),0);
+    const direct = length <= 1.35 * dist(samples[0],samples.at(-1));
+    if (direct && attacker && !attacker.server && attacker.role!=='L' && blocker &&
+        [2,3,4].includes(blocker.slot) && blocker.role!=='L') {
+      return attackToBlock(state,attacker,blocker,samples);
+    }
+  }
   const prefix=[],expected=state.phase;
   let type=expected.type;
   if(expected.team!==team){

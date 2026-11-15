@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {newSession,startSet,rolesFromSetter,reduceSet,appendEvent,validateSession,recognizeTrace,confirmTrace,reviseDraft,playerNodes} from '../rally-model.mjs';
+import {newSession,startSet,rolesFromSetter,reduceSet,appendEvent,undoEvent,validateSession,recognizeTrace,confirmTrace,reviseDraft,playerNodes} from '../rally-model.mjs';
 import {renderBlockControls,contactText} from '../rally-view.mjs';
 const lineup=['David','Cedric','Slawa','Rayan','Lukas','Jan'];
 const fresh=(serving='us')=>startSet(newSession(),{lineups:{us:lineup,them:['G1','G2','G3','G4','G5','G6']},serving,system:{type:'5:1',roles:rolesFromSetter(lineup,'Jan'),libero:null}},'a');
@@ -8,6 +8,50 @@ const state=s=>reduceSet(s.sets.at(-1));
 const contact=(team,player,type,result='played',extra={})=>({team,player,type,result,...extra});
 const play=(s,contacts)=>appendEvent(s,{id:'e'+s.sets[0].events.length,kind:'play',contacts});
 function incoming(){let s=fresh();s=play(s,[contact('us','David','serve','continue')]);return play(s,[contact('them','G1','defense'),contact('them','G3','set'),contact('them','G4','attack','continue')]);}
+
+function swipe(s, from, to, end=true) {
+  const a=state(s),nodes=playerNodes(a),start=nodes.find(n=>n.player===from),stop=nodes.find(n=>n.player===to);
+  return recognizeTrace(a,{team:start.team,player:from,nodes,endNode:end?stop.id:null,samples:[[start.x,start.y,0],[stop.x,stop.y,180]]});
+}
+
+test('direct attack to a blocker counts once, on both sides, and can be undone as one gesture',()=>{
+  for(const [serving,from,to] of [['us','G4','Slawa'],['them','Rayan','G3']]){
+    const s=fresh(serving),draft=swipe(s,from,to);
+    assert.deepEqual(draft.contacts.map(c=>c.type),['serve','attack','block']);
+    assert.equal(draft.player,to);
+    for(const result of ['point','continue']){
+      const event=confirmTrace(reviseDraft(draft,{blockBallTo:serving} ),result);
+      const next=appendEvent(s,{id:'stroke',...event}),a=state(next);
+      assert.equal(a.stats[serving][to].blockAttempts,1);
+      assert.equal(a.stats[serving][to].blocks??0,result==='point'?1:0);
+      assert.equal(a.score[serving],result==='point'?1:0);
+      assert.equal(a.stats[serving==='us'?'them':'us'][from].attacks,1);
+      assert.equal(a.phase.team,serving);
+      assert.deepEqual(undoEvent(next),s);
+    }
+  }
+});
+test('a repeat stroke from an already recorded attacker attaches the block without another attack',()=>{
+  const s=incoming(),draft=swipe(s,'G4','Slawa');
+  assert.deepEqual(draft.contacts.map(c=>c.type),['block']);
+  const a=state(play(s,confirmTrace(draft,'point').contacts));
+  assert.equal(a.stats.them.G4.attacks,1);
+  assert.equal(a.stats.us.Slawa.blocks,1);
+});
+test('serve, empty landing area, and back-row destination keep ordinary stroke handling',()=>{
+  assert.equal(swipe(fresh('them'),'G1','Slawa').type,'serve');
+  assert.notEqual(swipe(fresh(),'G4','David').type,'block');
+  assert.notEqual(swipe(fresh(),'G4','Slawa',false).type,'block');
+});
+test('manual block tap asks about missing attack before scoring and permits both initial servers',()=>{
+  for(const serving of ['us','them']){
+    const s=fresh(serving),d=recognizeTrace(state(s),{team:'us',player:'Slawa',tap:true,override:'block'});
+    assert.ok(d.confirmMissingAttack);
+    const a=state(play(s,confirmTrace(d,'point').contacts));assert.equal(a.stats.us.Slawa.blocks,1);
+    assert.equal(Object.values(a.stats.them).some(row=>row.attacks),false);
+    assert.throws(()=>recognizeTrace(state(s),{team:'us',player:'David',tap:true,override:'block'}),/Vorderfeld/);
+  }
+});
 
 test('blocker may play next ball; block does not consume one of three team hits',()=>{
   let s=play(incoming(),[contact('us','Slawa','block','continue',{ballTo:'us'})]);assert.equal(state(s).phase.touches,0);
