@@ -1,4 +1,3 @@
-const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const percent=(hits,total)=>total?Math.round(100*hits/total)+' %':'—';
 
 export function summarizeField(matches){
@@ -24,7 +23,22 @@ export function summarizeField(matches){
   return {team,players,setCount};
 }
 
-export function renderFieldReport(report,view){
+
+const rateMetrics=[
+ ['Killquote','kills','attacks','Angriffen'],['Angriffsfehler','attackErrors','attacks','Angriffen'],
+ ['Assquote','aces','serves','Aufschlägen'],['Aufschlagfehler','serveErrors','serves','Aufschlägen'],
+ ['Annahmefehler','receiveErrors','receptions','Annahmen'],['Annahme weitergespielt','receptionsPlayed','receptions','Annahmen'],['Zuspiel­fehler','setErrors','sets','Zuspielen'],
+ ['Blockpunkte','blocks','blockAttempts','Blockkontakten'],['Zuspiel weitergespielt','setsPlayed','sets','Zuspielen'],['Abwehrfehler','defenseErrors','defenses','Abwehraktionen']
+];
+export function contactRates(row={}){
+ const cells=rateMetrics.filter(([,,attempt])=>row[attempt]>0).map(([label,outcome,attempt,unit])=>{
+   const n=row[outcome]||0,total=row[attempt];
+   return `<div><dt>${label}</dt><dd>${percent(n,total)}<small>${n} von ${total} ${unit}</small></dd></div>`;
+ });
+ return cells.length?'<dl class="stat-values contact-rates">'+cells.join('')+'</dl>':'';
+}
+
+export function renderFieldReport(report){
   if(!report.setCount)return '';
   const t=report.team;
   const phases=[
@@ -45,14 +59,7 @@ export function renderFieldReport(report,view){
   if(t.attacks)observations.push('Der Angriff brachte '+(t.kills||0)+' direkte Punkte aus '+t.attacks+' erfassten Versuchen.');
   const coverage=report.setCount+' '+(report.setCount===1?'Satz':'Sätze')+' mit Feldtracking';
   let html='<section class="field-report"><div class="field-report-head"><div><small>'+coverage+'</small><h2>Ballkontakte im Überblick</h2></div></div>';
-  if(view==='players'){
-    const columns=[['Annahmefehler','receptions','receiveErrors'],['Kills','attacks','kills'],['Aufschlagfehler','serves','serveErrors'],['Blockpunkte','blockAttempts','blocks'],['Zuspiel­fehler','sets','setErrors'],['Abwehrfehler','defenses','defenseErrors']];
-    html+='<p>Jedes Zahlenpaar zeigt das Ergebnis im Verhältnis zu den erfassten Versuchen.</p><div class="table-scroll" tabindex="0"><table class="data-table"><thead><tr><th>Spieler</th>'+columns.map(([label])=>'<th>'+label+'</th>').join('')+'</tr></thead><tbody>';
-    for(const [name,row] of [...report.players].sort(([a],[b])=>a.localeCompare(b,'de')))html+='<tr><th>'+escape(name)+'</th>'+columns.map(([,attempt,outcome])=>'<td>'+(row[attempt]?(row[outcome]||0)+' / '+row[attempt]:'—')+'</td>').join('')+'</tr>';
-    html+='</tbody></table></div>';
-  }else{
-    html+='<h3>Fehler je erfasstem Versuch</h3><div class="phase-rates">'+phases.map(([label,n,total])=>'<article><span>'+label+'</span><strong>'+percent(n,total)+'</strong><small>'+n+' Fehler / '+total+' Versuche</small></article>').join('')+'</div>';
-    if(observations.length)html+='<h3>Was in dieser Auswahl auffällt</h3><ul>'+observations.map(text=>'<li>'+text+'</li>').join('')+'</ul>';
-  }
+  html+=contactRates(t)||'<p>Noch keine Ballkontakte mit Versuchen erfasst.</p>';
+  if(observations.length)html+='<h3>Was in dieser Auswahl auffällt</h3><ul>'+observations.map(text=>'<li>'+text+'</li>').join('')+'</ul>';
   return html+'<p class="table-note">Die Quoten beziehen sich auf protokollierte Kontakte in der gewählten Auswahl. Zusätzliche Sätze mit Aktionstasten oder historischen Summen fließen nur in die Gesamtzahlen ein.</p></section>';
 }

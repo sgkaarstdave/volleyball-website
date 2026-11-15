@@ -1,4 +1,4 @@
-import {totals,defaultWeights} from './model.mjs?v=18';
+import {totals,defaultWeights} from './model.mjs?v=19';
 export const positive=['Kill','Ass','Blockpunkt','Gute Annahme','Gute Abwehr','Gute Sicherung'];
 export const negative=['Angriffsfehler','Aufschlagfehler','Annahmefehler','Abwehrfehler','Sicherungsfehler','Annahme/Abwehr-Fehler','Zuspielfehler','Blockfehler','Rückballfehler'];
 export const errorLabels=['Angriff','Aufschlag','Annahme','Abwehr','Sicherung','Annahme / Abwehr · historisch','Zuspiel','Block','Rückball'];

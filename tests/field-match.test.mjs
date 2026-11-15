@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {migrate,resetTracking,restoreTracking} from '../model.mjs';
 import {startSet,rolesFromSetter,appendEvent,undoEvent,reduceSet} from '../rally-model.mjs';
 import {fieldSession,saveFieldMatch} from '../field-match.mjs';
-import {summarizeField,renderFieldReport} from '../field-report.mjs';
+import {summarizeField,contactRates} from '../field-report.mjs';
 import {analyze,selectMatches} from '../analytics.mjs';
 import {viewerBoard} from '../access.mjs';
 import {renderStats} from '../stats.mjs';
@@ -36,7 +36,7 @@ test('field match score, backup, viewer projection and seasonal rates agree afte
   const scoped=selectMatches(publicDb.matches,{season:'2026',matchId:id,setIndex:'0'});
   assert.equal(analyze(scoped).kills,1);assert.equal(summarizeField(scoped).team.attacks,1);
   assert.match(renderStats(publicDb,{matchId:id}),/1 Annahme wurde als ungenau bestätigt/);
-  assert.match(renderFieldReport(summarizeField(scoped),'players'),/1 \/ 1/);
+  assert.match(renderStats(publicDb,{matchId:id,view:'players'}),/1 von 1/);
   assert.equal(summarizeField(selectMatches(publicDb.matches,{season:'2025'})).setCount,0);
   assert.throws(()=>saveFieldMatch(db,id,restored,null,date),/geändert/);
   const archived=resetTracking(db,id);assert.equal(summarizeField([m]).setCount,0);
@@ -51,4 +51,10 @@ test('field entry rejects future, finished and existing manual sets',()=>{
   m.done=true;assert.throws(()=>saveFieldMatch(db,id,session,null,date),/beendet/);
   m.done=false;m.sets=[{actions:{}}];assert.throws(()=>fieldSession(m,db.players),/Aktionstasten/);
   assert.throws(()=>saveFieldMatch(db,id,session,null,date),/geändert/);
+});
+
+test('Kontaktquoten zeigen Versuche und trennen Nulltreffer von fehlenden Daten',()=>{
+  const html=contactRates({kills:0,attacks:3,serveErrors:1,serves:4});
+  assert.match(html,/0 %<small>0 von 3 Angriffen/);assert.match(html,/25 %<small>1 von 4 Aufschlägen/);
+  assert.doesNotMatch(html,/Blockpunkte/);assert.equal(contactRates({}), '');
 });

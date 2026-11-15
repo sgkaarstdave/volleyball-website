@@ -1,5 +1,5 @@
-import {STORAGE_KEY,BACKUP_KEY,newSession,validateSession,rolesFromSetter,startSet,reduceSet,appendEvent,undoEvent,fieldLineup,serverOf,playerNodes,recognizeTrace,confirmTrace,reviseDraft,TYPES,SPOTS,spotLabel,other} from './rally-model.mjs?v=rally6';
-import {esc,teamLabel,eventText,contactText,renderActive,renderWelcome,renderStats,renderTraceReview,renderBlockControls,contactName} from './rally-view.mjs?v=rally6';
+import {STORAGE_KEY,BACKUP_KEY,newSession,validateSession,rolesFromSetter,startSet,reduceSet,appendEvent,undoEvent,fieldLineup,serverOf,playerNodes,recognizeTrace,confirmTrace,reviseDraft,TYPES,SPOTS,spotLabel,other} from './rally-model.mjs?v=rally7';
+import {esc,teamLabel,eventText,contactText,renderActive,renderWelcome,renderStats,renderTraceReview,renderBlockControls,contactName} from './rally-view.mjs?v=rally7';
 const $=s=>document.querySelector(s),uid=()=>crypto.randomUUID();
 const isField=document.documentElement?.dataset.field==='live';
 const host=isField && window.parent!==window ? window.parent.rallyField : null;
@@ -173,7 +173,7 @@ function render(){
   if(host && state().finished){
    const won=matchWon(),button=document.createElement('button');
    button.className='primary field-next';button.textContent=won?'Spiel abschließen & auswerten':'Aufstellung für den nächsten Satz';
-   button.onclick=won?finishPanel:setup;$('#lab-app').querySelector('.iphone-guard').replaceChildren(button);
+   button.onclick=won?finishPanel:setup;const guard=$('#lab-app').querySelector('.iphone-guard');guard.removeAttribute('aria-hidden');guard.replaceChildren(button);
  }
  $('#rally-menu').onclick=menu;$('#toggle-formation').onclick=async()=>{rotationOnly=!rotationOnly;render();};$('#rally-type').onchange=e=>{override=e.target.value;};$('#rally-undo').onclick=async()=>{if(await persist(undoEvent(session)))notice('Ganze Kontaktkette mit Punkt und beiden Rotationen rückgängig.');};bindCourt();
 }
