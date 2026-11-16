@@ -1,5 +1,5 @@
-import {STORAGE_KEY,BACKUP_KEY,newSession,validateSession,rolesFromSetter,startSet,reduceSet,appendEvent,undoEvent,fieldLineup,serverOf,playerNodes,recognizeTrace,confirmTrace,reviseDraft,TYPES,SPOTS,spotLabel,other} from './rally-model.mjs?v=rally7';
-import {esc,teamLabel,eventText,contactText,renderActive,renderWelcome,renderStats,renderTraceReview,renderBlockControls,contactName} from './rally-view.mjs?v=rally7';
+import {STORAGE_KEY,BACKUP_KEY,newSession,validateSession,rolesFromSetter,startSet,reduceSet,appendEvent,undoEvent,fieldLineup,serverOf,playerNodes,recognizeTrace,confirmTrace,reviseDraft,TYPES,SPOTS,spotLabel,other} from './rally-model.mjs?v=rally8';
+import {esc,teamLabel,eventText,contactText,renderActive,renderWelcome,renderStats,renderTraceReview,renderBlockControls,contactName} from './rally-view.mjs?v=rally8';
 const $=s=>document.querySelector(s),uid=()=>crypto.randomUUID();
 const isField=document.documentElement?.dataset.field==='live';
 const host=isField && window.parent!==window ? window.parent.rallyField : null;

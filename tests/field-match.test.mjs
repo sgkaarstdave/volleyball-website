@@ -58,3 +58,19 @@ test('Kontaktquoten zeigen Versuche und trennen Nulltreffer von fehlenden Daten'
   assert.match(html,/0 %<small>0 von 3 Angriffen/);assert.match(html,/25 %<small>1 von 4 Aufschlägen/);
   assert.doesNotMatch(html,/Blockpunkte/);assert.equal(contactRates({}), '');
 });
+
+test('emergency set survives public reporting without a positional count for the designated setter',()=>{
+  const {db,m,session,us}=example();
+  const set=session.sets[0],events=set.events;
+  const observed=events[0].contacts.map(c=>({...c}));
+  Object.assign(observed[2],{player:us[3],emergency:true,origin:'3'});
+  observed[3].origin='3';
+  const revised=appendEvent(undoEvent(session),{id:'confirmed',kind:'play',contacts:observed});
+  saveFieldMatch(db,id,revised,null,date);
+  const {pos,actions,coverage,active}=m.sets[0];
+  const visible=viewerBoard({players:us,matches:[{id,date,opponent:'Gast',sets:[{pos,actions,coverage,active}]}]});
+  const summary=summarizeField(visible.matches),team=analyze(visible.matches);
+  assert.equal(team.setterCount,0);assert.equal(team.kills,1);
+  assert.equal(summary.players.get(us[3]).emergencySets,1);assert.equal(summary.team.receptionsImprecise,1);
+  assert.match(renderStats(visible,{view:'players'}),/Notzuspiel-Anteil<\/dt><dd>100 %/);
+});

@@ -1,11 +1,11 @@
-import {openField} from './field-host.mjs?v=19';
+import {openField} from './field-host.mjs?v=20';
 import {renderMatches,lineupOptions} from './match-ui.mjs?v=19';
 import {viewerBoard,fallbackViewer} from './access.mjs?v=19';
 import {publicLive,publicTeam} from './viewer-ui.mjs?v=19';
 import {renderDashboard,fixtureMeta,dateLabel,safeWvvUrl} from './dashboard.mjs?v=19';
 import {snapshot,applyFixtures,linkCandidates,linkFixture,berlinToday} from './schedule.mjs?v=19';
 import {fixturesFromCsv} from './wvv-parser.mjs?v=19';
-import {renderStats} from './stats.mjs?v=19';
+import {renderStats} from './stats.mjs?v=20';
 import {selectMatches,analyze,playerCsv,seasonOf} from './analytics.mjs?v=19';
 import {signedIn,canEdit as roleCanEdit,restoreAdminRole,fetchPublicBoard,account,login,logout,exchange,applyExchange,pending} from './cloud.mjs?v=19';
 import {roster,positions,positionLabel,categories,defaultWeights,emptySet,migrate,totals,record,undo,visibleMatches,trashMatch,restoreMatch,updateMatch,startTracking,startNextSet,needsInitialLineup,canTrackDate,assertTrackableMatch,resetTracking,restoreTracking} from './model.mjs?v=19';

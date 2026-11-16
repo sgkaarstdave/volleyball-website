@@ -153,7 +153,7 @@ test('second back-row contact over net and beyond opponent baseline is attack ou
 test('emergency set to own attacker remains played set; adding third contact creates a complete attack chain',()=>{
   const s=fresh(),delivered=trace(s,[[.49,.77],[.23,.77],[.23,.59]]),full=trace(s,[[.49,.77],[.23,.77],[.23,.59],[.7,.2]]);
   assert.deepEqual(delivered.contacts.map(c=>c.type),['serve','receive','set']);assert.equal(delivered.contacts.at(-1).emergency,true);const a=state(confirm(s,delivered,'played'));assert.equal(a.stats.us.Lukas.setsPlayed,1);assert.equal(a.stats.us.Rayan,undefined);assert.equal(a.phase.type,'attack');
-  assert.deepEqual(full.contacts.map(c=>c.type),['serve','receive','set','attack']);const b=state(confirm(s,full,'point'));assert.equal(b.stats.us.Lukas.emergencySets,1);assert.equal(b.stats.us.Rayan.kills,1);assert.equal(b.distribution.us['4'],1);
+  assert.deepEqual(full.contacts.map(c=>c.type),['serve','receive','set','attack']);const b=state(confirm(s,full,'point'));assert.equal(b.stats.us.Lukas.emergencySets,1);assert.equal(b.stats.us.Rayan.kills,1);assert.deepEqual(b.distribution.us,{});
 });
 test('a second contact ending at net stays a set error; its back-row variant is marked emergency',()=>{
   const s=fresh(),regular=trace(s,[[.49,.77],[.64,.565],[.64,.465]]),emergency=trace(s,[[.49,.77],[.23,.77],[.23,.465]]);
@@ -188,4 +188,31 @@ test('ambiguous straight transfer across two back teammates asks for a clearer c
   assert.throws(()=>trace(s,[[.79,.77],[.015,.77]],'Jan'),/Mehrere Hinterspieler/);
   const d=trace(s,[[.79,.77],[.23,.77],[.03,.93]],'Jan');assert.equal(d.player,'Lukas');assert.equal(d.type,'set');assert.equal(d.contacts.filter(c=>c.team==='us').length,2);
   assert.equal(crossesNet([[.2,.77],[.2,.2],[.23,.77],[.02,.77]],'us',2),false);
+});
+
+test('serve reception, relief set and middle attack are attributed independently of the rally outcome',()=>{
+  const s=fresh(), middle=[.45,.59];
+  for(const second of [[.23,.77],[.79,.59]]){
+    const d=trace(s,[[.49,.77],second,middle,[.52,.20]]);
+    assert.deepEqual(d.contacts.map(c=>c.type),['serve','receive','set','attack']);
+    assert.equal(d.receptionQuality.player,'David');assert.equal(d.receptionQuality.value,'imprecise');
+    assert.equal(d.contacts[2].emergency,true);assert.equal(d.origin,'3');
+    for(const result of ['point','continue','error']){
+      const saved=confirm(s,d,result),a=state(saved);
+      assert.equal(a.stats.us.David.receptionsImprecise,1);assert.equal(a.stats.us.David.receiveErrors,undefined);
+      assert.equal(a.stats.us[d.contacts[2].player].emergencySets,1);assert.deepEqual(a.distribution.us,{});
+      assert.equal(a.stats.us.Cedric.attacks,1);assert.equal(a.stats.us.Cedric.kills,result==='point'?1:undefined);
+      assert.deepEqual(undoEvent(saved),s);
+    }
+    const legacy=confirm(s,d,'point');legacy.sets[0].events[0].rulesVersion=2;
+    assert.equal(state(legacy).distribution.us['3'],1);
+  }
+});
+test('setter role follows a substitution, and receiving the serve personally does not imply a poor pass',()=>{
+ const s=add(fresh(),{kind:'sub',team:'us',out:'Jan',in:'Devin'});
+ const regular=trace(s,[[.49,.77],[.64,.565],[.45,.59],[.4,.2]]);
+ assert.equal(regular.contacts[2].player,'Devin');assert.ok(!regular.contacts[2].emergency);assert.equal(regular.receptionQuality,null);
+ assert.equal(state(confirm(s,regular,'point')).distribution.us['3'],1);
+ const fromSetter=trace(s,[[.64,.565],[.79,.59],[.45,.59],[.4,.2]],'Devin');
+ assert.equal(fromSetter.receptionQuality,null);assert.equal(fromSetter.contacts[2].emergency,true);
 });

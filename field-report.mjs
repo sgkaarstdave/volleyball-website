@@ -28,6 +28,7 @@ const rateMetrics=[
  ['Killquote','kills','attacks','Angriffen'],['Angriffsfehler','attackErrors','attacks','Angriffen'],
  ['Assquote','aces','serves','Aufschlägen'],['Aufschlagfehler','serveErrors','serves','Aufschlägen'],
  ['Annahmefehler','receiveErrors','receptions','Annahmen'],['Annahme weitergespielt','receptionsPlayed','receptions','Annahmen'],['Zuspiel­fehler','setErrors','sets','Zuspielen'],
+ ['Notzuspiel-Anteil','emergencySets','sets','Zuspielen'],['Annahme ungenau bestätigt','receptionsImprecise','receptions','Annahmen'],
  ['Blockpunkte','blocks','blockAttempts','Blockkontakten'],['Zuspiel weitergespielt','setsPlayed','sets','Zuspielen'],['Abwehrfehler','defenseErrors','defenses','Abwehraktionen']
 ];
 export function contactRates(row={}){

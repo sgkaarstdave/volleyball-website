@@ -59,7 +59,7 @@ function scorePoint(state,winner) {
   state.finished=Math.max(state.score.us,state.score.them)>=state.target&&Math.abs(state.score.us-state.score.them)>=2;
   resetLibero(state);
 }
-function applyContact(state,c,{strict=false}={}) {
+function applyContact(state,c,{rulesVersion=0}={}) {
   check(['us','them'].includes(c.team)&&TYPES[c.type],'Ungültiger Kontakt.');
   check(['played','continue','point','error'].includes(c.result),'Ungültiges Kontaktergebnis.');
   if(c.type==='unknownReturn'){
@@ -73,7 +73,7 @@ function applyContact(state,c,{strict=false}={}) {
   else check(state.phase.type!=='serve','Der Aufschlag fehlt noch.');
   if(c.type==='block'){
     check([2,3,4].includes(slot)&&c.player!==state.system.libero,'Ein Hinterfeldspieler oder Libero darf nicht blocken.');
-    if(strict){check(state.last?.type!=='serve','Ein gegnerischer Aufschlag darf nicht geblockt werden.');check(state.last&&((state.last.team!==c.team&&['attack','freeball','block','unknownReturn'].includes(state.last.type))||state.last.type==='block'),'Ein Block setzt einen ankommenden gegnerischen Ball voraus.');}
+    if(rulesVersion>=2){check(state.last?.type!=='serve','Ein gegnerischer Aufschlag darf nicht geblockt werden.');check(state.last&&((state.last.team!==c.team&&['attack','freeball','block','unknownReturn'].includes(state.last.type))||state.last.type==='block'),'Ein Block setzt einen ankommenden gegnerischen Ball voraus.');}
   }
   if(c.type==='attack')check(c.player!==state.system.libero,'Ein Libero-Angriff wird nicht automatisch angenommen. Bitte den Kontakt korrigieren.');
   if(c.type!=='block'&&state.last?.type!=='block'&&state.last?.team===c.team&&state.last.player===c.player)check(false,'Derselbe Spieler kann nicht zwei aufeinanderfolgende Kontakte übernehmen.');
@@ -88,16 +88,18 @@ function applyContact(state,c,{strict=false}={}) {
   addStat(state,c.team,c.player,attempt);
   if(c.sourceContact)addStat(state,c.team,c.player,c.sourceContact==='receive'?'receptions':'defenses');
   if(c.inferred)addStat(state,c.team,c.player,'inferredContacts');
-  if(c.type==='set'&&c.emergency)addStat(state,c.team,c.player,'emergencySets');
+  const useSetterRole=rulesVersion>=3&&c.team==='us';
+  const emergencySet=c.type==='set'&&(useSetterRole?state.teams.us.roles[c.player]!=='Z':c.emergency);
+  if(emergencySet)addStat(state,c.team,c.player,'emergencySets');
   if(c.result==='error'){
-    addStat(state,c.team,c.player,'errors');addStat(state,c.team,c.player,(c.sourceContact||c.type)+'Errors');if(c.type==='set'&&c.emergency)addStat(state,c.team,c.player,'emergencySetErrors');scorePoint(state,other(c.team));return;
+    addStat(state,c.team,c.player,'errors');addStat(state,c.team,c.player,(c.sourceContact||c.type)+'Errors');if(emergencySet)addStat(state,c.team,c.player,'emergencySetErrors');scorePoint(state,other(c.team));return;
   }
   if(c.type==='receive'||c.type==='defense')addStat(state,c.team,c.player,c.type==='receive'?'receptionsPlayed':'defensesPlayed');
   if(c.sourceContact)addStat(state,c.team,c.player,c.sourceContact==='receive'?'receptionsPlayed':'defensesPlayed');
   if(c.type==='receive'&&c.receptionQuality)addStat(state,c.team,c.player,c.receptionQuality==='imprecise'?'receptionsImprecise':'receptionsControlled');
   if(c.type==='set'){
     addStat(state,c.team,c.player,'setsPlayed');
-    if(c.origin)state.distribution[c.team][c.origin]=(state.distribution[c.team][c.origin]||0)+1;
+    if(c.origin&&!(useSetterRole&&emergencySet))state.distribution[c.team][c.origin]=(state.distribution[c.team][c.origin]||0)+1;
   }
   if(c.result==='point'){
     addStat(state,c.team,c.player,{serve:'aces',attack:'kills',block:'blocks',freeball:'directReturns'}[c.type]);if(c.blockOut)addStat(state,c.team,c.player,'blockOutKills');scorePoint(state,c.team);return;
@@ -122,7 +124,7 @@ export function reduceSet(set) {
     if(e.kind==='point'){scorePoint(state,e.winner);continue;}
     if(e.kind==='play'){
       check(Array.isArray(e.contacts)&&e.contacts.length>0&&e.contacts.length<=5,'Ungültige Kontaktfolge.');
-      for(let i=0;i<e.contacts.length;i++){check(i===e.contacts.length-1||['played','continue'].includes(e.contacts[i].result),'Ein Punkt muss die Kontaktfolge beenden.');applyContact(state,e.contacts[i],{strict:e.rulesVersion>=2});}continue;
+      for(let i=0;i<e.contacts.length;i++){check(i===e.contacts.length-1||['played','continue'].includes(e.contacts[i].result),'Ein Punkt muss die Kontaktfolge beenden.');applyContact(state,e.contacts[i],{rulesVersion:e.rulesVersion});}continue;
     }
     const t=state.teams[e.team];check(t&&state.phase.type==='serve','Korrekturen und Wechsel nur zwischen Ballwechseln.');
     if(e.kind==='timeout'){check(t.timeouts<2,'Zwei Auszeiten sind bereits genutzt.');t.timeouts++;continue;}
@@ -143,7 +145,7 @@ export function validateSession(session){
   for(const list of [session.roster,session.opponents])check(list.length>=6&&new Set(list).size===list.length&&list.every(n=>typeof n==='string'&&n.length>0&&n.length<=80),'Ungültiger Kader.');
   const ids=new Set();for(const set of session.sets){check(set.id&&!ids.has(set.id),'Doppelte Satz-ID.');ids.add(set.id);checkSetup(set,session.roster,session.opponents);for(const e of set.events)if(e.kind==='sub')check((e.team==='us'?session.roster:session.opponents).includes(e.in),'Einwechselspieler ist nicht im Kader.');reduceSet(set);}return session;
 }
-export function appendEvent(session,event){const next=copy(session),set=next.sets.at(-1);check(set,'Bitte zuerst beide Aufstellungen festlegen.');if(set.events.some(e=>e.id===event.id))return next;set.events.push({...copy(event),rulesVersion:2});return validateSession(next);}
+export function appendEvent(session,event){const next=copy(session),set=next.sets.at(-1);check(set,'Bitte zuerst beide Aufstellungen festlegen.');if(set.events.some(e=>e.id===event.id))return next;set.events.push({...copy(event),rulesVersion:3});return validateSession(next);}
 export function undoEvent(session){const next=copy(session);next.sets.at(-1)?.events.pop();return validateSession(next);}
 export function targetAt([x,y],team){const g=GEOMETRY;if(x<g.left||x>g.right||y<g.top||y>g.bottom)return 'out';if(Math.abs(y-g.net)<.028)return 'net';return (y>g.net?'us':'them')===team?'own':'opponent';}
 export function playerNodes(state,{rotationOnly=false}={}){
@@ -173,6 +175,9 @@ export function crossesNet(samples,team,from=0){
   return false;
 }
 const backNode=n=>Math.abs(n.y-GEOMETRY.net)>.16;
+function isEmergencySetter(node){
+  return node.team==='us'?node.role!=='Z':backNode(node);
+}
 export function classifyLastContact({expectedType,touchNumber,crossedNet,target,actor,override}){
   let type;
   if(override)type=override;
@@ -181,7 +186,7 @@ export function classifyLastContact({expectedType,touchNumber,crossedNet,target,
   else if(touchNumber===2)type=crossedNet?(actor.role==='L'?'freeball':'attack'):'set';
   else if(crossedNet)type='freeball';
   else type=expectedType;
-  const emergency=type==='set'&&actor.role!=='Z'&&backNode(actor);
+  const emergency=type==='set'&&isEmergencySetter(actor);
   return {type,emergency,evidence:{touchNumber,crossedNet,actorBack:backNode(actor),target}};
 }
 export function questionFor(contact,target){
@@ -305,7 +310,7 @@ export function recognizeTrace(state,{team,player,samples,nodes=playerNodes(stat
   const touchesBefore=prefix.length?0:expected.touches;
   const contacts=visited.map((n,i)=>{
     const touchNumber=touchesBefore+i+1;
-    let contactType=i===0?type:touchNumber>=3?'attack':'set',emergency=contactType==='set'&&n.role!=='Z'&&backNode(n),evidence;
+    let contactType=i===0?type:touchNumber>=3?'attack':'set',emergency=contactType==='set'&&isEmergencySetter(n),evidence;
     if(type!=='serve'&&outgoing&&i===visited.length-1){
       const inference=classifyLastContact({expectedType:type,touchNumber,crossedNet:crossesNet(samples,team,n.traceIndex),target,actor:n,override});
       contactType=inference.type;emergency=inference.emergency;evidence=inference.evidence;
@@ -318,9 +323,14 @@ export function recognizeTrace(state,{team,player,samples,nodes=playerNodes(stat
   else last.result=['net','out'].includes(target)||last.type==='serve'&&target==='own'?'error':outgoing?'continue':'played';
   const label=questionFor(last,target);
   const nextNode=visited[1]||recipient;
-  const receptionQuality=!tap&&contacts[0].type==='receive'&&backNode(visited[0])&&nextNode&&backNode(nextNode)&&nextNode.role!=='Z'?{index:prefix.length,player:contacts[0].player,value:'imprecise',reason:'Die Annahme geht zu einem weiteren Hinterfeldspieler statt zum regulären Zuspielziel.'}:null;
+  const bypassedSetter=team==='us'&&visited[0].role!=='Z'&&nextNode&&isEmergencySetter(nextNode);
+  const opponentBackPass=team==='them'&&backNode(visited[0])&&nextNode&&backNode(nextNode);
+  const receptionQuality=!tap&&contacts[0].type==='receive'&&(bypassedSetter||opponentBackPass)
+    ?{index:prefix.length,player:contacts[0].player,value:'imprecise',reason:bypassedSetter
+      ?'Die Annahme erreicht einen Mitspieler außerhalb der Zuspielerrolle.'
+      :'Die Annahme geht zu einem weiteren Hinterfeldspieler.'}:null;
   const lastActor=visited.at(-1),alternatives=last.evidence?.touchNumber===2&&!last.evidence.crossedNet&&['out','net'].includes(target)?['set','attack']:[];
-  return {contacts:[...prefix,...contacts],team,player:last.player,type:last.type,question:label,target,reason:target==='out'?'out':target==='net'?'net':'other',tap,samples:tap?null:samples.map(p=>p.slice(0,2)),origin:spot,prefixCount:prefix.length,receptionQuality,emergencyCandidate:lastActor.role!=='Z'&&backNode(lastActor),alternatives};
+  return {contacts:[...prefix,...contacts],team,player:last.player,type:last.type,question:label,target,reason:target==='out'?'out':target==='net'?'net':'other',tap,samples:tap?null:samples.map(p=>p.slice(0,2)),origin:spot,prefixCount:prefix.length,receptionQuality,emergencyCandidate:isEmergencySetter(lastActor),alternatives};
 }
 export function confirmTrace(draft,result){
   const event={kind:'play',contacts:copy(draft.contacts),reason:draft.reason,trace:draft.samples};

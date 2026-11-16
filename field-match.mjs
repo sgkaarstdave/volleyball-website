@@ -1,4 +1,4 @@
-import {newSession, validateSession, reduceSet, fieldLineup} from './rally-model.mjs?v=rally7';
+import {newSession, validateSession, reduceSet, fieldLineup} from './rally-model.mjs?v=rally8';
 import {emptySet, assertTrackableMatch} from './model.mjs?v=19';
 
 export const fieldCoverage='Live erfasst · Feldtracking';

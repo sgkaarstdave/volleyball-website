@@ -1,5 +1,5 @@
 import {assertTrackableMatch} from './model.mjs?v=19';
-import {fieldSession, saveFieldMatch} from './field-match.mjs?v=19';
+import {fieldSession, saveFieldMatch} from './field-match.mjs?v=20';
 
 export function openField({id,getDb,allowed,today,change,isBusy,showReport}){
   const getMatch=()=>{
